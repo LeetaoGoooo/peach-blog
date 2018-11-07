@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-from flask_admin import Admin
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from config import config
@@ -15,11 +14,12 @@ login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
 login_manager.login_message = '请登录后访问该页面'
 
-from admin import PeachAdmin # 这里引入了
+from admin import PeachAdmin
 admin = PeachAdmin(name="PeachBlog", template_mode="bootstrap3")
 
+
 def create_app(config_name):
-    app = Flask(__name__,static_folder='static',static_url_path='')
+    app = Flask(__name__, static_folder='static', static_url_path='')
 
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)

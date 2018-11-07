@@ -46,6 +46,8 @@ html {
   -o-transition: all 0.5s ease;
   -webkit-transition: all 0.5s ease;
   background: #1a1a1a;
+  /* 新增 */
+  margin-top: 50px;
   height: 100%;
   left: 220px;
   margin-left: -220px;
@@ -169,9 +171,9 @@ html {
   display: block;
   height: 32px;
   /* margin-left: 15px; */
-  right: 15px;
+  left: 160px;
   position: fixed;
-  top: 20px;
+  top: 10px;
   width: 32px;
   z-index: 999;
 }
@@ -212,22 +214,22 @@ html {
 }
 .hamburger.is-closed .hamb-top {
   -webkit-transition: all 0.35s ease-in-out;
-  /* background-color: rgba(255, 255, 255, 0.7); */
-  background-color: black;
+  background-color: rgba(255, 255, 255, 0.7);
+  /* background-color: black; */
 
   top: 5px;
 }
 .hamburger.is-closed .hamb-middle {
-  /* background-color: rgba(255, 255, 255, 0.7); */
-  background-color: black;
+  background-color: rgba(255, 255, 255, 0.7);
+  /* background-color: black; */
 
   margin-top: -2px;
   top: 50%;
 }
 .hamburger.is-closed .hamb-bottom {
   -webkit-transition: all 0.35s ease-in-out;
-  /* background-color: rgba(255, 255, 255, 0.7); */
-  background-color: black;
+  background-color: rgba(255, 255, 255, 0.7);
+  /* background-color: black; */
   bottom: 5px;
 }
 .hamburger.is-closed .hamb-top,
@@ -244,23 +246,23 @@ html {
 .hamburger.is-open .hamb-top {
   -webkit-transform: rotate(45deg);
   -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.73, 1, 0.28, 0.08);
-  /* background-color: #ffffff; */
-  background-color: black;
+  background-color: #ffffff;
+  /* background-color: black; */
 
   margin-top: -2px;
   top: 50%;
 }
 .hamburger.is-open .hamb-middle {
-  /* background-color: #ffffff; */
-  background-color: black;
+  background-color: #ffffff;
+  /* background-color: black; */
 
   display: none;
 }
 .hamburger.is-open .hamb-bottom {
   -webkit-transform: rotate(-45deg);
   -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.73, 1, 0.28, 0.08);
-  /* background-color: #ffffff; */
-  background-color: black;
+  background-color: #ffffff;
+  /* background-color: black; */
 
   margin-top: -2px;
   top: 50%;
@@ -268,8 +270,8 @@ html {
 .hamburger.is-open:before {
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-transition: all 0.35s ease-in-out;
-  /* color: #ffffff; */
-  background-color: black;
+  color: #ffffff;
+  /* background-color: black; */
   content: '';
   display: block;
   font-size: 14px;
