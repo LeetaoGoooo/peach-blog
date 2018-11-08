@@ -3,25 +3,50 @@ from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 from flask import redirect, url_for, request, flash
 from app.models import Post, Tag, Comment, Post2Tag, User
-
+from flask_pagedown.fields import PageDownField
 
 class PeachView(ModelView):
 
     page_size = 20
     list_template = 'admin/model/peach-list.html'
+    edit_template = 'admin/model/peach-edit.html'
+    create_template = 'admin/model/peach-create.html'
 
     def __init__(self, model, session, **kwargs):
         super(PeachView, self).__init__(model, session, **kwargs)
 
     def is_accessible(self):
-        return True
-        # if current_user.is_authenticated and current_user.level == 1:
-        #     return True
-        # return False
+        # return True
+        if current_user.is_authenticated and current_user.level == 1:
+            return True
+        return False
 
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('auth.login', next=request.url))
 
+
+class PeachPostView(ModelView):
+    """
+      使用  flask-pagedown 支持渲染,存在问题
+      代码无法正确渲染
+    """
+    page_size = 20
+    create_template = 'admin/model/peach-post-create.html'
+
+    form_overrides = {
+        'content': PageDownField
+    }
+
+    def __init__(self, model, session, **kwargs):
+        super(PeachPostView, self).__init__(model, session, **kwargs)
+
+    def is_accessible(self):
+        if current_user.is_authenticated and current_user.level == 1:
+            return True
+        return False
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('auth.login', next=request.url))
 
 class PeachAdminIndexView(AdminIndexView):
 
@@ -46,7 +71,7 @@ class PeachAdmin:
         self.admin.init_app(app)
         # https://github.com/flask-admin/flask-admin/issues/1474
         self.admin.add_view(PeachView(User, db.session, endpoint='AdminUser'))
-        self.admin.add_view(PeachView(Post, db.session, endpoint='AdminPost'))
+        self.admin.add_view(PeachPostView(Post, db.session, endpoint='AdminPost'))
         self.admin.add_view(PeachView(Tag, db.session, endpoint='AdminTag'))
         self.admin.add_view(
             PeachView(Post2Tag, db.session, endpoint='AdminPost2Tag'))

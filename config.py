@@ -20,14 +20,11 @@ class Config:
 
 
 class DevelopmentConfig(Config):
-    DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or 'mysql+pymysql://root:@localhost:3306/peach_blog?charset=utf8'
 
 
 class TestingConfig(Config):
-    TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or 'mysql+pymysql://root:@localhost:3306/peach_blog?charset=utf8'
-
     WTF_CSRF_ENABLED = False
 
 
