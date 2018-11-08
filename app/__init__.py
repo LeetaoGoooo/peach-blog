@@ -3,13 +3,11 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
-from flask_pagedown import PageDown
 from config import config
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
 migrate = Migrate()
-pagedown = PageDown()
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
@@ -27,7 +25,6 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     bootstrap.init_app(app)
-    pagedown.init_app(app)
     db.init_app(app)
     # migrate 生效，确保 model 被引入
     migrate.init_app(app, db)

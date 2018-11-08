@@ -15,7 +15,7 @@
         <ol class="breadcrumb">
                 <li><a href="/admin/">Home</a></li>
                 <li>
-                    {% set menu_root = admin_view.admin.menu() %}
+                        {% set menu_root = admin_view.admin.menu() %}
                     <a href="#">{% if admin_view.category %}{{ admin_view.category }}{% endif %}{{ admin_view.name }}</a>
                 </li>
         </ol>

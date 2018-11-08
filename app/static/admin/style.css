@@ -307,7 +307,7 @@ html {
   /* background-color: #583e7e; */
   background-color: white;
 }
-body h1,
+/* body h1,
 body h2,
 body h3,
 body h4 {
@@ -316,7 +316,7 @@ body h4 {
 body p,
 body blockquote {
   color: rgba(255, 255, 255, 0.7);
-}
+} */
 body a {
   color: #402d5c;
   text-decoration: none;
