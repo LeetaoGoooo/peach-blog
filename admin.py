@@ -29,6 +29,8 @@ class PeachPostView(ModelView):
     list_template = 'admin/model/peach-list.html'
     create_template = 'admin/model/peach-post-create.html'
     edit_template = 'admin/model/peach-post-edit.html'
+    column_searchable_list = ['title']
+    column_exclude_list = ['content']
 
     def __init__(self, model, session, **kwargs):
         super(PeachPostView, self).__init__(model, session, **kwargs)

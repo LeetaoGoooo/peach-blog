@@ -2,34 +2,38 @@
 {% import 'admin/static.html' as admin_static with context %}
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{% block title %}{% if admin_view.category %}{{ admin_view.category }} - {% endif %}{{ admin_view.name }} - {{ admin_view.admin.name }}{% endblock %}</title>
-    {% block head_meta %}
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-    {% endblock %}
-    {% block head_css %}
-        <link href="{{ admin_static.url(filename='bootstrap/bootstrap3/swatch/{swatch}/bootstrap.min.css'.format(swatch=config.get('FLASK_ADMIN_SWATCH', 'default')), v='3.3.5') }}" rel="stylesheet">
-        {%if config.get('FLASK_ADMIN_SWATCH', 'default') == 'default' %}
-        <link href="{{ admin_static.url(filename='bootstrap/bootstrap3/css/bootstrap-theme.min.css', v='3.3.5') }}" rel="stylesheet">
-        {%endif%}
-        <link href="{{ admin_static.url(filename='admin/css/bootstrap3/admin.css', v='1.1.1') }}" rel="stylesheet">
-        <link href="{{ url_for('static', filename='admin/style.css')}}" rel="stylesheet">
-        {% if admin_view.extra_css %}
-          {% for css_url in admin_view.extra_css %}
-            <link href="{{ css_url }}" rel="stylesheet">
-          {% endfor %}
-        {% endif %}
-    {% endblock %}
-    {% block head %}
-    {% endblock %}
-    {% block head_tail %}
-    {% endblock %}
-    <style>
-      .badge {
+
+<head>
+  <title>{% block title %}{% if admin_view.category %}{{ admin_view.category }} - {% endif %}{{ admin_view.name }} - {{
+    admin_view.admin.name }}{% endblock %}</title>
+  {% block head_meta %}
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="{{url_for('static',filename='imgs/favicon.ico')}}" type="image/x-icon" />
+  {% endblock %}
+  {% block head_css %}
+  <link href="{{ admin_static.url(filename='bootstrap/bootstrap3/swatch/{swatch}/bootstrap.min.css'.format(swatch=config.get('FLASK_ADMIN_SWATCH', 'default')), v='3.3.5') }}"
+    rel="stylesheet">
+  {%if config.get('FLASK_ADMIN_SWATCH', 'default') == 'default' %}
+  <link href="{{ admin_static.url(filename='bootstrap/bootstrap3/css/bootstrap-theme.min.css', v='3.3.5') }}" rel="stylesheet">
+  {%endif%}
+  <link href="{{ admin_static.url(filename='admin/css/bootstrap3/admin.css', v='1.1.1') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='admin/style.css')}}" rel="stylesheet">
+  {% if admin_view.extra_css %}
+  {% for css_url in admin_view.extra_css %}
+  <link href="{{ css_url }}" rel="stylesheet">
+  {% endfor %}
+  {% endif %}
+  {% endblock %}
+  {% block head %}
+  {% endblock %}
+  {% block head_tail %}
+  {% endblock %}
+  <style>
+    .badge {
         background-color: red;
         margin-top: -20px;
       }
@@ -37,123 +41,125 @@
         text-decoration: none;  
       }
     </style>
-  </head>
-  <body>
-    {% block page_body %}
-    <nav class="navbar navbar-inverse">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-              <img alt="peach" src="{{ url_for('static', filename='imgs/logo.png')}}" width="24" height="24">
-            </a>
-          </div>
-          <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
-              <span class="hamb-top"></span>
-              <span class="hamb-middle"></span>
-              <span class="hamb-bottom"></span>
-          </button>
-          <ul class="nav navbar-nav">
-              {% block brand %}
-                <li>
-                    <a href="{{ admin_view.admin.url }}">{{ admin_view.admin.name }}</a>
-                </li>
-              {% endblock %}
-          </ul>
-          <ul class="nav navbar-nav navbar-right" style="margin-right: 15px;">
-              <li><a href='#'><span class="glyphicon glyphicon-bell" aria-hidden="true"></span><span class="badge">4</span></a></li>
-              <li><a href='#'><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><span class="badge">10</span></a></li>
+</head>
 
-            </ul>
-        <form class="navbar-form navbar-right">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="article title">
-            </div>
-            <button type="button" class="btn btn-success">search</button>
-          </form>
+<body>
+  {% block page_body %}
+  <nav class="navbar navbar-inverse">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">
+        <img alt="peach" src="{{ url_for('static', filename='imgs/logo.png')}}" width="24" height="24">
+      </a>
+    </div>
+    <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
+      <span class="hamb-top"></span>
+      <span class="hamb-middle"></span>
+      <span class="hamb-bottom"></span>
+    </button>
+    <ul class="nav navbar-nav">
+      {% block brand %}
+      <li>
+        <a href="{{ admin_view.admin.url }}">{{ admin_view.admin.name }}</a>
+      </li>
+      {% endblock %}
+    </ul>
+    <ul class="nav navbar-nav navbar-right" style="margin-right: 15px;">
+      <li><a href='#'><span class="glyphicon glyphicon-bell" aria-hidden="true"></span><span class="badge">4</span></a></li>
+      <li><a href='#'><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><span class="badge">10</span></a></li>
 
-    </nav>
-    <div id="wrapper">
-        <div class="overlay"></div>
-      <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
-        <!-- navbar content -->
-          {% block main_menu %}
-          <ul class="nav sidebar-nav">
+    </ul>
+    <form class="navbar-form navbar-right">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="article title">
+      </div>
+      <button type="button" class="btn btn-success">search</button>
+    </form>
 
-            {{ layout.menu() }}
+  </nav>
+  <div id="wrapper">
+    <div class="overlay"></div>
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+      <!-- navbar content -->
+      {% block main_menu %}
+      <ul class="nav sidebar-nav">
 
-
-          </ul>
-          {% endblock %}
+        {{ layout.menu() }}
 
 
-          {% block access_control %}
-          {% endblock %}
-      </nav>
-      {% block menu_links %}
-      <ul class="nav navbar-nav navbar-right">
-        {{ layout.menu_links() }}
       </ul>
       {% endblock %}
-      {% block messages %}
-      {{ layout.messages() }}
+
+
+      {% block access_control %}
       {% endblock %}
+    </nav>
+    {% block menu_links %}
+    <ul class="nav navbar-nav navbar-right">
+      {{ layout.menu_links() }}
+    </ul>
+    {% endblock %}
+    {% block messages %}
+    {{ layout.messages() }}
+    {% endblock %}
 
-      {# store the jinja2 context for form_rules rendering logic #}
-      {% set render_ctx = h.resolve_ctx() %}
+    {# store the jinja2 context for form_rules rendering logic #}
+    {% set render_ctx = h.resolve_ctx() %}
 
-      {% block body %}{% endblock %}
-      <div id="page-content-wrapper">
-            <div class="container">
-                <div class="row">
-                    <!-- 一些图表 -->
-                </div>
-            </div>
+    {% block body %}{% endblock %}
+    <div id="page-content-wrapper">
+      <div class="container">
+        <div class="row">
+          <!-- 一些图表 -->
         </div>
+      </div>
     </div>
-    {% endblock %}
+  </div>
+  {% endblock %}
 
-    {% block tail_js %}
-    <script src="{{ admin_static.url(filename='vendor/jquery.min.js', v='2.1.4') }}" type="text/javascript"></script>
-    <script src="{{ admin_static.url(filename='bootstrap/bootstrap3/js/bootstrap.min.js', v='3.3.5') }}" type="text/javascript"></script>
-    <script src="{{ admin_static.url(filename='vendor/moment.min.js', v='2.9.0') }}" type="text/javascript"></script>
-    <script src="{{ admin_static.url(filename='vendor/select2/select2.min.js', v='3.5.2') }}" type="text/javascript"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        var trigger = $('.hamburger'),
-            overlay = $('.overlay'),
-           isClosed = false;
-  
-          trigger.click(function () {
-            hamburger_cross();      
-          });
-  
-          function hamburger_cross() {
-  
-            if (isClosed == true) {          
-              // overlay.hide();
-              trigger.removeClass('is-open');
-              trigger.addClass('is-closed');
-              isClosed = false;
-            } else {   
-              // overlay.show();
-              trigger.removeClass('is-closed');
-              trigger.addClass('is-open');
-              isClosed = true;
-            }
-        }
-        
-        $('[data-toggle="offcanvas"]').click(function () {
-              $('#wrapper').toggleClass('toggled');
-        });  
+  {% block tail_js %}
+  <script src="{{ admin_static.url(filename='vendor/jquery.min.js', v='2.1.4') }}" type="text/javascript"></script>
+  <script src="{{ admin_static.url(filename='bootstrap/bootstrap3/js/bootstrap.min.js', v='3.3.5') }}" type="text/javascript"></script>
+  <script src="{{ admin_static.url(filename='vendor/moment.min.js', v='2.9.0') }}" type="text/javascript"></script>
+  <script src="{{ admin_static.url(filename='vendor/select2/select2.min.js', v='3.5.2') }}" type="text/javascript"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var trigger = $('.hamburger'),
+        overlay = $('.overlay'),
+        isClosed = false;
+
+      trigger.click(function () {
+        hamburger_cross();
       });
-    </script>
-    {% if admin_view.extra_js %}
-      {% for js_url in admin_view.extra_js %}
-        <script src="{{ js_url }}" type="text/javascript"></script>
-      {% endfor %}
-    {% endif %}
-    {% endblock %}
 
-    {% block tail %}
-    {% endblock %}
-  </body>
+      function hamburger_cross() {
+
+        if (isClosed == true) {
+          // overlay.hide();
+          trigger.removeClass('is-open');
+          trigger.addClass('is-closed');
+          isClosed = false;
+        } else {
+          // overlay.show();
+          trigger.removeClass('is-closed');
+          trigger.addClass('is-open');
+          isClosed = true;
+        }
+      }
+
+      $('[data-toggle="offcanvas"]').click(function () {
+        $('#wrapper').toggleClass('toggled');
+      });
+    });
+  </script>
+  {% if admin_view.extra_js %}
+  {% for js_url in admin_view.extra_js %}
+  <script src="{{ js_url }}" type="text/javascript"></script>
+  {% endfor %}
+  {% endif %}
+  {% endblock %}
+
+  {% block tail %}
+  {% endblock %}
+</body>
+
 </html>
