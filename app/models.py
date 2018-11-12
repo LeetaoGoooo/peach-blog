@@ -3,6 +3,7 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -10,8 +11,8 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(320))
     password_hash = db.Column(db.String(128))
     avatar = db.Column(db.String(128))
-    level = db.Column(db.SmallInteger,default=0)
-        
+    level = db.Column(db.SmallInteger, default=0)
+
     @property
     def is_admin(self):
         return True if self.level > 0 else False
@@ -61,8 +62,8 @@ class Tag(db.Model):
 class Post2Tag(db.Model):
     __tablename__ = 'post2tags'
     id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
-    tag_id = db.Column(db.Integer,db.ForeignKey('tags.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
 
 
 class Comment(db.Model):
@@ -75,3 +76,19 @@ class Comment(db.Model):
     comment_time = db.Column(db.DateTime(), default=datetime.now)
     platform = db.Column(db.String(20))
     browser = db.Column(db.String(100))
+
+
+class PostView(db.Model):
+    __tablename__ = 'postviews'
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    views = db.Column(db.Integer, default=0)
+    view_date = db.Column(db.Date(), default=datetime.date)
+
+
+class History(db.Model):
+    __tablename__ = 'history'
+    id = db.Column(db.Integer, primary_key=True)
+    ip = db.Column(db.String(128))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    visit_time = db.Column(db.DateTime(), default=datetime.now)
