@@ -1,10 +1,13 @@
 import sys
+import errno
+import os
+import glob
 from functools import wraps
 from flask import current_app
 import logging
+import json
 
 log = logging.getLogger()
-
 
 class Hexo:
 
@@ -17,17 +20,41 @@ class Hexo:
     def init_app(self, app, db=None, directory=None, **kwargs):
         self.db = db or self.db
         self.directory = directory or self.directory
+        
+        if os.path.exists(self.directory):
+            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), self.directory)
+
         if not hasattr(app, 'extensions'):
             app.extensions = {}
         app.extensions['hexo'] = self
     
-    def generate(self):
+    def get_post_file_modify_dict(self):
+        path = os.path.join(self.directory,'*.md')
+        post_file_modify_dict = {}
+        for file_name in glob.glob(path):
+            post_file_modify_dict[os.path.basename(file_name)] = os.path.getmtime(file_name)
+        return post_file_modify_dict
+
+    def get_post_file_version_dict(self):
+        version_json_path = os.path.join(self.directory,'version.json')
+        post_file_version_dict = {}
+        if os.path.exists(version_json_path):
+            with open(version_json_path,'r', encoding='utf-8'):
+                post_file_version_dict = json.load(f)
+                return post_file_version_dict
+        return post_file_version_dict
+
+    def get_unstored_post_list(self):
+        pass
+
+
+    def generate_posts(self):
         """
          generate posts into database
         """
         pass
     
-    def export(self):
+    def export_posts(self):
         """
          export markdown post to directory 
         """
