@@ -49,6 +49,7 @@ class Post(db.Model):
     title = db.Column(db.String(40), unique=True)
     content = db.Column(db.Text)
     create_at = db.Column(db.DateTime(), default=datetime.now)
+    last_update = db.Column(db.DateTime(), default=datetime.now)
     post2map = db.relationship('Post2Tag', backref='post')
 
 
@@ -77,18 +78,16 @@ class Comment(db.Model):
     platform = db.Column(db.String(20))
     browser = db.Column(db.String(100))
 
-
 class PostView(db.Model):
     __tablename__ = 'postviews'
     id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
     views = db.Column(db.Integer, default=0)
-    view_date = db.Column(db.Date(), default=datetime.date)
-
+    visit_date = db.Column(db.Date(), default=datetime.date)
 
 class History(db.Model):
     __tablename__ = 'history'
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(128))
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
     visit_time = db.Column(db.DateTime(), default=datetime.now)
