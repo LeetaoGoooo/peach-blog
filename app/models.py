@@ -48,7 +48,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(40), unique=True)
     content = db.Column(db.Text)
-    create_at = db.Column(db.DateTime(), default=datetime.now)
+    create_at = db.Column(db.Date(), default=datetime.date)
     last_update = db.Column(db.DateTime(), default=datetime.now)
     post2map = db.relationship('Post2Tag', backref='post')
 

@@ -3,11 +3,13 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from hexo import Hexo, cli
 from config import config
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
 migrate = Migrate()
+hexo = Hexo()
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
@@ -28,6 +30,7 @@ def create_app(config_name):
     db.init_app(app)
     # migrate 生效，确保 model 被引入
     migrate.init_app(app, db)
+    hexo.init_app(app, db)
     admin.init_app(app, db)
     login_manager.init_app(app)
 
