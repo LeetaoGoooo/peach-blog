@@ -1,0 +1,59 @@
+{% extends "bootstrap/base.html" %} 
+{% block title %}Peach Blog{% endblock %} 
+{% block head %} 
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='imgs/favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+{% endblock %} 
+{% block navbar %}
+<nav class="navbar navbar-default">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><b>Peach Blog</b></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="menu">
+
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="" style="border-radius: 24rem">
+                </div>
+            </form>
+
+            {% if current_user.is_authenticated %}
+            <ul class="nav navbar-nav navbar-right">
+                <!-- <li><a href="/post/book"><span class="glyphicon glyphicon-upload"></span>发布</a></li> -->
+                <li> <a href="/profile/{{current_user.user_name}}">{{ current_user.user_name }}</a></li>
+                {% if current_user.level > 0%}
+                <li> <a href="/admin">管理</a></li>                
+                {%endif%}
+                <li><a href="/auth/logout">退出</a></li>
+            </ul>
+            {% else %}
+            <ul class="nav navbar-nav navbar-right">
+                <!-- <li><a  href="/about">关于</a></li>           -->
+                <li><a href='/auth/login'>登陆</a></li>
+                <li><a href='/auth/register'>注册</a></li>
+            </ul>
+            {% endif %}
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>
+{% endblock %} {% block content %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
