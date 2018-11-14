@@ -1,7 +1,7 @@
 ---
 title: Inner Classes or Nested Classes
 comments: true
-tag: [ShareSkill,Python]
+tag: [Python]
 date: 2018-06-13    
 ---
 

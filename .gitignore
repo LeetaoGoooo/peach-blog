@@ -1,4 +1,5 @@
 .vscode
 *.pyc
+.pytest_cache
 env
 migrations

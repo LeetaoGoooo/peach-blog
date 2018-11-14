@@ -3,6 +3,11 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
+Post2Tag = db.Table("post2tag",
+        db.Column('id', db.Integer, primary_key=True),
+        db.Column('post_id', db.Integer, db.ForeignKey('posts.id', ondelete="cascade")),
+        db.Column('tag_id', db.Integer, db.ForeignKey('tags.id', ondelete="cascade"))
+    )
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -50,22 +55,12 @@ class Post(db.Model):
     content = db.Column(db.Text)
     create_at = db.Column(db.Date(), default=datetime.date)
     last_update = db.Column(db.DateTime(), default=datetime.now)
-    post2map = db.relationship('Post2Tag', backref='post')
-
 
 class Tag(db.Model):
     __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
     tag = db.Column(db.String(10), unique=True)
-    tag2map = db.relationship('Post2Tag', backref='tag')
-
-
-class Post2Tag(db.Model):
-    __tablename__ = 'post2tags'
-    id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
-    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
-
+    posts = db.relationship('Post', secondary=Post2Tag, backref=db.backref('tags'))
 
 class Comment(db.Model):
     __tablename__ = 'comments'
