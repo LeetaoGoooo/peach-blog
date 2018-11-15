@@ -51,7 +51,7 @@ def load_user(user_id):
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(40), unique=True)
+    title = db.Column(db.String(100), unique=True)
     content = db.Column(db.Text)
     create_at = db.Column(db.Date(), default=datetime.date)
     last_update = db.Column(db.DateTime(), default=datetime.now)
@@ -59,7 +59,7 @@ class Post(db.Model):
 class Tag(db.Model):
     __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
-    tag = db.Column(db.String(10), unique=True)
+    tag = db.Column(db.String(50), unique=True)
     posts = db.relationship('Post', secondary=Post2Tag, backref=db.backref('tags'))
 
 class Comment(db.Model):

@@ -4,9 +4,17 @@
 {{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='imgs/favicon.ico') }}" type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<style>
+    body {
+        color: #505050;
+        line-height: 1.75em;
+        background: #ebebeb;
+        position: relative;
+    }
+</style>
 {% endblock %} 
 {% block navbar %}
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-inverse">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -21,16 +29,24 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="menu">
-
+            <!-- <ul class="nav navbar-nav">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">分类 <span class="caret"></span></a>
+                  <ul class="dropdown-menu">                  
+                  {% for item_menu in peach_blog_menu%}
+                    <li><a href="/tag/{{item_menu.id}}">{{item_menu.tag}}</a></li>
+                  {%endfor%}
+                  </ul>
+                </li>
+              </ul> -->
             <form class="navbar-form navbar-left">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="" style="border-radius: 24rem">
+                    <input type="text" class="form-control" placeholder="title..." style="border-radius: 24rem">
                 </div>
             </form>
 
             {% if current_user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
-                <!-- <li><a href="/post/book"><span class="glyphicon glyphicon-upload"></span>发布</a></li> -->
                 <li> <a href="/profile/{{current_user.user_name}}">{{ current_user.user_name }}</a></li>
                 {% if current_user.level > 0%}
                 <li> <a href="/admin">管理</a></li>                
@@ -39,9 +55,7 @@
             </ul>
             {% else %}
             <ul class="nav navbar-nav navbar-right">
-                <!-- <li><a  href="/about">关于</a></li>           -->
                 <li><a href='/auth/login'>登陆</a></li>
-                <li><a href='/auth/register'>注册</a></li>
             </ul>
             {% endif %}
         </div><!-- /.navbar-collapse -->
