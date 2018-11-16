@@ -5,11 +5,13 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_misaka import Misaka
 from config import config
+from utils import Tools
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
 migrate = Migrate()
 misaka = Misaka()
+tools = Tools()
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
@@ -36,6 +38,7 @@ def create_app(config_name):
     migrate.init_app(app, db)
     hexo.init_app(app, db)
     admin.init_app(app, db)
+    tools.init_app(app)
     login_manager.init_app(app)
 
     from .commands.hexo.cli import hexo_cli
