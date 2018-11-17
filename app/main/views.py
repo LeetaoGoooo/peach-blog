@@ -4,6 +4,7 @@ from app.models import Tag,Post, Comment, PostView
 from app import db
 from . import main
 from .forms import CommentForm
+from sqlalchemy import func
 import time
 
 @main.app_context_processor
@@ -49,3 +50,21 @@ def post(id):
     db.session.add(postview)
     db.session.commit()
     return render_template('post.html', current_user=current_user,post=post, comments=comments, form=form, pagination=pagination,id=id)
+
+@main.route("/timeline")
+def timeline():
+    page = request.args.get('page', 1, type=int)
+    pagination  = Post.query.order_by(Post.create_at.desc()).paginate(page,per_page=current_app.config['FLASK_PER_PAGE'],error_out=True)
+    posts = pagination.items
+    post_dict = group_posts_by_date(posts)
+    return render_template("timeline.html", current_user=current_user, post_dict = post_dict, pagination = pagination)
+
+def group_posts_by_date(posts):
+    post_dict = {}
+    for post in posts:
+        year_month = post.create_at.strftime("%Y-%m")
+        if post_dict.get(year_month,None) is None:
+            post_dict[year_month] = [post]
+        else:
+            post_dict[year_month].append(post)
+    return post_dict

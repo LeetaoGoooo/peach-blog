@@ -1,15 +1,17 @@
 {% macro pagination_widget(pagination, endpoint) %}
 <nav class="pagination" role="navigation">
     {% if pagination.has_prev %}
-        <a href="{% if pagination.has_prev %}{{ url_for(endpoint,page = pagination.page - 1, **kwargs) }}{% else %}#{% endif %}" class="btn btn-primary">
-            &laquo;
-        </a>
+    <a href="{% if pagination.has_prev %}{{ url_for(endpoint,page = pagination.page - 1, **kwargs) }}{% else %}#{% endif %}"
+        class="btn btn-primary">
+        &laquo;
+    </a>
     {% endif %}
     {% for p in pagination.iter_pages() %}
     {% if p %}
     {% if p == pagination.page %}
-        <a href="{{ url_for(endpoint, page = p, **kwargs) }}" class="btn btn-primary"> 第 {{ p }} 页 / 共 {{ pagination.pages}} 页</a>
-{#     {% else %} #}
+    <a href="{{ url_for(endpoint, page = p, **kwargs) }}" class="btn btn-primary"> 第 {{ p }} 页 / 共 {{
+        pagination.pages}} 页</a>
+    {# {% else %} #}
     <!-- <li>
         <a href="{{ url_for(endpoint, page = p, **kwargs) }}">{{ p }}</a>
     </li> -->
@@ -19,9 +21,39 @@
     {% endif %}
     {% endfor %}
     {% if pagination.has_next %}
-        <a href="{% if pagination.has_next %}{{ url_for(endpoint,page = pagination.page + 1, **kwargs) }}{% else %}#{% endif %}" class="btn btn-primary">
-            &raquo;
-        </a>
+    <a href="{% if pagination.has_next %}{{ url_for(endpoint,page = pagination.page + 1, **kwargs) }}{% else %}#{% endif %}"
+        class="btn btn-primary">
+        &raquo;
+    </a>
     {%endif%}
 </nav>
+{% endmacro %}
+
+
+
+{% macro timeline_pagination_widget(pagination, endpoint,direction) %}
+{% if direction == 'next' and pagination.has_next %}
+<div class="timeline-item">
+    <div class="timeline-point timeline-point-danger">
+        {% if pagination.has_next %}
+        <a href="{% if pagination.has_next %}{{ url_for(endpoint,page = pagination.page + 1, **kwargs) }}{% else %}#{% endif %}"
+            title="更多...">
+            <span class="glyphicon glyphicon-menu-right"></span>
+        </a>
+        {%endif%}
+    </div>
+</div>
+{% elif direction == 'pre'  and pagination.has_prev %}
+<div class="timeline-item">
+    <div class="timeline-point timeline-point-danger">
+        {% if pagination.has_prev %}
+        <a href="{% if pagination.has_prev %}{{ url_for(endpoint,page = pagination.page - 1, **kwargs) }}{% else %}#{% endif %}"
+            title="回退...">
+            <span class="glyphicon glyphicon-menu-left"></span>
+        </a>
+        {%endif%}
+    </div>
+</div>
+<div style="margin-top:50px"></div>
+{%endif%}
 {% endmacro %}
