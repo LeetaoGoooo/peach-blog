@@ -55,6 +55,8 @@ class Post(db.Model):
     content = db.Column(db.Text)
     create_at = db.Column(db.Date(), default=datetime.date)
     last_update = db.Column(db.DateTime(), default=datetime.now)
+    postviews = db.relationship('PostView', backref='postviews', lazy='joined')
+    comments = db.relationship('Comment', backref='comments', lazy='joined')
 
 class Tag(db.Model):
     __tablename__ = 'tags'
@@ -65,12 +67,13 @@ class Tag(db.Model):
 class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
     user_name = db.Column(db.String(20))
     email = db.Column(db.String(320))
     website = db.Column(db.String(100))
     comment = db.Column(db.Text)
     comment_time = db.Column(db.DateTime(), default=datetime.now)
-    platform = db.Column(db.String(20))
+    platform = db.Column(db.String(50))
     browser = db.Column(db.String(100))
 
 class PostView(db.Model):

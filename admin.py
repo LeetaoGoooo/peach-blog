@@ -68,7 +68,7 @@ class PeachAdmin:
     def init_app(self, app, db):
         self.admin.init_app(app)
         # https://github.com/flask-admin/flask-admin/issues/1474
-        self.admin.add_view(PeachView(User, db.session, endpoint='AdminUser'))
-        self.admin.add_view(PeachPostView(Post, db.session, endpoint='AdminPost'))
-        self.admin.add_view(PeachView(Tag, db.session, endpoint='AdminTag'))
-        self.admin.add_view(PeachView(Comment, db.session, endpoint='AdminComment'))
+        self.admin.add_view(PeachView(User, db.session, endpoint='PeachUser'))
+        self.admin.add_view(PeachPostView(Post, db.session, endpoint='PeachPost'))
+        self.admin.add_view(PeachView(Tag, db.session, endpoint='PeachTag'))
+        self.admin.add_view(PeachView(Comment, db.session, endpoint='PeachComment'))
