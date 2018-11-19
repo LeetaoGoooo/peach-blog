@@ -26,12 +26,16 @@
             <a class="navbar-brand" href="/"><b>Peach Blog</b></a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="menu">
             <ul class="nav navbar-nav">
                 <li><a href="/timeline">时间轴</a></li>
             </ul>
-
+            <form class="navbar-form navbar-left" method="POST" action="/search">
+                <div class="form-group">
+                  <input type="text" class="form-control" name="keyword" placeholder="">
+                </div>
+                <button type="submit" class="btn btn-success">搜索一下</button>
+            </form>
             {% if current_user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
                 <li> <a href="/profile/{{current_user.user_name}}">{{ current_user.user_name }}</a></li>

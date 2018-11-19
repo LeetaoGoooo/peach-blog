@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Peach Blog - {{keyword}} 查询结果{% endblock %}
+{% block head%}
+{{super()}}
+<link href="{{url_for('static',filename='main/index.css')}}" rel="stylesheet">
+{% endblock%}
+{% block content %}
+<div class="container">
+    <form method="POST" action="/search">
+        <div class="input-group col-md-8" style="margin-top:2%">
+            <input type="text" class="form-control input-lg" required name="keyword" placeholder="输入关键词回车...">
+        </div>
+    </form>
+    <div class="row" style="margin-top:2%">
+
+        <main class="col-md-8">
+            <div class="panel panel-default" style="margin-top:2%">
+                <div class="panel-heading">
+                    <div class="page-header">
+                        <h1 style="color:#5cb85c">{{keyword}} <small>搜索结果</small></h1>
+                    </div>
+                </div>
+                <div class="list-group">
+                    {% for post in posts%}
+                    <a href="post/{{post.id}}" class="list-group-item">
+                        <h4 class="list-group-item-heading">{{post.title}}</h4>
+                        <!-- <p class="list-group-item-text">{{post.content | truncate(40) | markdown | safe }}</p> -->
+                    </a>
+                    {%endfor%}
+                </div>
+            </div>
+        </main>
+        <div class="col-md-3">
+            <div class="tagcloud col-md-3" style="margin-top:80px;">
+                {% for tag in peach_blog_menu%}
+                <a href="/tag/{{tag.id}}">{{tag.tag}}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('static', filename='plugins/tagcloud/tagcloud.js')}}"></script>
+<script type="text/javascript">
+    /*3D标签云*/
+    tagcloud({
+        selector: ".tagcloud",  //元素选择器
+        fontsize: 16,       //基本字体大小, 单位px
+        radius: 100,         //滚动半径, 单位px
+        mspeed: "normal",   //滚动最大速度, 取值: slow, normal(默认), fast
+        ispeed: "normal",   //滚动初速度, 取值: slow, normal(默认), fast
+        direction: 135,     //初始滚动方向, 取值角度(顺时针360): 0对应top, 90对应left, 135对应right-bottom(默认)...
+        keep: false          //鼠标移出组件后是否继续随鼠标滚动, 取值: false, true(默认) 对应 减速至初速度滚动, 随鼠标滚动
+    });
+</script>
+{% endblock%}

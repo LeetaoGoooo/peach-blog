@@ -69,8 +69,12 @@ def group_posts_by_date(posts):
     return post_dict
 
 
-@main.route("/search/<string:keyword>")
+@main.route("/search", methods=["POST"])
 def search():
     if request.method == "POST":
-        pass
-    absort(404)
+        keyword = request.form.get("keyword")
+        like_keyword = "%{}%".format(keyword)
+        posts = Post.query.filter(Post.title.like(like_keyword))
+        return render_template("search.html", posts=posts, keyword = keyword)
+    else:
+        abort(404)
