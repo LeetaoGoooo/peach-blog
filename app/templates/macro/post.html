@@ -18,6 +18,7 @@
     </div>
 </article>
 
+{% if comments %}
 <ul class="media-list panel-body"  style="background-color:#fff">
     {% for comment in comments%}
     <li class="media">
@@ -38,6 +39,7 @@
     </li>
     {%endfor%}
 </ul>
+{%endif%}
 {%if comments%}
 {% import "macro/pagination.html" as macro_pagination %}
 {{macro_pagination.pagination_widget(pagination,'main.post',id=post.id)}}
