@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Peach Blog{% endblock %}
+{% block head%}
+{{super()}}
+<link href="{{url_for('static',filename='plugins/timeline/timeline.css')}}" rel="stylesheet">
+{% endblock%}
+{% block content %}
+{{ super() }}
+<div class="container">
+    <div class="row">
+            {% import "macro/timeline.html" as macro_timeline %}
+            {{ macro_timeline.render_timeline(post_dict,pagination) }}
+    </div>
+</div>
+{% endblock%}

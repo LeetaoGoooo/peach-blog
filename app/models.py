@@ -51,7 +51,7 @@ def load_user(user_id):
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), unique=True)
+    title = db.Column(db.String(200), unique=True)
     content = db.Column(db.Text)
     create_at = db.Column(db.Date(), default=datetime.date)
     last_update = db.Column(db.DateTime(), default=datetime.now)
