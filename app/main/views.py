@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request, current_app
+from flask import render_template, redirect, url_for, flash, request, current_app, abort
 from flask_login import current_user
 from app.models import Tag,Post, Comment, PostView
 from app import db
@@ -11,7 +11,6 @@ import time
 def peach_blog_menu():
     tags = Tag.query.all()
     return dict(peach_blog_menu=tags)
-
 
 @main.route("/", methods=['GET'])
 def index():
@@ -68,3 +67,10 @@ def group_posts_by_date(posts):
         else:
             post_dict[year_month].append(post)
     return post_dict
+
+
+@main.route("/search/<string:keyword>")
+def search():
+    if request.method == "POST":
+        pass
+    absort(404)

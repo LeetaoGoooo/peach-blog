@@ -55,19 +55,49 @@
         direction: 135,     //初始滚动方向, 取值角度(顺时针360): 0对应top, 90对应left, 135对应right-bottom(默认)...
         keep: false          //鼠标移出组件后是否继续随鼠标滚动, 取值: false, true(默认) 对应 减速至初速度滚动, 随鼠标滚动
     });
-    var options = {
-        renderer: new marked.Renderer(),
+
+    var toc = [];
+    var renderer = (function () {
+        var renderer = new marked.Renderer();
+        renderer.heading = function (text, level, raw) {
+            var anchor = this.options.headerPrefix + raw.toLowerCase().replace(/[^\w\\u4e00-\\u9fa5]]+/g, '-');
+            toc.push({
+                anchor: anchor,
+                level: level,
+                text: text
+            });
+            return '<h'
+                + level
+                + ' id="'
+                + anchor
+                + '">'
+                + text
+                + '</h'
+                + level
+                + '>\n'
+        };
+        return renderer;
+    })();
+
+    marked.setOptions({
+        renderer: renderer,
         highlight: code => hljs.highlightAuto(code).value,
-        pedantic: false,
         gfm: true,
         tables: true,
         breaks: false,
-        sanitize: false,
+        pedantic: false,
+        sanitize: true,
         smartLists: true,
-        smartypants: false,
-        xhtml: false
-    };
-    $('.post-content')[0].innerHTML = marked($('.post-content')[0].innerHTML, options)
+        smartypants: false
+    });
+
+    var html = marked($('.post-content')[0].innerHTML);
+    var tocHTML = '<h1 id="table-of-contents">目录</h1>\n<ul>';
+    toc.forEach(function (entry) {
+        tocHTML += '<li><a href="#' + entry.anchor + '">' + entry.text + '</a></li>\n';
+    });
+    tocHTML += '</ul>\n';
+    $('.post-content')[0].innerHTML = tocHTML + html;
     $('.post-content').css("display","");
 </script>
 {% endblock%}

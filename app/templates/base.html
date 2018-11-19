@@ -31,11 +31,6 @@
             <ul class="nav navbar-nav">
                 <li><a href="/timeline">时间轴</a></li>
             </ul>
-            <form class="navbar-form navbar-left">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="title..." style="border-radius: 24rem">
-                </div>
-            </form>
 
             {% if current_user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
@@ -52,6 +47,7 @@
             {% endif %}
         </div><!-- /.navbar-collapse -->
     </div>
+    <a href="https://github.com/lt94"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
 </nav>
 {% endblock %} {% block content %}
 <div class="container">
