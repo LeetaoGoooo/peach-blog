@@ -101,3 +101,11 @@ class MessageBoard(db.Model):
     message_time = db.Column(db.DateTime(), default=datetime.now)
     platform = db.Column(db.String(50))
     browser = db.Column(db.String(100))
+
+class FriendLink(db.Model):
+    __tablename__ = 'friendlinks'
+    id = db.Column(db.Integer, primary_key=True)
+    avatar = db.Column(db.String(200))
+    friend_name = db.Column(db.String(20))
+    website = db.Column(db.String(100))
+    introduction = db.Column(db.String(100))

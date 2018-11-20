@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request, current_app, abort
 from flask_login import current_user
-from app.models import Tag,Post, Comment, PostView, MessageBoard
+from app.models import Tag,Post, Comment, PostView, MessageBoard, FriendLink
 from app import db
 from . import main
 from .forms import CommentForm
@@ -95,4 +95,20 @@ def about():
     pagination  = MessageBoard.query.filter_by(message_type=0).order_by(MessageBoard.message_time.desc()).paginate(page,per_page=current_app.config['FLASK_PER_PAGE'],error_out=True)
     comments = pagination.items
     return render_template("about.html", current_user=current_user, comments = comments, pagination = pagination, form=form)
-    
+
+@main.route("/friends", methods=["POST","GET"])
+def friend_links():
+    form = CommentForm()
+    if form.validate_on_submit():
+        platform = request.user_agent.platform
+        browser = request.user_agent.browser
+        message_board = MessageBoard(message_type=1,user_name=form.user_name.data, email=form.email.data, website=form.website.data, message=form.comment.data,platform=platform,browser=browser)
+        db.session.add(message_board)
+        db.session.commit()
+        flash("留言成功!")
+        return redirect(url_for("main.about"))        
+    page = request.args.get('page', 1, type=int)
+    pagination  = MessageBoard.query.filter_by(message_type=1).order_by(MessageBoard.message_time.desc()).paginate(page,per_page=current_app.config['FLASK_PER_PAGE'],error_out=True)
+    comments = pagination.items
+    friend_links = FriendLink.query.all()
+    return render_template("friend_links.html", current_user=current_user, comments = comments,friend_links=friend_links, pagination = pagination, form=form)

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Peach Blog - FriendLinks{% endblock %}
+{% block head%}
+{{super()}}
+<link href="{{url_for('static',filename='about/index.css')}}" rel="stylesheet">
+{% endblock%}
+{% block content %}
+{{super()}}
+<div class="container">
+    <div class="post">
+        <h1>友链 <small>欢迎留言交换友链</small></h1>
+        <p>交换友链时请确保满足以下条件</p>
+        <hr>
+        <blockquote>
+            <p>1. 网站是可以访问的</p>
+            <p>2. 网站有不少于10篇的原创内容</p>
+            <p>3. 确保已添加本站为友链 </p>
+            <p>4. 友链格式如下: </p>
+            <p class="format"> 网站名称: Leetao</p>
+            <p> 网站地址: https://www.leetao94.cn </p>
+            <p> 头像: http://ww1.sinaimg.cn/large/006wYWbGly1fm4ygymem3j30hs0hsdfz.jpg </p>
+            <p>简介: 写有趣的代码做有趣的事</p>
+        </blockquote>
+    </div>
+    {% import "macro/friend_link.html" as macro_friend_link %}
+    {{ macro_friend_link.render_friend_links(friend_links, comments,pagination) }}
+    <div class="panel panel-default">
+        <div class="panel-heading">留言</div>
+        <div class="panel-body ">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+</div>
+{%endblock%}
