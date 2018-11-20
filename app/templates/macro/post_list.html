@@ -23,7 +23,7 @@
         {{ post.content |  truncate(200) | markdown | safe }}
     </div>
     <div>
-      <p><a class="btn btn-primary" href="/post/{{post.id}}" role="button">阅读全文</a></p>
+      <p><a class="btn btn-default" href="/post/{{post.id}}" role="button">阅读全文</a></p>
     </div>
   </article>
   {% endfor %}

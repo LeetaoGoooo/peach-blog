@@ -1,9 +1,20 @@
 {% extends "base.html" %}
-{% block title %}Peach Blog - 404{% endblock %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Peach Blog - About{% endblock %}
 {% block head%}
 {{super()}}
-<!-- <link href="{{url_for('static',filename='404/index.css')}}" rel="stylesheet"> -->
+<link href="{{url_for('static',filename='about/index.css')}}" rel="stylesheet">
 {% endblock%}
 {% block content %}
-
+{{super()}}
+<div class="container">
+    {% import "macro/message_board.html" as macro_message_board %}
+    {{ macro_message_board.render_about(comments,pagination) }}
+    <div class="panel panel-default">
+            <div class="panel-heading">留言</div>
+            <div class="panel-body ">
+                {{ wtf.quick_form(form) }}
+            </div>
+    </div>
+</div>
 {%endblock%}

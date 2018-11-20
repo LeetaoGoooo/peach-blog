@@ -2,14 +2,14 @@
 <nav class="pagination" role="navigation">
     {% if pagination.has_prev %}
     <a href="{% if pagination.has_prev %}{{ url_for(endpoint,page = pagination.page - 1, **kwargs) }}{% else %}#{% endif %}"
-        class="btn btn-primary">
+        class="btn btn-default">
         &laquo;
     </a>
     {% endif %}
     {% for p in pagination.iter_pages() %}
     {% if p %}
     {% if p == pagination.page %}
-    <a href="{{ url_for(endpoint, page = p, **kwargs) }}" class="btn btn-primary"> 第 {{ p }} 页 / 共 {{
+    <a href="{{ url_for(endpoint, page = p, **kwargs) }}" class="btn btn-default"> 第 {{ p }} 页 / 共 {{
         pagination.pages}} 页</a>
     {# {% else %} #}
     <!-- <li>
@@ -22,7 +22,7 @@
     {% endfor %}
     {% if pagination.has_next %}
     <a href="{% if pagination.has_next %}{{ url_for(endpoint,page = pagination.page + 1, **kwargs) }}{% else %}#{% endif %}"
-        class="btn btn-primary">
+        class="btn btn-default">
         &raquo;
     </a>
     {%endif%}

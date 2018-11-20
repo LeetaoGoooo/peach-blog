@@ -1,0 +1,42 @@
+{% macro render_about(comments, pagination) -%}
+<article class="post">
+    <div class="post-head">
+        <h1 class="post-title"><a href="#">关于</a></h1>
+    </div>
+    <section class="post-content">
+        <h2>关于 Peach Blog</h2>
+        <blockquote>
+            <p>
+                Peach Blog 是基于 Flask 的博客平台，由 <a href="https://www.github.com/lt94">Leetao</a> 开源, 目的是为了给用户提供一种更加纯粹的内容写作与发布平台,通过几个简单命令,可以帮助用户无痛的从 Hexo 切换到 Peach Blog
+            </p>
+          </blockquote>
+    </section>
+</article>
+
+{%if comments%}
+<ul class="media-list panel-body"  style="background-color:#fff">
+    {% for comment in comments%}
+    <li class="media">
+        <div class="media-left">
+            <a href="#">
+                <img class="media-object" src="http://www.gravatar.com/avatar/{{ md5(comment.email)}}?s=64" alt="...">
+            </a>
+        </div>
+        <div class="media-body">
+            <small class="media-heading">
+                <span class="glyphicon glyphicon-user"></span>&nbsp;<a href="{{comment.website}}"><span class="label label-primary">{{comment.user_name}}</span></a>
+                <span class="glyphicon glyphicon-time"></span>&nbsp;{{comment.message_time}}
+                <span class="label label-danger">{{comment.browser}}</span>
+                <span class="label label-warning">{{comment.platform}}</span>
+            </small>
+            <p>{{comment.message | markdown }}</p>
+        </div>
+    </li>
+    {%endfor%}
+</ul>
+{%endif%}
+{%if comments%}
+{% import "macro/pagination.html" as macro_pagination %}
+{{macro_pagination.pagination_widget(pagination,'main.about')}}
+{%endif%}
+{%- endmacro %}

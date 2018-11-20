@@ -1,6 +1,6 @@
-{% extends "bootstrap/base.html" %} 
-{% block title %}Peach Blog{% endblock %} 
-{% block head %} 
+{% extends "bootstrap/base.html" %}
+{% block title %}Peach Blog{% endblock %}
+{% block head %}
 {{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='imgs/favicon.ico') }}" type="image/x-icon">
 <style>
@@ -11,13 +11,14 @@
         position: relative;
     }
 </style>
-{% endblock %} 
+{% endblock %}
 {% block navbar %}
 <nav class="navbar navbar-inverse">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu"
+                aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -29,10 +30,11 @@
         <div class="collapse navbar-collapse" id="menu">
             <ul class="nav navbar-nav">
                 <li><a href="/timeline">时间轴</a></li>
+                <li><a href="/about">关于</a></li>
             </ul>
             <form class="navbar-form navbar-left" method="POST" action="/search">
                 <div class="form-group">
-                  <input type="text" class="form-control" name="keyword" placeholder="">
+                    <input type="text" class="form-control" name="keyword" placeholder="">
                 </div>
                 <button type="submit" class="btn btn-success">搜索一下</button>
             </form>
@@ -40,7 +42,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li> <a href="/profile/{{current_user.user_name}}">{{ current_user.user_name }}</a></li>
                 {% if current_user.level > 0%}
-                <li> <a href="/admin">管理</a></li>                
+                <li> <a href="/admin">管理</a></li>
                 {%endif%}
                 <li><a href="/auth/logout">退出</a></li>
             </ul>
@@ -51,15 +53,17 @@
             {% endif %}
         </div><!-- /.navbar-collapse -->
     </div>
-    <a href="https://github.com/lt94"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+    <a href="https://github.com/lt94"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
 </nav>
 {% endblock %} {% block content %}
 <div class="container">
-    {% for message in get_flashed_messages() %}
-    <div class="alert alert-warning">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        {{ message }}
+    <div class="col-md-8">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 {% endblock %}

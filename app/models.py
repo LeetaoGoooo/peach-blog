@@ -89,3 +89,15 @@ class History(db.Model):
     ip = db.Column(db.String(128))
     post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
     visit_time = db.Column(db.DateTime(), default=datetime.now)
+
+class MessageBoard(db.Model):
+    __tablename__ = 'messageboards'
+    id = db.Column(db.Integer, primary_key=True)
+    message_type = db.Column(db.SmallInteger, default=0) # 0 标识 about 页面 , 1 为 友链页面
+    user_name = db.Column(db.String(20))
+    email = db.Column(db.String(320))
+    website = db.Column(db.String(100))
+    message = db.Column(db.Text)
+    message_time = db.Column(db.DateTime(), default=datetime.now)
+    platform = db.Column(db.String(50))
+    browser = db.Column(db.String(100))

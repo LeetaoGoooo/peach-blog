@@ -65,3 +65,29 @@
 .tagcloud a:hover {
     color: #3385cf;
 }
+
+.btn {
+    padding: 7px 14px;
+    border-radius: 2px;
+  }
+  .btn-default {
+    border: 1px solid #e67e22;
+    background: #e67e22;
+    color: #ffffff;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+  }
+  .btn-default:hover {
+    border: 1px solid #303030;
+    background: #303030;
+    color: #ffffff;
+  }
+  .btn-default:focus {
+    outline: none;
+  }
+  .btn-default[disabled] {
+    border: 1px solid #303030;
+    background: #303030;
+    color: #ffffff;
+  }
