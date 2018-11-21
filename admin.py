@@ -11,27 +11,29 @@ class PeachView(ModelView):
     list_template = 'admin/model/peach-list.html'
     edit_template = 'admin/model/peach-edit.html'
     create_template = 'admin/model/peach-create.html'
-    can_create = False
-    can_delete = False
-    can_edit = False
 
     def __init__(self, model, session, **kwargs):
         super(PeachView, self).__init__(model, session, **kwargs)
 
     def is_accessible(self):
         if current_user.is_authenticated:
-            return self.change_permissions()
+            return True
         return False
-
-    def change_permissions(self):
-        if current_user.level == 1:
-            PeachView.can_create = True
-            PeachView.can_delete = True
-            PeachView.can_edit = True
-        return True
 
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('auth.login', next=request.url))
+
+    @property
+    def can_create(self):
+        return current_user.is_authenticated and current_user.level == 1
+
+    @property
+    def can_delete(self):
+        return current_user.is_authenticated and current_user.level == 1
+
+    @property
+    def can_edit(self):
+        return current_user.is_authenticated and current_user.level == 1
 
 
 class PeachPostView(ModelView):
@@ -42,28 +44,29 @@ class PeachPostView(ModelView):
     edit_template = 'admin/model/peach-post-edit.html'
     column_searchable_list = ['title']
     column_exclude_list = ['content']
-    can_create = False
-    can_delete = False
-    can_edit = False
 
     def __init__(self, model, session, **kwargs):
         super(PeachPostView, self).__init__(model, session, **kwargs)
 
     def is_accessible(self):
         if current_user.is_authenticated:
-            return self.change_permissions()
+            return True
         return False
-
-    def change_permissions(self):
-        if current_user.level == 1:
-            PeachView.can_create = True
-            PeachView.can_delete = True
-            PeachView.can_edit = True
-        return True
 
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('auth.login', next=request.url))
 
+    @property
+    def can_create(self):
+        return current_user.is_authenticated and current_user.level == 1
+
+    @property
+    def can_delete(self):
+        return current_user.is_authenticated and current_user.level == 1
+
+    @property
+    def can_edit(self):
+        return current_user.is_authenticated and current_user.level == 1
 
 class PeachAdminIndexView(AdminIndexView):
 
@@ -77,7 +80,7 @@ class PeachAdminIndexView(AdminIndexView):
 
 class PeachAdmin:
 
-    __slots__ = ['admin']
+    __slots__ = ['admin']   
 
     def __init__(self, name="Peach-Blog", template_mode="bootstrap3"):
         self.admin = Admin(name=name, template_mode=template_mode,
