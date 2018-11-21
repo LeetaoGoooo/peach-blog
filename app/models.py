@@ -1,5 +1,5 @@
 from app import db, login_manager
-from datetime import datetime
+import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
@@ -53,8 +53,8 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), unique=True)
     content = db.Column(db.Text)
-    create_at = db.Column(db.Date(), default=datetime.date)
-    last_update = db.Column(db.DateTime(), default=datetime.now)
+    create_at = db.Column(db.Date(), default=datetime.datetime.today())
+    last_update = db.Column(db.DateTime(), default=datetime.datetime.now())
     postviews = db.relationship('PostView', backref='postviews', lazy='joined')
     comments = db.relationship('Comment', backref='comments', lazy='joined')
 
@@ -72,7 +72,7 @@ class Comment(db.Model):
     email = db.Column(db.String(320))
     website = db.Column(db.String(100))
     comment = db.Column(db.Text)
-    comment_time = db.Column(db.DateTime(), default=datetime.now)
+    comment_time = db.Column(db.DateTime(), default=datetime.datetime.now())
     platform = db.Column(db.String(50))
     browser = db.Column(db.String(100))
 
@@ -81,14 +81,14 @@ class PostView(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
     views = db.Column(db.Integer, default=0)
-    visit_date = db.Column(db.Date(), default=datetime.date)
+    visit_date = db.Column(db.Date(), default=datetime.date.today())
 
 class History(db.Model):
     __tablename__ = 'history'
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(128))
     post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
-    visit_time = db.Column(db.DateTime(), default=datetime.now)
+    visit_time = db.Column(db.DateTime(), default=datetime.datetime.now())
 
 class MessageBoard(db.Model):
     __tablename__ = 'messageboards'
@@ -98,7 +98,7 @@ class MessageBoard(db.Model):
     email = db.Column(db.String(320))
     website = db.Column(db.String(100))
     message = db.Column(db.Text)
-    message_time = db.Column(db.DateTime(), default=datetime.now)
+    message_time = db.Column(db.DateTime(), default=datetime.datetime.now())
     platform = db.Column(db.String(50))
     browser = db.Column(db.String(100))
 
