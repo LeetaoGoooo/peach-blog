@@ -14,3 +14,10 @@ def login():
             return redirect(url_for('main.index'))
         flash('邮箱或者密码错误!')
     return render_template('auth/login.html', form=form)
+
+
+@auth.route('/logout', methods=['GET',"POST"])
+def logout():
+    logout_user()
+    flash('成功退出!')
+    return redirect(url_for("main.index"))

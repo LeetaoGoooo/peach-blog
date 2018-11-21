@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request, current_app, abort
 from flask_login import current_user
-from app.models import Tag,Post, Comment, PostView, MessageBoard, FriendLink
+from app.models import Tag,Post, Comment, PostView, MessageBoard, FriendLink, History
 from app import db
 from . import main
 from .forms import CommentForm
@@ -46,6 +46,8 @@ def post(id):
         postview = PostView(post_id=id,views=1, visit_date=time.strftime('%Y-%m-%d',time.localtime(time.time())))
     else:
         postview.views += 1
+    history = History(ip=request.remote_addr,post_id=id)
+    db.session.add(history)
     db.session.add(postview)
     db.session.commit()
     return render_template('post.html', current_user=current_user,post=post, comments=comments, form=form, pagination=pagination,id=id)

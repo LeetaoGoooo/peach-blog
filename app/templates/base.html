@@ -42,9 +42,7 @@
             {% if current_user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
                 <li> <a href="/profile/{{current_user.user_name}}">{{ current_user.user_name }}</a></li>
-                {% if current_user.level > 0%}
                 <li> <a href="/admin">管理</a></li>
-                {%endif%}
                 <li><a href="/auth/logout">退出</a></li>
             </ul>
             {% else %}
