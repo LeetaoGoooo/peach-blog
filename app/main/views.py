@@ -6,6 +6,7 @@ from . import main
 from .forms import CommentForm
 from sqlalchemy import func
 import time
+from datetime import datetime
 
 @main.app_context_processor
 def peach_blog_menu():
@@ -68,7 +69,7 @@ def group_posts_by_date(posts):
             post_dict[year_month] = [post]
         else:
             post_dict[year_month].append(post)
-    sorted_post_dict = dict(sorted(post_dict.items(),reverse=True))
+    sorted_post_dict = dict(sorted(post_dict.items(),key = lambda x:datetime.strptime(x[0], '%Y-%m'),reverse=True))
     return sorted_post_dict
 
 
