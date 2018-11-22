@@ -68,6 +68,7 @@ def group_posts_by_date(posts):
             post_dict[year_month] = [post]
         else:
             post_dict[year_month].append(post)
+    sorted_post_dict = dict(sorted(post_dict.items(),reverse=True))
     return post_dict
 
 
