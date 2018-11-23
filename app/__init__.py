@@ -37,7 +37,7 @@ def create_app(config_name):
     # migrate 生效，确保 model 被引入
     migrate.init_app(app, db)
     hexo.init_app(app, db)
-    # admin.init_app(app, db)
+    admin.init_app(app, db)
     tools.init_app(app)
     login_manager.init_app(app)
 

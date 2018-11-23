@@ -88,6 +88,8 @@ class History(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(128))
     post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
+    platform = db.Column(db.String(50))
+    browser = db.Column(db.String(100))
     visit_time = db.Column(db.DateTime(), default=datetime.datetime.now())
 
 class MessageBoard(db.Model):

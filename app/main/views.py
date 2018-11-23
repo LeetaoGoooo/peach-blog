@@ -47,7 +47,7 @@ def post(id):
         postview = PostView(post_id=id,views=1, visit_date=time.strftime('%Y-%m-%d',time.localtime(time.time())))
     else:
         postview.views += 1
-    history = History(ip=request.remote_addr,post_id=id)
+    history = History(ip=request.remote_addr,post_id=id,platform=request.user_agent.platform,browser=request.user_agent.browser)
     db.session.add(history)
     db.session.add(postview)
     db.session.commit()

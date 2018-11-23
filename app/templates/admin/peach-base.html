@@ -133,7 +133,7 @@
                     <span class="glyphicon glyphicon-signal glyphicon-5x"></span>
                   </div>
                   <div class="col-xs-9 text-right">
-                    <div class="huge">26</div>
+                    <div class="huge" id="today_visit_count">26</div>
                     <div>当日访问</div>
                   </div>
                 </div>
@@ -150,7 +150,7 @@
                     <span class="glyphicon glyphicon-th-list glyphicon-5x"></span>
                   </div>
                   <div class="col-xs-9 text-right">
-                    <div class="huge">26</div>
+                    <div class="huge" id="sum_visit_count">26</div>
                     <div>累计访问</div>
                   </div>
                 </div>
@@ -165,7 +165,7 @@
                     <span class="glyphicon glyphicon-comment glyphicon-5x"></span>
                   </div>
                   <div class="col-xs-9 text-right">
-                    <div class="huge">26</div>
+                    <div class="huge" id="comment_count">26</div>
                     <div>累计评论</div>
                   </div>
                 </div>
@@ -180,7 +180,7 @@
                     <span class="glyphicon glyphicon-pencil glyphicon-5x"></span>
                   </div>
                   <div class="col-xs-9 text-right">
-                    <div class="huge">12</div>
+                    <div class="huge" id="message_board_count">12</div>
                     <div>累计留言</div>
                   </div>
                 </div>
@@ -205,17 +205,7 @@
               <div class="panel-heading">
                 <h3 class="panel-title"><span class="glyphicon glyphicon-fire"></span>前十文章</h3>
               </div>
-              <ul class="list-group">
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
+              <ul class="list-group" id='top_ten_posts'>
               </ul>
             </div>
           </div>
@@ -281,13 +271,23 @@
       $('[data-toggle="offcanvas"]').click(function () {
         $('#wrapper').toggleClass('toggled');
       });
-
-      today_visits_chart();
-      week_visits_chart();
-      week_device_chart();
+      init_dashboard();
     });
 
-    var today_visits_chart = function () {
+    var init_dashboard = function () {
+      $.get("/api/v1/dashboard",function(dataObj){
+        $('#comment_count')[0].innerText = dataObj.comment_count;
+        $('#message_board_count')[0].innerText = dataObj.message_board_count;
+        $('#today_visit_count')[0].innerText = dataObj.today_visit_count;
+        $('#sum_visit_count')[0].innerText = dataObj.sum_visit_count;
+        today_visits_chart(dataObj.today_visit_chart);
+        week_visits_chart(dataObj.sum_seven_day_visit_chart);
+        week_device_chart(dataObj.sum_device_visit)
+        top_ten_posts(dataObj.top_ten_posts);
+      })
+    }
+    var today_visits_chart = function (chartObj) {
+      console.log(chartObj)
       // 当日浏览
       var today_option = {
         title: {
@@ -320,7 +320,7 @@
           {
             type: 'category',
             boundaryGap: false,
-            data: ['0点', '4点', '8点', '12点', '16点', '20点']
+            data: chartObj.xAxis
           }
         ],
         yAxis: [
@@ -334,7 +334,7 @@
             type: 'line',
             stack: '总量',
             areaStyle: {},
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: chartObj.series
           }
         ]
       };
@@ -344,18 +344,18 @@
       today_Chart.setOption(today_option);
     }
 
-    var week_visits_chart = function () {
+    var week_visits_chart = function (chartObj) {
       var week_option = {
         color: ['#3398DB'],
         xAxis: {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: chartObj.xAxis
         },
         yAxis: {
           type: 'value'
         },
         series: [{
-          data: [120, 200, 150, 80, 70, 110, 130],
+          data: chartObj.series,
           type: 'bar'
         }]
       };
@@ -365,7 +365,7 @@
       week_Chart.setOption(week_option);
     }
 
-    var week_device_chart = function () {
+    var week_device_chart = function (data) {
       var week_device_option = {
         title: {
           text: '站点用户访问设备',
@@ -386,12 +386,7 @@
             type: 'pie',
             radius: '55%',
             center: ['50%', '60%'],
-            data: [
-              { value: 335, name: 'chorme' },
-              { value: 310, name: 'firefox' },
-              { value: 234, name: 'Safari' },
-              { value: 135, name: 'Opera' },
-            ],
+            data:data,
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
@@ -406,6 +401,14 @@
 
       week_device_Chart.setOption(week_device_option);
     }
+
+    var top_ten_posts = function(dataObj) {
+      
+      for(var i=0 ; i< dataObj.length; i++) {
+        var temp_html = "<a class='list-group-item' href='post/"+dataObj[i][0]+"'>"+ dataObj[i][1]+ "</a>";
+        $('#top_ten_posts')[0].innerHTML += temp_html;
+      }
+    } 
   </script>
   {% if admin_view.extra_js %}
   {% for js_url in admin_view.extra_js %}
