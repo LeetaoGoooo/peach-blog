@@ -45,11 +45,13 @@ def get_init_today_visit_data_dict():
 
 
 def get_today_visit_chart():
-    rows = History.query.filter(History.visit_time.like(datetime.datetime.today().strftime("%Y-%m-%d"))).with_entities(func.count(History.id).label(
+    visit_time_like = "{}%".format(datetime.datetime.today().strftime("%Y-%m-%d"))
+    rows = History.query.filter(History.visit_time.like(visit_time_like)).with_entities(func.count(History.id).label(
         "count"), func.date_format(History.visit_time, "%Y-%m-%d %H").label("today_time")).group_by(func.date_format(History.visit_time, "%Y-%m-%d %H"))
     today_visit_data_dict = get_init_today_visit_data_dict()
     for row in rows:
-        key = "{}:00"
+        key = "{}:00".format(row.today_time)
+        print(row.today_time,row.count)
         today_visit_data_dict[key] = row.count
     today_visit_chart_data_dict = {}
     today_visit_chart_data_dict["xAxis"] = list(today_visit_data_dict.keys())

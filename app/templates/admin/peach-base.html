@@ -287,7 +287,7 @@
       })
     }
     var today_visits_chart = function (chartObj) {
-      console.log(chartObj)
+      // console.log(chartObj)
       // 当日浏览
       var today_option = {
         title: {
@@ -405,7 +405,7 @@
     var top_ten_posts = function(dataObj) {
       
       for(var i=0 ; i< dataObj.length; i++) {
-        var temp_html = "<a class='list-group-item' href='post/"+dataObj[i][0]+"'>"+ dataObj[i][1]+ "</a>";
+        var temp_html = "<a class='list-group-item' href='../post/"+dataObj[i][0]+"'>"+ dataObj[i][1]+ "</a>";
         $('#top_ten_posts')[0].innerHTML += temp_html;
       }
     } 
