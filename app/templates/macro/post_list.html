@@ -13,7 +13,7 @@
             {%if post.postviews | length  == 0%}
                0
             {%else%}
-              {{post.postviews[0].views}}
+              {{total_views(post.postviews)}}
             {%endif%}
             </span>
             <span class='comments'><span class="glyphicon glyphicon-comment"  aria-hidden="true"></span>&nbsp;{{post.comments | length}}</span>
@@ -59,7 +59,7 @@
         {{ post.content |  truncate(200) | markdown | safe }}
     </div>
     <div>
-      <p><a class="btn btn-primary" href="/post/{{post.id}}" role="button">阅读全文</a></p>
+      <p><a class="btn btn-default" href="/post/{{post.id}}" role="button">阅读全文</a></p>
     </div>
   </article>
   {% endfor %}

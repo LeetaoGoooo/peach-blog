@@ -8,7 +8,7 @@
         <div class="post-meta">
             <span class="author"><span class="glyphicon glyphicon-user"></span> <a href="#" target="_blank">Leetao</a></span></span>
             <time class="post-date"><span class="glyphicon glyphicon-calendar"></span>{{post.create_at}}</time>
-            <span class='post-views'><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{post.postviews[0].views}}</span>
+            <span class='post-views'><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{total_views(post.postviews)}}</span>
             <span class='comments'><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;{{post.comments
                 | length}}</span>
         </div>
