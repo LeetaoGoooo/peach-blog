@@ -5,8 +5,14 @@
         <div class="thumbnail">
             <img src="{{friend_link.avatar}}" alt="{{friend_link.friend_name}}">
             <div class="caption">
-                <a href="website"><h3>{{friend_link.friend_name}}</h3></a>
-                <p>{{friend_link.introduction | safe}}</p>
+                <a href="{{friend_link.website}}"><h3>{{friend_link.friend_name}}</h3></a>
+                <p>
+                    {% if friend_link.introduction %}
+                        {{friend_link.introduction | safe}}
+                    {%else%}
+                        他很懒,什么话也没有说...
+                    {%endif%}
+                </p>
             </div>
         </div>
     </div>
