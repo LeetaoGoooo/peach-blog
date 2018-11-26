@@ -64,6 +64,10 @@ class Tag(db.Model):
     tag = db.Column(db.String(50), unique=True)
     posts = db.relationship('Post', secondary=Post2Tag, backref=db.backref('tags'))
 
+    def __repr__(self):
+        return self.tag
+
+
 class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
@@ -75,6 +79,9 @@ class Comment(db.Model):
     comment_time = db.Column(db.DateTime(), default=datetime.datetime.now())
     platform = db.Column(db.String(50))
     browser = db.Column(db.String(100))
+    
+    def __repr__(self):
+        return "{} commentted {} on {}".format(self.user_name,self.comment,self.comment_time)
 
 class PostView(db.Model):
     __tablename__ = 'postviews'
@@ -82,6 +89,10 @@ class PostView(db.Model):
     post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
     views = db.Column(db.Integer, default=0)
     visit_date = db.Column(db.Date(), default=datetime.date.today())
+
+    def __repr__(self):
+        return "on {} this post was total viewed {}".format(self.visit_date,self.views)
+
 
 class History(db.Model):
     __tablename__ = 'history'

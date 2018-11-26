@@ -51,8 +51,8 @@ def get_today_visit_chart():
     today_visit_data_dict = get_init_today_visit_data_dict()
     for row in rows:
         key = "{}:00".format(row.today_time)
-        print(row.today_time,row.count)
         today_visit_data_dict[key] = row.count
+    sorted_post_dict = dict(sorted(today_visit_data_dict.items(),key = lambda x:int(x[0][11:13]),reverse=True))
     today_visit_chart_data_dict = {}
     today_visit_chart_data_dict["xAxis"] = list(today_visit_data_dict.keys())
     today_visit_chart_data_dict["series"] = list(
