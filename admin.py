@@ -1,9 +1,10 @@
 from flask_admin import Admin, AdminIndexView, expose
 from flask_admin.contrib.sqla import ModelView, fields
 from flask_login import current_user
-from flask import redirect, url_for, request, flash
+from flask import redirect, url_for, request, flash, current_app
 from app.models import Post, Tag, Comment, User, History, MessageBoard, FriendLink
 from flask_admin.form import Select2Widget
+import os
 
 class PeachView(ModelView):
 
@@ -42,10 +43,12 @@ class PeachPostView(ModelView):
     list_template = 'admin/model/peach-list.html'
     create_template = 'admin/model/peach-post-create.html'
     edit_template = 'admin/model/peach-post-edit.html'
+    can_export = True
     column_searchable_list = ['title']
     column_exclude_list = ['content']
 
     def __init__(self, model, session, **kwargs):
+        self.model = model
         super(PeachPostView, self).__init__(model, session, **kwargs)
 
     def is_accessible(self):
@@ -55,6 +58,16 @@ class PeachPostView(ModelView):
 
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('auth.login', next=request.url))
+
+    @expose("/export/<string:export_type>")
+    def export(self, export_type):
+        # TODO export
+        export_directory = current_app.extensions['hexo'].directory
+        export_content_data = self.get_export_value(self.model,'content')
+        export_title_data = self.get_export_value(self.model,'title')
+        export_create_at_data = self.get_export_value(self.model,'create_at')
+        export_tags_data = self.get_export_value(self.model,'tags')
+        export_post = os.path.join(export_directory,'{}.md'.format('test'))
 
     @property
     def can_create(self):
