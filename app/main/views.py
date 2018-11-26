@@ -7,6 +7,8 @@ from .forms import CommentForm
 from sqlalchemy import func
 import time
 from datetime import datetime
+from collections import OrderedDict
+
 
 @main.app_context_processor
 def peach_blog_menu():
@@ -62,15 +64,14 @@ def timeline():
     return render_template("timeline.html", current_user=current_user, post_dict = post_dict, pagination = pagination)
 
 def group_posts_by_date(posts):
-    post_dict = {}
+    post_dict = OrderedDict()
     for post in posts:
         year_month = post.create_at.strftime("%Y-%m")
         if post_dict.get(year_month,None) is None:
             post_dict[year_month] = [post]
         else:
             post_dict[year_month].append(post)
-    sorted_post_dict = dict(sorted(post_dict.items(),key = lambda x:datetime.strptime(x[0], '%Y-%m'),reverse=True))
-    return sorted_post_dict
+    return post_dict
 
 
 @main.route("/search", methods=["POST"])
