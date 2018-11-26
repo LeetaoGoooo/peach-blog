@@ -52,12 +52,9 @@ def get_today_visit_chart():
     for row in rows:
         key = "{}:00".format(row.today_time)
         today_visit_data_dict[key] = row.count
-    # sorted_post_dict = dict(sorted(today_visit_data_dict.items(),key = lambda x:int(x[0][11:13])))
-    sorted_post_dict = dict(today_visit_data_dict)
     today_visit_chart_data_dict = {}
-    today_visit_chart_data_dict["xAxis"] = list(sorted_post_dict.keys())
-    today_visit_chart_data_dict["series"] = list(
-        sorted_post_dict.values())
+    today_visit_chart_data_dict["xAxis"] = list(today_visit_data_dict.keys())
+    today_visit_chart_data_dict["series"] = list(today_visit_data_dict.values())
     return today_visit_chart_data_dict
 
 
