@@ -3,7 +3,7 @@ from . import api
 from app.models import Comment, MessageBoard, PostView, History, Post
 import datetime
 from sqlalchemy import func
-
+from collections import OrderedDict
 
 def get_certain_day_sum_visit_count(visit_date):
     certain_day_visit_res = PostView.query.filter_by(
@@ -33,7 +33,7 @@ def get_sum_visit_count():
 
 def get_init_today_visit_data_dict():
     key_prefix = datetime.datetime.today().strftime("%Y-%m-%d")
-    today_visit_data_dict = {}
+    today_visit_data_dict = OrderedDict()
     for i in range(24):
         if i < 10:
             key_suffix = "0{}".format(i)
@@ -52,11 +52,12 @@ def get_today_visit_chart():
     for row in rows:
         key = "{}:00".format(row.today_time)
         today_visit_data_dict[key] = row.count
-    sorted_post_dict = dict(sorted(today_visit_data_dict.items(),key = lambda x:int(x[0][11:13]),reverse=True))
+    # sorted_post_dict = dict(sorted(today_visit_data_dict.items(),key = lambda x:int(x[0][11:13])))
+    sorted_post_dict = dict(today_visit_data_dict)
     today_visit_chart_data_dict = {}
-    today_visit_chart_data_dict["xAxis"] = list(today_visit_data_dict.keys())
+    today_visit_chart_data_dict["xAxis"] = list(sorted_post_dict.keys())
     today_visit_chart_data_dict["series"] = list(
-        today_visit_data_dict.values())
+        sorted_post_dict.values())
     return today_visit_chart_data_dict
 
 
