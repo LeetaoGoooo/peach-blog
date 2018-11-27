@@ -6,12 +6,72 @@
 
 # Features
 
-1. 支持 hexo 的文章导入
-2. 支持导出 hexo 格式的 markdown 文章
-3. 基于 Flask-Admin 的后台管理,新增 dashboard
+1. support export hexo's posts into database
+2. support export database's posts into hexo-format markdown file 
+3. add new dashboard base on flask-admin
 
 # Screenshots
 
 ![](http://ww1.sinaimg.cn/large/006wYWbGly1fxmgbfy4ynj311o0pamzu.jpg)
 
 ![](http://ww1.sinaimg.cn/large/006wYWbGly1fxmgahexh9j31jy1h7grc.jpg)
+
+# Usages
+
+## environment
+
+```
+pip install -r requirements.txt
+```
+
+## init database
+
+before you execute following lines,make sure you have already create database
+
+```
+flask shell
+```
+
+you'are supposed to see, something like follow one:
+
+```bash
+Python 3.6.5
+App: app [development]
+Instance: path\to\instance
+```
+
+then
+
+```
+>>> from app import db
+>>> db.create_all()
+# create super user
+>>> from app.models import User
+>>> user = User(user_name='your name',password='your password', level=1)
+>>> db.session.add(user)
+>>> db.session.commit()
+```
+
+## export hexo's posts into database
+
+if you want to export hexo posts into database, change the value of **config.py** on line **14** (where the hexo's posts store),then
+
+```
+flask hexo g 
+```
+
+clean the posts,just use **flask hexo c** simplely
+
+## run the server
+
+```
+flask run
+```
+
+## export database's posts into hexo-format markdown files
+
+login in peach-blog admin, and step into post list pages, and then (see the picture)
+
+![](http://ww1.sinaimg.cn/large/006wYWbGly1fxmo7x0lgjj31uq0bujsg.jpg)
+
+the expoted post will generate under the directory where you set in **config.py**

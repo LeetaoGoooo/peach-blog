@@ -1,5 +1,7 @@
 import os
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
@@ -9,6 +11,7 @@ class Config:
     FLASK_PER_PAGE = 20
     FLASKY_POSTS_PER_PAGE = 10
     FLASKY_COMMENTS_PER_PAGE = 30
+    EXPORT_POST_DIRECTORY = os.path.join(basedir,'posts')
 
     @staticmethod
     def init_app(app):
@@ -16,11 +19,9 @@ class Config:
 
 
 class DevelopmentConfig(Config):
-    FLASK_ENV='development'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or 'mysql+pymysql://root:@localhost:3306/peach_blog_dev?charset=utf8'
 
 class TestingConfig(Config):
-    ENV='testing'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or 'mysql+pymysql://root:@localhost:3306/peach_blog_test?charset=utf8'
 
 class ProductionConfig(Config):

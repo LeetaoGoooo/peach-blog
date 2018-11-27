@@ -17,7 +17,7 @@ log = logging.getLogger()
 
 class Hexo:
 
-    def __init__(self, app = None, db = None, directory='posts'):
+    def __init__(self, app = None, db = None, directory = None):
         self.db = db
         self.directory = directory
         self.md = markdown.Markdown(extensions = ['meta'])
@@ -27,8 +27,7 @@ class Hexo:
 
     def init_app(self, app, db=None, directory=None, **kwargs):
         self.db = db or self.db
-        self.directory = directory or self.directory
-        
+        self.directory = directory or self.directory or app.config['EXPORT_POST_DIRECTORY']
         base_path = os.path.dirname(app.instance_path)
         self.directory = os.path.join(base_path,self.directory)
 
