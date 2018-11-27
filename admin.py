@@ -1,7 +1,8 @@
 from flask_admin import Admin, AdminIndexView, expose
+from flask_admin.actions import action
 from flask_admin.contrib.sqla import ModelView, fields
 from flask_login import current_user
-from flask import redirect, url_for, request, flash, current_app
+from flask import redirect, url_for, request, flash, current_app, jsonify
 from app.models import Post, Tag, Comment, User, History, MessageBoard, FriendLink
 from flask_admin.form import Select2Widget
 import os
@@ -43,12 +44,12 @@ class PeachPostView(ModelView):
     list_template = 'admin/model/peach-list.html'
     create_template = 'admin/model/peach-post-create.html'
     edit_template = 'admin/model/peach-post-edit.html'
-    can_export = True
     column_searchable_list = ['title']
     column_exclude_list = ['content']
 
     def __init__(self, model, session, **kwargs):
         self.model = model
+        self.session = session
         super(PeachPostView, self).__init__(model, session, **kwargs)
 
     def is_accessible(self):
@@ -59,15 +60,34 @@ class PeachPostView(ModelView):
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('auth.login', next=request.url))
 
-    @expose("/export/<string:export_type>")
-    def export(self, export_type):
-        # TODO export
+    @action("export", 'Export', 'Are you sure exported selected post')
+    def action_export(self, ids):
+        try:
+            query = Post.query.filter(Post.id.in_(ids))
+            count = 0
+            for post in query.all():
+                count += 1 if self.export_content_to_md(post) else 0
+            flash('Posts was successfully exported {} posts were successfully exported.'.format(count))
+        except Exception as e:
+            if not self.handle_view_exception(e):
+                raise
+            flash('Failed to export posts. {} error'.format(str(e)))        
+
+    def export_content_to_md(self, post):
+        title = post.title
+        tag_list = [tag.tag for tag in post.tags]
+        tags_str = ",".join(tag_list)
+        date = post.create_at
+        content = post.content
         export_directory = current_app.extensions['hexo'].directory
-        export_content_data = self.get_export_value(self.model,'content')
-        export_title_data = self.get_export_value(self.model,'title')
-        export_create_at_data = self.get_export_value(self.model,'create_at')
-        export_tags_data = self.get_export_value(self.model,'tags')
-        export_post = os.path.join(export_directory,'{}.md'.format('test'))
+        export_post_data = "---\ntitle: {}\ntag: [{}]\ncomments: true\ndate: {}\n---\n\n{}".format(title,tags_str,date,content)
+        if not os.path.exists(export_directory):
+            return False
+        export_post = os.path.join(export_directory,"test.md")
+        with open(export_post,'w',encoding='utf-8') as f:
+            f.write(export_post_data)
+        return True
+
 
     @property
     def can_create(self):
