@@ -88,6 +88,13 @@ class PeachPostView(ModelView):
             f.write(export_post_data)
         return True
 
+    def after_model_change(self, form, model, is_created):
+        # TODO after add post generate the match post.md
+        pass
+
+    def after_model_delete(self, model):
+        # TODO after delete post, delete the match post.md
+        pass
 
     @property
     def can_create(self):

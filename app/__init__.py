@@ -34,7 +34,6 @@ def create_app(config_name):
     bootstrap.init_app(app)
     misaka.init_app(app)
     db.init_app(app)
-    # migrate 生效，确保 model 被引入
     migrate.init_app(app, db)
     hexo.init_app(app, db)
     admin.init_app(app, db)

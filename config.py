@@ -8,15 +8,15 @@ class Config:
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     FLASK_PER_PAGE = 20
     FLASKY_POSTS_PER_PAGE = 10
-    FLASKY_COMMENT_PER_PAGE = 10
     FLASKY_COMMENTS_PER_PAGE = 30
+
     @staticmethod
     def init_app(app):
         pass
 
 
 class DevelopmentConfig(Config):
-    ENV='development'
+    FLASK_ENV='development'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or 'mysql+pymysql://root:@localhost:3306/peach_blog_dev?charset=utf8'
 
 class TestingConfig(Config):
