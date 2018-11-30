@@ -9,12 +9,15 @@
 1. support export hexo's posts into database
 2. support export database's posts into hexo-format markdown file 
 3. add new dashboard base on flask-admin
+4. add markdown support to flask-admin
 
 # Screenshots
 
 ![](http://ww1.sinaimg.cn/large/006wYWbGly1fxmgbfy4ynj311o0pamzu.jpg)
 
 ![](http://ww1.sinaimg.cn/large/006wYWbGly1fxmgahexh9j31jy1h7grc.jpg)
+
+![](http://ww1.sinaimg.cn/large/006wYWbGly1fxpv6inei2j31lu17pn4w.jpg)
 
 # Usages
 
@@ -75,3 +78,9 @@ login in peach-blog admin, and step into post list pages, and then (see the pict
 ![](http://ww1.sinaimg.cn/large/006wYWbGly1fxmo7x0lgjj31uq0bujsg.jpg)
 
 the expoted post will generate under the directory where you set in **config.py**
+
+# About Dev
+
+欢迎关注知乎专栏:[学Python的桃子](https://zhuanlan.zhihu.com/peach-python), 后续将逐步讲解整个开发过程.
+
+测试账户: test/test, 没有修改,新增权限
