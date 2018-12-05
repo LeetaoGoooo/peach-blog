@@ -5,13 +5,7 @@
 {{super()}}
 <link href="{{url_for('static',filename='main/index.css')}}" rel="stylesheet">
 <link href="{{url_for('static', filename='plugins/highlight/styles/atom-one-dark.css')}}" rel="stylesheet">
-<style>
-    .about-author {
-    background: #ffffff;
-    padding: 35px;
-    margin-bottom: 35px;
-}
-</style>
+<link href="{{url_for('static', filename='post.css')}}" rel="stylesheet">
 {% endblock%}
 {% block content %}
 {{ super() }}
@@ -91,7 +85,7 @@
         smartypants: false
     });
 
-    var html = marked($('.post-content')[0].innerHTML);
+    var html = marked($('.post-content')[0].innerText);
     var tocHTML = '<h1 id="table-of-contents">目录</h1>\n<ul>';
     toc.forEach(function (entry) {
         tocHTML += '<li><a href="#' + entry.anchor + '">' + entry.text + '</a></li>\n';
