@@ -38,7 +38,7 @@ def post(id):
     if form.validate_on_submit():
         platform = request.user_agent.platform
         browser = request.user_agent.browser
-        comment = Comment(post_id=id,user_name=form.user_name.data, email=form.email.data, website=form.website.data, comment=form.comment.data,platform=platform,browser=browser)
+        comment = Comment(post_id=id,user_name=form.user_name.data, email=form.email.data, website=form.website.data, comment=form.comment.data,platform=platform,browser=browser,comment_time=datetime.now())
         db.session.add(comment)
         db.session.commit()
         flash("评论成功!")
@@ -49,7 +49,7 @@ def post(id):
         postview = PostView(post_id=id,views=1, visit_date=time.strftime('%Y-%m-%d',time.localtime(time.time())))
     else:
         postview.views += 1
-    history = History(ip=request.remote_addr,post_id=id,platform=request.user_agent.platform,browser=request.user_agent.browser)
+    history = History(ip=request.remote_addr,post_id=id,platform=request.user_agent.platform,browser=request.user_agent.browser,visit_time=datetime.now())
     db.session.add(history)
     db.session.add(postview)
     db.session.commit()
@@ -91,7 +91,7 @@ def about():
     if form.validate_on_submit():
         platform = request.user_agent.platform
         browser = request.user_agent.browser
-        message_board = MessageBoard(message_type=0,user_name=form.user_name.data, email=form.email.data, website=form.website.data, message=form.comment.data,platform=platform,browser=browser)
+        message_board = MessageBoard(message_type=0,user_name=form.user_name.data, email=form.email.data, website=form.website.data, message=form.comment.data,platform=platform,browser=browser,message_time=datetime.now())
         db.session.add(message_board)
         db.session.commit()
         flash("留言成功!")
@@ -107,7 +107,7 @@ def friend_links():
     if form.validate_on_submit():
         platform = request.user_agent.platform
         browser = request.user_agent.browser
-        message_board = MessageBoard(message_type=1,user_name=form.user_name.data, email=form.email.data, website=form.website.data, message=form.comment.data,platform=platform,browser=browser)
+        message_board = MessageBoard(message_type=1,user_name=form.user_name.data, email=form.email.data, website=form.website.data, message=form.comment.data,platform=platform,browser=browser,message_time=datetime.now())
         db.session.add(message_board)
         db.session.commit()
         flash("留言成功!")

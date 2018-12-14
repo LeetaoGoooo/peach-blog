@@ -3,14 +3,7 @@
 {% block head %}
 {{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='imgs/favicon.ico') }}" type="image/x-icon">
-<style>
-    body {
-        color: #505050;
-        line-height: 1.75em;
-        background: #ebebeb;
-        position: relative;
-    }
-</style>
+<link href="{{url_for('static',filename='common.css')}}" rel="stylesheet">
 {% endblock %}
 {% block navbar %}
 <nav class="navbar navbar-inverse">
@@ -54,7 +47,9 @@
     </div>
     <a href="https://github.com/lt94"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
 </nav>
-{% endblock %} {% block content %}
+{% endblock %} 
+
+{% block content %}
 <div class="container">
     <div class="col-md-8">
         {% for message in get_flashed_messages() %}

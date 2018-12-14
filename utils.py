@@ -21,6 +21,3 @@ class Tools:
                 total_views += postview.views
             return total_views
 
-
-            
-

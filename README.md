@@ -65,6 +65,12 @@ flask hexo g
 
 clean the posts,just use **flask hexo c** simplely
 
+## create log dir
+
+```
+mkdir logs
+```
+
 ## run the server
 
 ```
@@ -82,5 +88,3 @@ the expoted post will generate under the directory where you set in **config.py*
 # About Dev
 
 欢迎关注知乎专栏:[学Python的桃子](https://zhuanlan.zhihu.com/peach-python), 后续将逐步讲解整个开发过程.
-
-测试账户: test/test, 没有修改,新增权限

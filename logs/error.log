@@ -1,0 +1,34 @@
+2018-12-14 14:20:12,121 ERROR 17496 17200 f:\workspace\python\peach-blog\env\lib\site-packages\flask\app.py 1761 Exception on /post/96 [GET]
+Traceback (most recent call last):
+  File "f:\workspace\python\peach-blog\env\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "f:\workspace\python\peach-blog\env\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "f:\workspace\python\peach-blog\env\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "f:\workspace\python\peach-blog\env\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "f:\workspace\python\peach-blog\env\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "f:\workspace\python\peach-blog\env\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "F:\workspace\python\peach-blog\app\main\views.py", line 52, in post
+    history = History(ip=request.remote_addr,post_id=id,platform=request.user_agent.platform,browser=request.user_agent.browser,visit_date=datetime.datetime.now())
+AttributeError: type object 'datetime.datetime' has no attribute 'datetime'
+2018-12-14 14:21:24,192 ERROR 17496 20296 f:\workspace\python\peach-blog\env\lib\site-packages\flask\app.py 1761 Exception on /post/96 [GET]
+Traceback (most recent call last):
+  File "f:\workspace\python\peach-blog\env\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "f:\workspace\python\peach-blog\env\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "f:\workspace\python\peach-blog\env\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "f:\workspace\python\peach-blog\env\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "f:\workspace\python\peach-blog\env\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "f:\workspace\python\peach-blog\env\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "F:\workspace\python\peach-blog\app\main\views.py", line 52, in post
+    history = History(ip=request.remote_addr,post_id=id,platform=request.user_agent.platform,browser=request.user_agent.browser,visit_date=datetime.now())
+AttributeError: type object 'datetime.datetime' has no attribute 'datetime'
