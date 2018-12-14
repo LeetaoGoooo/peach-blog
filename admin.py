@@ -83,7 +83,7 @@ class PeachPostView(ModelView):
         export_post_data = "---\ntitle: {}\ntag: [{}]\ncomments: true\ndate: {}\n---\n\n{}".format(title,tags_str,date,content)
         if not os.path.exists(export_directory):
             return False
-        export_post = os.path.join(export_directory,"test.md")
+        export_post = os.path.join(export_directory,"{}.md".format(title))
         with open(export_post,'w',encoding='utf-8') as f:
             f.write(export_post_data)
         return True
