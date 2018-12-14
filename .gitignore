@@ -5,3 +5,4 @@ env
 migrations
 posts
 .idea
+logs
