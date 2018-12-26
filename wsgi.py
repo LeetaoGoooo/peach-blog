@@ -1,3 +1,3 @@
 from app import create_app
-
-application = create_app('default')
+import os
+application = create_app(os.environ.get('FLASK_ENV'))
