@@ -5,6 +5,7 @@ import datetime
 from sqlalchemy import func
 from collections import OrderedDict
 
+
 def get_certain_day_sum_visit_count(visit_date):
     certain_day_visit_res = PostView.query.filter_by(
         visit_date=visit_date.strftime("%Y-%m-%d")).with_entities(func.sum(PostView.views).label("certain_day_visit_count")).all()
@@ -45,7 +46,8 @@ def get_init_today_visit_data_dict():
 
 
 def get_today_visit_chart():
-    visit_time_like = "{}%".format(datetime.datetime.today().strftime("%Y-%m-%d"))
+    visit_time_like = "{}%".format(
+        datetime.datetime.today().strftime("%Y-%m-%d"))
     rows = History.query.filter(History.visit_time.like(visit_time_like)).with_entities(func.count(History.id).label(
         "count"), func.date_format(History.visit_time, "%Y-%m-%d %H").label("today_time")).group_by(func.date_format(History.visit_time, "%Y-%m-%d %H"))
     today_visit_data_dict = get_init_today_visit_data_dict()
@@ -54,7 +56,8 @@ def get_today_visit_chart():
         today_visit_data_dict[key] = row.count
     today_visit_chart_data_dict = {}
     today_visit_chart_data_dict["xAxis"] = list(today_visit_data_dict.keys())
-    today_visit_chart_data_dict["series"] = list(today_visit_data_dict.values())
+    today_visit_chart_data_dict["series"] = list(
+        today_visit_data_dict.values())
     return today_visit_chart_data_dict
 
 
@@ -99,4 +102,4 @@ def get_sum_device_visit_chart():
 @api.route("/dashboard", methods=["GET"])
 def dashboard():
     # https://github.com/pallets/flask/issues/835
-    return jsonify({"comment_count": get_comment_count(), "message_board_count": get_message_board_count(), "today_visit_count": get_today_visit_count(), "sum_visit_count": get_sum_visit_count(), "today_visit_chart": get_today_visit_chart(), "top_ten_posts": get_top_ten_posts(),"sum_seven_day_visit_chart":get_sum_seven_day_visit_chart(), "sum_device_visit": get_sum_device_visit_chart()})
+    return jsonify({"comment_count": get_comment_count(), "message_board_count": get_message_board_count(), "today_visit_count": get_today_visit_count(), "sum_visit_count": get_sum_visit_count(), "today_visit_chart": get_today_visit_chart(), "top_ten_posts": get_top_ten_posts(), "sum_seven_day_visit_chart": get_sum_seven_day_visit_chart(), "sum_device_visit": get_sum_device_visit_chart()})

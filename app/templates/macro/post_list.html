@@ -2,9 +2,9 @@
   {%for post in posts %}
   <article class="post">
     <div class="post-head">
-      <h1 class="post-title"><a href="/post/{{post.id}}">{{post.title}}</a></h1>
+      <h1 class="post-title"><a href="/post/{{post.title}}">{{post.title}}</a></h1>
       {% for tag in post.tags%}
-      <span class="label label-info">{{tag.tag}}</span>
+        <a href="/tag/{{tag.tag}}"><span class="label label-info">{{tag.tag}}</span></a>
       {% endfor %}
           <div class="post-meta">
             <span class="author"><span class="glyphicon glyphicon-user"></span> <a href="#" target="_blank">Leetao</a></span></span>
@@ -23,7 +23,7 @@
         {{ post.content |  truncate(200) | markdown | safe }}
     </div>
     <div>
-      <p><a class="btn btn-default" href="/post/{{post.id}}" role="button">阅读全文</a></p>
+      <p><a class="btn btn-default" href="/post/{{post.title}}" role="button">阅读全文</a></p>
     </div>
   </article>
   {% endfor %}
@@ -38,9 +38,9 @@
   {%for post in posts %}
   <article class="post">
     <div class="post-head">
-      <h1 class="post-title"><a href="/post/{{post.id}}">{{post.title}}</a></h1>
+      <h1 class="post-title"><a href="/post/{{post.title}}">{{post.title}}</a></h1>
       {% for tag in post.tags%}
-      <span class="label label-info">{{tag.tag}}</span>
+      <a href="/tag/{{tag.tag}}"><span class="label label-info">{{tag.tag}}</span></a>
       {% endfor %}
           <div class="post-meta">
             <span class="author"><span class="glyphicon glyphicon-user"></span> <a href="#" target="_blank">Leetao</a></span></span>
@@ -59,13 +59,13 @@
         {{ post.content |  truncate(200) | markdown | safe }}
     </div>
     <div>
-      <p><a class="btn btn-default" href="/post/{{post.id}}" role="button">阅读全文</a></p>
+      <p><a class="btn btn-default" href="/post/{{post.title}}" role="button">阅读全文</a></p>
     </div>
   </article>
   {% endfor %}
 
   {%if posts%}
   {% import "macro/pagination.html" as macro_pagination %}
-  {{macro_pagination.pagination_widget(pagination,'main.tag',id=tag_id)}}
+  {{macro_pagination.pagination_widget(pagination,'main.tag',tag=tag)}}
   {%endif%}
 {%- endmacro %}

@@ -4,6 +4,7 @@ from app.models import User
 from .forms import LoginForm
 from . import auth
 
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -16,7 +17,7 @@ def login():
     return render_template('auth/login.html', form=form)
 
 
-@auth.route('/logout', methods=['GET',"POST"])
+@auth.route('/logout', methods=['GET', "POST"])
 def logout():
     logout_user()
     flash('成功退出!')
