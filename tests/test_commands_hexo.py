@@ -1,7 +1,6 @@
 import pytest
-from app import create_app
+from . import app
 
-app = create_app('testing')
 
 def test_get_post_content_without_meta():
     with open('tests/test.md','r',encoding='utf-8') as f:

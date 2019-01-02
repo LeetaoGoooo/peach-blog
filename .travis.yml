@@ -8,7 +8,7 @@ services:
   - mysql
 
 before_install:
-  - mysql -e 'CREATE DATABASE peach_blog;'
+  - mysql -e 'CREATE DATABASE peach_blog_test;'
 
 install:
   - pip install -r requirements.txt
@@ -20,10 +20,9 @@ before_script:
 
 script:
   - echo "#script#"
-  - export FLASK_ENV=production
+  - export FLASK_ENV=testing
   - export FLASK_APP=wsgi.py
   - export flask db init
   - export flask db migrate
   - export flask db upgrade
   - pytest
-  - flask run

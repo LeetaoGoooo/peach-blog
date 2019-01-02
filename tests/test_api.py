@@ -1,7 +1,6 @@
 import pytest
-from app import create_app
+from wsgi import application as app
 
-app = create_app('testing')
 client = app.test_client()
 
 def test_dashboard():
