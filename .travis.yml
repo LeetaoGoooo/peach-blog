@@ -22,7 +22,7 @@ script:
   - echo "#script#"
   - export FLASK_ENV=testing
   - export FLASK_APP=wsgi.py
-  - export flask db init
-  - export flask db migrate
-  - export flask db upgrade
+  - flask db init
+  - flask db migrate
+  - flask db upgrade
   - pytest
