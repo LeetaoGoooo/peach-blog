@@ -6,3 +6,4 @@ migrations
 posts
 .idea
 logs
+.coverage

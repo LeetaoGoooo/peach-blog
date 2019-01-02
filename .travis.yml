@@ -25,4 +25,6 @@ script:
   - flask db init
   - flask db migrate
   - flask db upgrade
-  - pytest
+  - pytest --cov=./tests
+  - export CODECOV_TOKEN="4b77873f-56e0-4ffb-8c6d-29d608f510f7"
+  - bash <(curl -s https://codecov.io/bash)
