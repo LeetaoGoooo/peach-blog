@@ -1,0 +1,29 @@
+language: python
+
+python:
+  - "3.5"
+  - "3.6"
+
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE peach_blog;'
+
+install:
+  - pip install -r requirements.txt
+
+before_script:
+  - echo "#before_script:prepare for project"
+  - mkdir logs
+  - mkdir posts
+
+script:
+  - echo "#script#"
+  - export FLASK_ENV=production
+  - export FLASK_APP=wsgi.py
+  - export flask db init
+  - export flask db migrate
+  - export flask db upgrade
+  - pytest
+  - flask run
