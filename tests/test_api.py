@@ -1,5 +1,5 @@
 import pytest
-from wsgi import application as app
+from . import app
 
 client = app.test_client()
 
