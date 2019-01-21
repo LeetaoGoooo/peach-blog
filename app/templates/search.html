@@ -22,7 +22,7 @@
                 </div>
                 <div class="list-group">
                     {% for post in posts%}
-                    <a href="post/{{post.id}}" class="list-group-item">
+                    <a href="post/{{post.title}}" class="list-group-item">
                         <h4 class="list-group-item-heading">{{post.title}}</h4>
                         <!-- <p class="list-group-item-text">{{post.content | truncate(40) | markdown | safe }}</p> -->
                     </a>
