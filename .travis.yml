@@ -11,7 +11,7 @@ before_install:
   - mysql -e 'CREATE DATABASE peach_blog_test;'
 
 install:
-  - pip install -r requirements.txt
+  - pip install -r ./server/requirements.txt
 
 before_script:
   - echo "#before_script:prepare for project"
@@ -21,10 +21,10 @@ before_script:
 script:
   - echo "#script#"
   - export FLASK_ENV=testing
-  - export FLASK_APP=wsgi.py
+  - export FLASK_APP=./server/wsgi.py
   - flask db init
   - flask db migrate
   - flask db upgrade
-  - pytest --cov=./tests
+  - pytest --cov=./server/tests
   - export CODECOV_TOKEN="4b77873f-56e0-4ffb-8c6d-29d608f510f7"
   - bash <(curl -s https://codecov.io/bash)

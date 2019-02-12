@@ -1,17 +1,6 @@
-.vscode
-*.pyc
-.pytest_cache
-env
-migrations
-posts
-.idea
-logs
-.coverage
-
-
 .DS_Store
-front/node_modules
-front/dist
+node_modules
+/dist
 
 # local env files
 .env.local
