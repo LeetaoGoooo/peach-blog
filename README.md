@@ -88,4 +88,4 @@ the expoted post will generate under the directory where you set in **config.py*
 
 # About Dev
 
-欢迎关注知乎专栏:[学Python的桃子](https://zhuanlan.zhihu.com/peach-python), 后续将逐步讲解整个开发过程.
+欢迎各种 PR.
