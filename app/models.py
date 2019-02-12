@@ -58,6 +58,9 @@ class Post(db.Model):
     postviews = db.relationship('PostView', backref='postviews', lazy='joined')
     comments = db.relationship('Comment', backref='comments', lazy='joined')
 
+    def __repr__(self):
+        return self.title
+        
 class Tag(db.Model):
     __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
