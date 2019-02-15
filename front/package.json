@@ -10,6 +10,7 @@
   "dependencies": {
     "material-design-icons-iconfont": "^4.0.4",
     "vue": "^2.5.22",
+    "vue-markdown": "^2.2.4",
     "vue-router": "^3.0.1",
     "vuetify": "^1.5.0",
     "vuex": "^3.0.1"
