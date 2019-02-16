@@ -2,6 +2,7 @@
 *.pyc
 .pytest_cache
 env
+venv
 migrations
 posts
 .idea
