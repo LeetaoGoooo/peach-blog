@@ -2,7 +2,8 @@ from flask_restful import Resource, reqparse
 from flask import jsonify, current_app
 from flask_jwt_extended import jwt_required
 from app.models import Post
-
+from app import db
+import datetime
 
 class PostListResource(Resource):
 
@@ -31,13 +32,36 @@ class PostListResource(Resource):
 class PostResource(Resource):
 
     def get(self, title):
-        pass
+        post = Post.query.filter_by(title=title).first()
+        return post.json
 
-    def post(self, post):
-        pass
+    def post(self):
+        parse = reqparse.RequestParser()
+        parse.add_argument('post')
+        args = parser.parse_args()
+        post_dict = args['post']
+        post = Post(title=post_dict['title'],content=post_dict['content'])
+        db.session.add(post)
+        db.sessin.commit()
+        post = Post.query.filter_by(title=post_dict['title']).first()
+        return post.json
 
-    def put(self, post):
-        pass
 
+    def put(self):
+        parse = reqparse.RequestParser()
+        parse.add_argument('post')
+        args = parser.parse_args()
+        post_dict = args['post']
+        post = Post.query.filter_by(title=post_dict['title']).first()
+        post.content = post_dict['content']
+        post.last_update = datetime.datetime.now()
+        db.session.add(post)
+        db.session.commit()
+        return post.json
+
+    @jwt_required
     def delete(self, title):
-        pass
+        post = Post.query.filter_by(title=title).first()
+        db.session.delete(post)
+        db.session.commit()
+        return {"status":True,"msg":"删除成功!"}

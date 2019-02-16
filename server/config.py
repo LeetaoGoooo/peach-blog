@@ -37,7 +37,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'DEV_DATABASE_URL') or 'mysql+pymysql://root:@localhost:3306/peach_blog_dev?charset=utf8'
+        'DEV_DATABASE_URL') or 'mysql+pymysql://root:940419lt@localhost:3306/peach_blog_dev?charset=utf8'
 
     @classmethod
     def init_app(self, app):

@@ -9,8 +9,13 @@
   },
   "dependencies": {
     "material-design-icons-iconfont": "^4.0.4",
+<<<<<<< HEAD
     "vue": "^2.6.6",
     "vue-cli": "^2.9.6",
+=======
+    "vue": "^2.5.22",
+    "vue-markdown": "^2.2.4",
+>>>>>>> 83364562d6327d4c72ea151351b2ac9f92954da9
     "vue-router": "^3.0.1",
     "vuetify": "^1.5.0",
     "vuex": "^3.0.1"
