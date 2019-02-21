@@ -3,32 +3,6 @@ import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
 
-def dump_datetime(value):
-    return value.strftime("%Y-%m-%d %H:%M:%S")
-
-def dump_date(value):
-    return value.strftime("%Y-%m-%d")
-    
-
-def to_json(inst, cls):
-    """
-    Jsonify the sql alchemy query result.
-    """
-    convert = {"DATE":dump_date,"DATETIME":dump_datetime}
-    d = dict()
-    for c in cls.__table__.columns:
-        v = getattr(inst, c.name)
-        if str(c.type) in convert.keys() and v is not None:
-            try:
-                d[c.name] = convert[str(c.type)](v)
-            except:
-                d[c.name] = "Error:  Failed to covert using ", str(convert[str(c.type)])
-        elif v is None:
-            d[c.name] = str()
-        else:
-            d[c.name] = v
-    return json.dumps(d)
-
 Post2Tag = db.Table("post2tag",
         db.Column('id', db.Integer, primary_key=True),
         db.Column('post_id', db.Integer, db.ForeignKey('posts.id', ondelete="cascade")),
@@ -81,10 +55,6 @@ class Post(db.Model):
     postviews = db.relationship('PostView', backref='postviews', lazy='joined')
     comments = db.relationship('Comment', backref='comments', lazy='joined')
     
-    @property
-    def json(self):
-        return to_json(self, self.__class__)
-
     def __repr__(self):
         return self.title
 
