@@ -26,8 +26,9 @@ def create_app(config_name):
     api = Api(app)
     from .resource.User import UserResource
     api.add_resource(UserResource,'/user')
-    from .resource.Post import PostListResource
+    from .resource.Post import PostListResource, PostResource
     api.add_resource(PostListResource,'/','/?page=<int:page>')
+    api.add_resource(PostResource, '/post/<title>')
 
     hexo.init_app(app, db)
     from .commands.hexo.cli import hexo_cli

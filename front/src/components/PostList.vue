@@ -8,7 +8,9 @@
                             <div>
                                 <div class="headline">{{post.title}}</div>
                                 <span>
-                                    <!-- content -->
+                                    <p>
+                                        {{post.content}}.substring(0,200)
+                                    </p>
                                 </span>
                             </div>
                         </v-card-title>
@@ -21,3 +23,14 @@
         </v-container>
     </v-card>
 </template>
+
+<script>
+//   import VueMarkdown from 'vue-markdown'
+  
+  export default {
+    data () {
+        page:0
+    },
+    props:['posts']
+  }
+</script>

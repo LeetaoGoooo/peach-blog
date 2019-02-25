@@ -39,7 +39,7 @@
       <v-container fluid fill-height>
         <v-layout justify-center align-center>
           <v-flex text-xs-center>
-
+            <post-list :posts='posts'></post-list>
           </v-flex>
         </v-layout>
       </v-container>
@@ -51,9 +51,25 @@
 </template>
 
 <script>
+ import PostList from '@/components/PostList'
+ import {getPostListByPage} from '@/api/article'
+
   export default {
     data: () => ({
-      drawer: null
-    })
+      drawer: null,
+      posts: {}
+    }),
+    components:{ PostList },
+    created() {
+      this.getPostList()
+    },
+    methods:{
+      getPostList() {
+        getPostListByPage(1).then(response => {
+           console.log(response.data)
+           this.posts = response.data.posts
+        })
+      }
+    }
   }
 </script>
