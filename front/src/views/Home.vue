@@ -36,13 +36,14 @@
       <v-toolbar-title>PeachBlog</v-toolbar-title>
     </v-toolbar>
     <v-content>
-      <v-container fluid fill-height>
-        <v-layout justify-center align-center>
-          <v-flex text-xs-center>
-            <post-list :posts='posts'></post-list>
-          </v-flex>
-        </v-layout>
-      </v-container>
+       <post-list :posts='posts'></post-list>
+      <div class="text-xs-center">
+        <v-pagination
+          v-model="page"
+          :length="total_page"
+          :total-visible="7"
+        ></v-pagination>
+      </div>
     </v-content>
     <v-footer color="indigo" app>
       <span class="white--text">&copy; 2017</span>
@@ -57,9 +58,20 @@
   export default {
     data: () => ({
       drawer: null,
-      posts: {}
+      posts: {},
+      page:1,
+      total_page:0
     }),
-    components:{ PostList },
+    components:{ PostList},
+    watch:{
+      page:function(new_page, old_page) {
+        getPostListByPage(new_page).then(response => {
+           console.log(response.data)
+           this.posts = response.data.posts
+           this.total_page = parseInt(response.data.total_page)
+        })
+      }
+    },
     created() {
       this.getPostList()
     },
@@ -68,6 +80,8 @@
         getPostListByPage(1).then(response => {
            console.log(response.data)
            this.posts = response.data.posts
+           this.total_page = parseInt(response.data.total_page)
+           this.current_page = parseInt(response.data.current_page)
         })
       }
     }

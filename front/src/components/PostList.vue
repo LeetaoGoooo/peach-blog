@@ -8,9 +8,9 @@
                             <div>
                                 <div class="headline">{{post.title}}</div>
                                 <span>
-                                    <p>
-                                        {{post.content}}.substring(0,200)
-                                    </p>
+                                    <vue-markdown>
+                                        {{post.content.substring(0,200)}}
+                                    </vue-markdown>
                                 </span>
                             </div>
                         </v-card-title>
@@ -25,12 +25,14 @@
 </template>
 
 <script>
-//   import VueMarkdown from 'vue-markdown'
+
+import VueMarkdown from 'vue-markdown'
   
   export default {
-    data () {
+    data:() => ({
         page:0
-    },
-    props:['posts']
+    }),
+    props:['posts'],
+    components:{VueMarkdown}
   }
 </script>
