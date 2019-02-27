@@ -50,7 +50,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), unique=True)
     content = db.Column(db.Text)
-    create_at = db.Column(db.Date(), default=datetime.datetime.today())
+    create_at = db.Column(db.Date(), default=datetime.datetime.today)
     last_update = db.Column(db.DateTime(), default=datetime.datetime.now())
     postviews = db.relationship('PostView', backref='postviews', lazy='joined')
     comments = db.relationship('Comment', backref='comments', lazy='joined')

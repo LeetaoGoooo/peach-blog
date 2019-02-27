@@ -36,38 +36,41 @@
       <v-toolbar-title>PeachBlog</v-toolbar-title>
     </v-toolbar>
     <v-content>
-      <!-- <v-container fluid fill-height>
-        <v-layout justify-center align-center>
-          <v-flex text-xs-center> -->
-            <post-list :posts='posts'></post-list>
-          <!-- </v-flex>
-        </v-layout>
-      </v-container> -->
+       <post-list :posts='posts'></post-list>
+       <pageination :total_page="total_page" v-model="page"></pageination>
     </v-content>
-    <v-footer color="indigo" app>
-      <span class="white--text">&copy; 2017</span>
-    </v-footer>
+    <peach-footer></peach-footer>
   </v-app>
 </template>
 
 <script>
  import PostList from '@/components/PostList'
+ import Pageination from '@/components/Pageination'
+ import PeachFooter from '@/components/Footer'
+
  import {getPostListByPage} from '@/api/article'
 
   export default {
     data: () => ({
       drawer: null,
-      posts: {}
+      page:1,
+      posts: {},
+      total_page:0
     }),
-    components:{ PostList },
+    components:{ PostList, Pageination,PeachFooter},
+    watch:{
+      page(new_page) {
+        this.getPostsByPage(new_page)
+      }
+    },
     created() {
-      this.getPostList()
+      this.getPostsByPage(1)
     },
     methods:{
-      getPostList() {
-        getPostListByPage(1).then(response => {
-           console.log(response.data)
+      getPostsByPage(current_page) {
+        getPostListByPage(current_page).then(response => {
            this.posts = response.data.posts
+           this.total_page = parseInt(response.data.total_page)
         })
       }
     }

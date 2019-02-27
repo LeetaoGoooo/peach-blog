@@ -103,3 +103,7 @@ def get_sum_device_visit_chart():
 def dashboard():
     # https://github.com/pallets/flask/issues/835
     return jsonify({"comment_count": get_comment_count(), "message_board_count": get_message_board_count(), "today_visit_count": get_today_visit_count(), "sum_visit_count": get_sum_visit_count(), "today_visit_chart": get_today_visit_chart(), "top_ten_posts": get_top_ten_posts(), "sum_seven_day_visit_chart": get_sum_seven_day_visit_chart(), "sum_device_visit": get_sum_device_visit_chart()})
+
+@api.route('/user')
+def user():
+    pass
