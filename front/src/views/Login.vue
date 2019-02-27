@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md text-xs-center>
- <v-layout>
-    <v-flex xs12 sm6 offset-sm3>
+    <v-layout>
+      <v-flex xs12 sm6 offset-sm3>
         <v-card>
           <v-card-title primary-title>
             <div>
