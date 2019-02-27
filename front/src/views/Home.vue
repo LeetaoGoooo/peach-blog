@@ -36,13 +36,13 @@
       <v-toolbar-title>PeachBlog</v-toolbar-title>
     </v-toolbar>
     <v-content>
-      <v-container fluid fill-height>
+      <!-- <v-container fluid fill-height>
         <v-layout justify-center align-center>
-          <v-flex text-xs-center>
+          <v-flex text-xs-center> -->
             <post-list :posts='posts'></post-list>
-          </v-flex>
+          <!-- </v-flex>
         </v-layout>
-      </v-container>
+      </v-container> -->
     </v-content>
     <v-footer color="indigo" app>
       <span class="white--text">&copy; 2017</span>

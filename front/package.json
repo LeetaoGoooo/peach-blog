@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-runtime": "^6.26.0",
     "material-design-icons-iconfont": "^4.0.4",
     "vue": "^2.6.7",
     "vue-cli": "^2.9.6",
+    "vue-markdown": "^2.2.4",
     "vue-router": "^3.0.1",
     "vuetify": "^1.5.0",
     "vuex": "^3.0.1"
