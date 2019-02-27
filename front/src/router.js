@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-// import Article from './components/PostDetail'
+import Article from './views/Article.vue'
+import Login from './views/Login.vue'
 
 Vue.use(Router)
 
@@ -13,9 +14,14 @@ export default new Router({
       component: Home
     },
     {
-      path: '/article',
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/article/:title',
       name: 'article',
-      component:() => import('./components/PostDetail')
+      component: Article
     },
     {
       path: '/about',

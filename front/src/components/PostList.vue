@@ -5,7 +5,7 @@
                     <v-card>
                         <v-card-title primary-title>
                             <div>
-                                <router-link :to="{name: 'article', parmas:{title:post.title}}"><div class="headline">{{post.title}}</div></router-link>
+                                <router-link :to="{name: 'article', params:{title:post.title}}"><div class="headline">{{post.title}}</div></router-link>
                                 <span>
                                     <vue-markdown>
                                         {{post.content.substring(0,200)}}
