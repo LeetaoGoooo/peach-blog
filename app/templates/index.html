@@ -3,6 +3,8 @@
 {% block head%}
 {{super()}}
 <link href="{{url_for('static',filename='main/index.css')}}" rel="stylesheet">
+<link href="{{url_for('static',filename='main/loading.css')}}" rel="stylesheet">
+
 {% endblock%}
 {% block content %}
 {{ super() }}
@@ -11,6 +13,41 @@
         <main class="col-md-8">
             {% import "macro/post_list.html" as macro_posts %}
             {{ macro_posts.render_post_list(posts,pagination) }}
+            <div class="loader" id="loading">
+                <div class="text">Loading...</div>
+                <div class="horizontal">
+                  <div class="circlesup">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                  </div>
+                  <div class="circlesdwn">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                  </div>
+                </div>
+                <div class="vertical">
+                  <div class="circlesup">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                  </div>
+                  <div class="circlesdwn">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                  </div>
+                </div>        
+            </div>
         </main>
         <div class="col-md-4">
                     {% include "widget/wechat.html" %}
@@ -22,3 +59,14 @@
 </div>
 </div>
 {% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script type="text/javascript">
+        function preloader(){
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("content").style.display = "block";
+        }//preloader
+        window.onload = preloader;
+</script>
+{% endblock%}

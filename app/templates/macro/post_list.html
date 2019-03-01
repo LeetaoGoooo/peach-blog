@@ -1,4 +1,5 @@
 {% macro render_post_list(posts,pagination) -%}
+<div id="content" style="display:none">
   {%for post in posts %}
   <article class="post">
     <div class="post-head">
@@ -27,11 +28,11 @@
     </div>
   </article>
   {% endfor %}
-
   {%if posts%}
   {% import "macro/pagination.html" as macro_pagination %}
   {{macro_pagination.pagination_widget(pagination,'main.index')}}
   {%endif%}
+</div>
 {%- endmacro %}
 
 {% macro render_tag_post_list(posts,pagination,tag) -%}
