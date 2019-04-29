@@ -1,0 +1,15 @@
+{{ comment.user_name }},
+
+您在{{post.title}} 的评论收到回复:
+
+回复内容如下:
+    {{comment.comment}}
+还可以通过网页直接浏览,点击下面链接
+
+https://www.leetao94.cn/post/{{post.title}}
+
+来自:
+
+Leetao's Blog
+
+请不要直接回复本邮件

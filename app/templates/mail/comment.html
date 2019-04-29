@@ -1,0 +1,18 @@
+<p>{{ comment.user_name }},</p>
+<p>您在 <b>{{post.title}}</b> 的评论收到回复:</p>
+<p>回复内容如下:</p>
+<p style="min-height: 20px;
+padding: 19px;
+margin-bottom: 20px;
+background-color: #f5f5f5;
+border: 1px solid #e3e3e3;
+border-radius: 4px;
+-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+box-shadow: inset 0 1px 1px rgba(0,0,0,.05);">
+    {{comment.comment}}
+</p>
+<p>还可以通过网页直接浏览,点击下面链接</p>
+<p><a href="https://www.leetao94.cn/post/{{post.title}}">{{post.title}}</p>
+<p>来自:</p>
+<p>Leetao's Blog</p>
+<p><small>请不要直接回复</small></p>

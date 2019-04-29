@@ -4,11 +4,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_misaka import Misaka
+from flask_mail import Mail
 from config import config
 from utils import Tools
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
+mail = Mail()
 migrate = Migrate()
 misaka = Misaka()
 tools = Tools()
@@ -34,6 +36,7 @@ def create_app(config_name):
     bootstrap.init_app(app)
     misaka.init_app(app)
     db.init_app(app)
+    mail.init_app(app)
     migrate.init_app(app, db)
     hexo.init_app(app, db)
     admin.init_app(app, db)
