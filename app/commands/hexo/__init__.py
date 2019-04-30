@@ -145,7 +145,32 @@ class Hexo:
         """
          export markdown post to directory 
         """
-        pass
+        post_list = Post.query.all()
+        for post in post_list:
+            self.export_content_to_md(post)
+
+
+    def export_content_to_md(self, post):
+        title = self.remove_special_char(post.title)
+        tag_list = [tag.tag for tag in post.tags]
+        tags_str = ",".join(tag_list)
+        date = post.create_at
+        content = post.content
+        export_directory = current_app.extensions['hexo'].directory
+        export_post_data = "---\ntitle: {}\ntag: [{}]\ncomments: true\ndate: {}\n---\n\n{}".format(title,tags_str,date,content)
+        if not os.path.exists(export_directory):
+            return False
+        export_post = os.path.join(export_directory,"{}.md".format(title))
+        with open(export_post,'a+',encoding='utf-8') as f:
+            f.seek(0)
+            f.truncate(0)
+            f.write(export_post_data)
+            print("{} has been exported".format(title))
+        return True
+
+    def remove_special_char(self, file_name):
+        new_file_name = re.sub('[\/:*?"<>|]','-', file_name)
+        return new_file_name
 
     @staticmethod
     def get_post_content_without_meta(content):
@@ -181,4 +206,4 @@ def clean():
 
 @catch_errors
 def export(directory = None):
-    pass
+    current_app.extensions['hexo'].export_posts()

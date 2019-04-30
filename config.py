@@ -31,7 +31,7 @@ class Config:
     FLASKY_POSTS_PER_PAGE = 10
     FLASKY_COMMENTS_PER_PAGE = 30
     EXPORT_POST_DIRECTORY = os.path.join(basedir, 'posts')
-
+    GITHUB_REPO = os.environ.get("GITHUB_REPO")
     LOG_PATH = os.path.join(basedir, 'logs')
     LOG_PATH_ERROR = os.path.join(LOG_PATH, 'error.log')
     LOG_PATH_INFO = os.path.join(LOG_PATH, 'info.log')
@@ -45,7 +45,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'DEV_DATABASE_URL') or 'mysql+pymysql://root:@localhost:3306/peach_blog_dev?charset=utf8'
+        'DEV_DATABASE_URL') or 'mysql+pymysql://root:940419Leetao@localhost:3306/peach_blog?charset=utf8'
 
     @classmethod
     def init_app(self, app):
