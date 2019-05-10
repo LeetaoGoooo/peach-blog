@@ -73,7 +73,7 @@
         smartypants: false
     });
 
-    var html = marked($('.post-content')[0].innerText);
+    var html = marked($('.post-content')[0].innerText.trim());
     var tocHTML = '<h1 id="table-of-contents">目录</h1>\n<ul>';
     toc.forEach(function (entry) {
         tocHTML += '<li><a href="#' + entry.anchor + '">' + entry.text + '</a></li>\n';

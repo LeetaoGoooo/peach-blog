@@ -72,7 +72,6 @@ class Tag(db.Model):
 
 
 class Comment(db.Model):
-    _N = 6
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
