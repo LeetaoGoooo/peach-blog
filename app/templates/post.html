@@ -3,6 +3,9 @@
 {% block title %}Peach Blog - {{post.title}}{% endblock %}
 {% block head%}
 {{super()}}
+<meta name="description" content="{{post.title}}">
+<meta property="og:description" content="{{ post.content |  truncate(200) | safe }}">
+<meta name="keywords" content="{{ post.tags | join(',') | safe}}">
 <link href="{{url_for('static',filename='main/index.css')}}" rel="stylesheet">
 <link href="{{url_for('static', filename='plugins/highlight/styles/atom-one-dark.css')}}" rel="stylesheet">
 <link href="{{url_for('static', filename='post.css')}}" rel="stylesheet">
