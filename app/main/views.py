@@ -11,7 +11,8 @@ from collections import OrderedDict
 from werkzeug.contrib.atom import AtomFeed
 import misaka as markdown
 from urllib.parse import urljoin
-
+import re
+from ..email import send_email
 
 @main.app_context_processor
 def peach_blog_menu():
@@ -42,15 +43,27 @@ def post(title):
     page = request.args.get('page', 1, type=int)
     post = Post.query.filter_by(title=title).first()
     id = post.id
-    pagination = Comment.query.filter_by(post_id=id).order_by(Comment.comment_time.desc(
-    )).paginate(page, per_page=current_app.config['FLASK_PER_PAGE'], error_out=True)
+    pagination = Comment.query.filter_by(post_id=id).order_by(Comment.comment_time).paginate(page, per_page=current_app.config['FLASK_PER_PAGE'], error_out=True)
     comments = pagination.items
+
+    # 评论 and 回复
     form = CommentForm()
     if form.validate_on_submit():
         platform = request.user_agent.platform
         browser = request.user_agent.browser
-        comment = Comment(post_id=id, user_name=form.user_name.data, email=form.email.data, website=form.website.data,
-                          comment=form.comment.data, platform=platform, browser=browser, comment_time=datetime.now())
+        if len(form.parent_id.data) == 0:
+            comment = Comment(post_id=id, user_name=form.user_name.data, email=form.email.data, website=form.website.data,
+                            comment=form.comment.data, platform=platform, browser=browser, comment_time=datetime.now())
+        else:
+            comment_parent = Comment.query.filter_by(id=int(form.parent_id.data)).first()
+            if comment_parent is not None:
+                regx_user = regx_user_name(comment_parent.user_name,form.comment.data)
+                if regx_user is not None:
+                    comment = Comment(post_id=id, user_name=form.user_name.data, email=form.email.data, website=form.website.data,
+                            comment=form.comment.data, platform=platform, browser=browser, comment_time=datetime.now(),parent=comment_parent)
+                    msg = "回复成功!"
+                    send_email(comment_parent.email,'评论回复','mail/comment',comment=comment,post=post)
+
         db.session.add(comment)
         try:
             db.session.commit()
@@ -59,7 +72,9 @@ def post(title):
             db.session.rollback()
             print(e)
             flash("数据库提交失败!")
+        flash(msg)
         return redirect(url_for('main.post', title=title))
+    
     post = Post.query.filter_by(id=id).first()
     postview = PostView.query.filter_by(post_id=id, visit_date=time.strftime(
         '%Y-%m-%d', time.localtime(time.time()))).first()
@@ -176,3 +191,6 @@ def feeds():
         feeds.add(post.title, markdown.html(post.content), content_type='html', author='Leetao',
                   url=get_abs_url(post.title), updated=post.last_update, published=post.last_update)
     return feeds.get_response()
+
+def regx_user_name(user_name, comment):
+    return re.match("^@{}".format(user_name),comment)

@@ -53,11 +53,14 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), unique=True)
     content = db.Column(db.Text)
-    create_at = db.Column(db.Date(), default=datetime.datetime.today())
-    last_update = db.Column(db.DateTime(), default=datetime.datetime.now())
+    create_at = db.Column(db.Date(), default=datetime.datetime.today)
+    last_update = db.Column(db.DateTime(), default=datetime.datetime.now)
     postviews = db.relationship('PostView', backref='postviews', lazy='joined')
     comments = db.relationship('Comment', backref='comments', lazy='joined')
 
+    def __repr__(self):
+        return self.title
+        
 class Tag(db.Model):
     __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
@@ -79,6 +82,8 @@ class Comment(db.Model):
     comment_time = db.Column(db.DateTime(), default=datetime.datetime.now())
     platform = db.Column(db.String(50))
     browser = db.Column(db.String(100))
+    parent_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
+    replies = db.relationship('Comment', backref=db.backref("parent", remote_side=[id]), lazy='dynamic')
     
     def __repr__(self):
         return "{} commentted {} on {}".format(self.user_name,self.comment,self.comment_time)

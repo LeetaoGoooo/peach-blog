@@ -3,6 +3,9 @@
 {% block title %}Peach Blog - {{post.title}}{% endblock %}
 {% block head%}
 {{super()}}
+<meta name="description" content="{{post.title}}">
+<meta property="og:description" content="{{ post.content |  truncate(200) | safe }}">
+<meta name="keywords" content="{{ post.tags | join(',') | safe}}">
 <link href="{{url_for('static',filename='main/index.css')}}" rel="stylesheet">
 <link href="{{url_for('static', filename='plugins/highlight/styles/atom-one-dark.css')}}" rel="stylesheet">
 <link href="{{url_for('static', filename='post.css')}}" rel="stylesheet">
@@ -73,7 +76,7 @@
         smartypants: false
     });
 
-    var html = marked($('.post-content')[0].innerText);
+    var html = marked($('.post-content')[0].innerText.trim());
     var tocHTML = '<h1 id="table-of-contents">目录</h1>\n<ul>';
     toc.forEach(function (entry) {
         tocHTML += '<li><a href="#' + entry.anchor + '">' + entry.text + '</a></li>\n';
@@ -81,5 +84,12 @@
     tocHTML += '</ul>\n';
     $('.post-content')[0].innerHTML = tocHTML + html;
     $('.post-content').css("display","");
+
+    $('.reply-button').bind('click',function( ){
+        var parent_id = this.attributes['data-parent'].value;
+        var parent_username = this.attributes['data-parent-name'].value;
+        $('.form')[0].parent_id.value = parent_id;
+        $('.form')[0].comment.value = "@"+parent_username + " " + $('.form')[0].comment.value;
+    });
 </script>
 {% endblock%}

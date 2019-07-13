@@ -1,4 +1,5 @@
-{% macro render_post(post, comments, pagination) -%}
+{% macro render_post(post, comments, pagination,reply_form) -%}
+{% import "bootstrap/wtf.html" as wtf %}
 <article class="post">
     <div class="post-head">
         <h1 class="post-title"><a href="/post/{{post.title}}">{{post.title}}</a></h1>
@@ -21,20 +22,27 @@
 {%if comments%}
 <ul class="media-list panel-body"  style="background-color:#fff">
     {% for comment in comments%}
-    <li class="media">
+        {% if comment.parent_id%}
+        {% set media_class = "well media"%}
+        {% else %}
+        {% set media_class = "media" %}
+        {%endif%}
+    <li class="{{media_class}}">
         <div class="media-left">
             <a href="#">
-                <img class="media-object" src="http://www.gravatar.com/avatar/{{ md5(comment.email)}}?s=64" alt="...">
+                <img class="media-object" src="http://www.gravatar.com/avatar/{{ md5(comment.email)}}?s=64" alt="{{comment.user_name}}">
             </a>
         </div>
         <div class="media-body">
             <small class="media-heading">
                 <span class="glyphicon glyphicon-user"></span>&nbsp;<a href="{{comment.website}}"><span class="label label-primary">{{comment.user_name}}</span></a>
-                <span class="glyphicon glyphicon-time"></span>&nbsp;{{comment.comment_time}}
-                <span class="label label-danger">{{comment.browser}}</span>
-                <span class="label label-warning">{{comment.platform}}</span>
+                <p style="color:#9d9494"><span class="glyphicon glyphicon-time"></span>&nbsp;{{comment.comment_time}}</p>
             </small>
             <p>{{comment.comment | markdown }}</p>
+            <p>
+                <span style="color:#9d9494"><span class="glyphicon glyphicon-globe"></span>&nbsp;{{comment.browser}}&nbsp;<span class="glyphicon glyphicon-blackboard"></span>&nbsp;{{comment.platform}}</span>
+                <a href='javascript:void(0)' class="reply-button" data-parent="{{comment.id}}" data-parent-name="{{comment.user_name}}"><span style="float:right">回复</span></a>
+            </p>
         </div>
     </li>
     {%endfor%}
