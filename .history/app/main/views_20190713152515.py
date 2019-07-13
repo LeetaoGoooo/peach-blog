@@ -57,7 +57,6 @@ def post(title):
             flash("评论成功!")
         except Exception as e:
             db.session.rollback()
-            print(e)
             flash("数据库提交失败!")
         return redirect(url_for('main.post', title=title))
     post = Post.query.filter_by(id=id).first()
@@ -76,7 +75,6 @@ def post(title):
         db.session.commit()
     except Exception as e:
         db.session.rollback()
-        print(e)
     return render_template('post.html', current_user=current_user, post=post, comments=comments, form=form, pagination=pagination, title=title)
 
 

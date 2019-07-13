@@ -54,11 +54,9 @@ def post(title):
         db.session.add(comment)
         try:
             db.session.commit()
-            flash("评论成功!")
         except Exception as e:
             db.session.rollback()
-            print(e)
-            flash("数据库提交失败!")
+        flash("评论成功!")
         return redirect(url_for('main.post', title=title))
     post = Post.query.filter_by(id=id).first()
     postview = PostView.query.filter_by(post_id=id, visit_date=time.strftime(
@@ -76,7 +74,6 @@ def post(title):
         db.session.commit()
     except Exception as e:
         db.session.rollback()
-        print(e)
     return render_template('post.html', current_user=current_user, post=post, comments=comments, form=form, pagination=pagination, title=title)
 
 

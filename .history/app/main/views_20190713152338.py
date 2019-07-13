@@ -54,11 +54,9 @@ def post(title):
         db.session.add(comment)
         try:
             db.session.commit()
-            flash("评论成功!")
         except Exception as e:
             db.session.rollback()
-            print(e)
-            flash("数据库提交失败!")
+        flash("评论成功!")
         return redirect(url_for('main.post', title=title))
     post = Post.query.filter_by(id=id).first()
     postview = PostView.query.filter_by(post_id=id, visit_date=time.strftime(
@@ -76,7 +74,6 @@ def post(title):
         db.session.commit()
     except Exception as e:
         db.session.rollback()
-        print(e)
     return render_template('post.html', current_user=current_user, post=post, comments=comments, form=form, pagination=pagination, title=title)
 
 
@@ -126,8 +123,6 @@ def about():
             flash("留言成功!")
         except Exception as e:
             db.session.rollback()
-            print(e)
-            flash("数据库提交失败!")
         
         return redirect(url_for("main.about"))
     page = request.args.get('page', 1, type=int)
@@ -146,13 +141,8 @@ def friend_links():
         message_board = MessageBoard(message_type=1, user_name=form.user_name.data, email=form.email.data, website=form.website.data,
                                      message=form.comment.data, platform=platform, browser=browser, message_time=datetime.now())
         db.session.add(message_board)
-        try:
-            db.session.commit()
-            flash("留言成功!")
-        except Exception as e:
-            db.session.rollback()
-            print(e)
-            flash("数据库提交失败!")
+        db.session.commit()
+        flash("留言成功!")
         return redirect(url_for("main.about"))
     page = request.args.get('page', 1, type=int)
     pagination = MessageBoard.query.filter_by(message_type=1).order_by(MessageBoard.message_time.desc(

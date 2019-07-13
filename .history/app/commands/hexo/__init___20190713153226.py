@@ -139,7 +139,6 @@ class Hexo:
                 print("{} posts have already been deleted".format(num_post_rows_deleted))
             except Exception as e:
                 self.db.session.rollback()
-                print(e)
             if os.path.exists(self.version_json_path):
                 os.remove(self.version_json_path)
         except Exception as e:

@@ -134,12 +134,8 @@ class Hexo:
             for post in posts:
                 post.tags.clear()
             num_post_rows_deleted = self.db.session.query(Post).delete()
-            try:
-                self.db.session.commit()
-                print("{} posts have already been deleted".format(num_post_rows_deleted))
-            except Exception as e:
-                self.db.session.rollback()
-                print(e)
+            self.db.session.commit()
+            print("{} posts have already been deleted".format(num_post_rows_deleted))
             if os.path.exists(self.version_json_path):
                 os.remove(self.version_json_path)
         except Exception as e:

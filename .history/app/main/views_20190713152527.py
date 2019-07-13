@@ -76,7 +76,6 @@ def post(title):
         db.session.commit()
     except Exception as e:
         db.session.rollback()
-        print(e)
     return render_template('post.html', current_user=current_user, post=post, comments=comments, form=form, pagination=pagination, title=title)
 
 
