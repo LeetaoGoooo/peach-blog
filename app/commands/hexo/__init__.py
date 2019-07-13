@@ -107,7 +107,11 @@ class Hexo:
             post.create_at = create_at= datetime.strptime(create_at, "%Y-%m-%d")
         post.tags.extend(all_tag_list)
         self.db.session.add(post)
-        self.db.session.commit()
+        try:
+            self.db.session.commit()
+        except Exception as e:
+            self.db.session.rollback()
+            print(e)
 
     def generate_posts(self):
         """
@@ -130,8 +134,12 @@ class Hexo:
             for post in posts:
                 post.tags.clear()
             num_post_rows_deleted = self.db.session.query(Post).delete()
-            self.db.session.commit()
-            print("{} posts have already been deleted".format(num_post_rows_deleted))
+            try:
+                self.db.session.commit()
+                print("{} posts have already been deleted".format(num_post_rows_deleted))
+            except Exception as e:
+                self.db.session.rollback()
+                print(e)
             if os.path.exists(self.version_json_path):
                 os.remove(self.version_json_path)
         except Exception as e:
