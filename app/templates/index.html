@@ -2,7 +2,7 @@
 {% block title %}Peach Blog{% endblock %}
 {% block head%}
 {{super()}}
-<link href="{{url_for('static',filename='main/index.css')}}" rel="stylesheet">
+<!-- <link href="{{url_for('static',filename='main/index.css')}}" rel="stylesheet"> -->
 <link href="{{url_for('static',filename='main/loading.css')}}" rel="stylesheet">
 
 {% endblock%}
@@ -10,7 +10,7 @@
 {{ super() }}
 <div class="container">
     <div class="row">
-        <main class="col-md-8">
+        <main class="col-md-10">
             {% import "macro/post_list.html" as macro_posts %}
             {{ macro_posts.render_post_list(posts,pagination) }}
             <div class="loader" id="loading">
@@ -61,7 +61,6 @@
 {% endblock %}
 
 {% block scripts %}
-{{super()}}
 <script type="text/javascript">
         function preloader(){
             document.getElementById("loading").style.display = "none";

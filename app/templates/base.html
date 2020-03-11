@@ -1,53 +1,72 @@
 {% extends "bootstrap/base.html" %}
 {% block title %}Peach Blog{% endblock %}
 {% block head %}
-{{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='imgs/favicon.ico') }}" type="image/x-icon">
-<link href="{{url_for('static',filename='common.css')}}" rel="stylesheet">
+<link href="{{url_for('static',filename='bootstrap4/css/bootstrap.min.css')}}" rel="stylesheet" />
+<script src="{{url_for('static',filename='bootstrap4/js/jquery.slim.min.js')}}"></script>
+<script src="{{url_for('static',filename='bootstrap4/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{url_for('static',filename='bootstrap4/js/bootstrap.min.js')}}"></script>
+<!-- <link href="{{url_for('static',filename='common.css')}}" rel="stylesheet"/> -->
 {% endblock %}
+
 {% block navbar %}
-<nav class="navbar navbar-inverse">
+<div class="collapse" id="collapseExample">
+    <div class="container">
+        <div class="row">
+            <form class="form-inline" method="POST" action="/search">
+                <div class="input-group">
+                    <input type="search" class="form-control mr-sm-12" name="keyword" required placeholder=""
+                    aria-label="Search">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-success my-2 my-sm-0">
+                            搜索
+                        </button>
+                    </div>
+                  </div>
+            </form>
+        </div>
+    </div>
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu"
-                aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/"><b>Peach Blog</b></a>
+            <a class="navbar-brand" href="/">Peach Blog</a>
         </div>
+        <div class="collapse navbar-collapse">
+            {% set navs={"/":"主页","/timeline":"时间轴","/about":"关于","/friends":"友链"} %}
+            <ul class="navbar-nav mr-auto">
+                {% for key in navs%}
+                <li class="nav-item">
+                    {% if loop.index0 == 0%}
+                    <a class="nav-link active" href="{{key}}">{{navs[key]}}</a>
+                    {%else%}
+                    <a class="nav-link" href="{{key}}">{{navs[key]}}</a>
+                    {%endif%}
 
-        <div class="collapse navbar-collapse" id="menu">
-            <ul class="nav navbar-nav">
-                <li><a href="/timeline">时间轴</a></li>
-                <li><a href="/about">关于</a></li>
-                <li><a href="/friends">友链</a></li>
+                </li>
+                {%endfor%}
+                {% if current_user.is_authenticated %}
+                <li class="nav-item"> <a class="nav-link"
+                        href="/profile/{{current_user.user_name}}">{{ current_user.user_name }}</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/admin">管理</a></li>
+                <li class="nav-item"><a class="nav-link" href="/auth/logout">退出</a></li>
+                {% else %}
+                <li class="nav-item"><a class="btn btn-outline-success" href="/auth/login" role="button">登录</a></li>
+                {% endif %}
             </ul>
-            <form class="navbar-form navbar-left" method="POST" action="/search">
-                <div class="form-group">
-                    <input type="text" class="form-control" name="keyword" required placeholder="">
-                </div>
-                <button type="submit" class="btn btn-success">搜索一下</button>
-            </form>
-            {% if current_user.is_authenticated %}
-            <ul class="nav navbar-nav navbar-right">
-                <li> <a href="/profile/{{current_user.user_name}}">{{ current_user.user_name }}</a></li>
-                <li> <a href="/admin">管理</a></li>
-                <li><a href="/auth/logout">退出</a></li>
-            </ul>
-            {% else %}
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href='/auth/login'>登陆</a></li>
-            </ul>
-            {% endif %}
-        </div><!-- /.navbar-collapse -->
+            <button class="btn btn-outline-info" type="button" data-toggle="collapse" data-target="#collapseExample"
+                aria-expanded="false" aria-controls="collapseExample">
+                搜一下
+            </button>
+
+
+        </div>
+        <a href="https://github.com/lt94"><img style="position: absolute; top: 0; left: 0; border: 0;"
+                src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
     </div>
-    <a href="https://github.com/lt94"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
 </nav>
-{% endblock %} 
+{% endblock %}
 
 {% block content %}
 <div class="container">
