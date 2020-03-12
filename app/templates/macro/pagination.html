@@ -1,8 +1,8 @@
 {% macro pagination_widget(pagination, endpoint) %}
-<nav>
+<nav class="nav justify-content-center">
     <ul class="pagination">
     {% if pagination.has_prev %}
-    <li class="pagination">
+    <li class="page-item">
         <a href="{% if pagination.has_prev %}{{ url_for(endpoint,page = pagination.page - 1, **kwargs) }}{% else %}#{% endif %}"
             class="page-link">
             &laquo;
@@ -10,20 +10,18 @@
     </li>
     {% endif %}
     {% for p in pagination.iter_pages() %}
-    {% if p %}
-    {% if p == pagination.page %}
-    <li class="pagination">
-        <a href="{{ url_for(endpoint, page = p, **kwargs) }}" class="page-link"> 第 {{ p }} 页 / 共 {{
-                pagination.pages}} 页</a>
-        {% endif %}
-        {% endif %}
-        {% endfor %}
-        {% if pagination.has_next %}
-        <a href="{% if pagination.has_next %}{{ url_for(endpoint,page = pagination.page + 1, **kwargs) }}{% else %}#{% endif %}"
-            class="page-link">
-            &raquo;
-        </a>
+        {% if p and p <= 4 %}
+        <li class="page-item">
+            <a href="{{ url_for(endpoint, page = p, **kwargs) }}" class="page-link">{{p}}</a>
+        </li>
         {%endif%}
+    {% endfor %}
+    {% if pagination.has_next %}
+    <a href="{% if pagination.has_next %}{{ url_for(endpoint,page = pagination.page + 1, **kwargs) }}{% else %}#{% endif %}"
+        class="page-link">
+        &raquo;
+    </a>
+    {%endif%}
     </ul>
 </nav>
 {% endmacro %}

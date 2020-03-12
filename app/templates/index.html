@@ -7,10 +7,10 @@
 
 {% endblock%}
 {% block content %}
-{{ super() }}
-<div class="container">
+{{super()}}
+<div class="container-fluid" style="margin-top:2rem;">
     <div class="row">
-        <main class="col-md-10">
+        <main class="col-xl-5 offset-xl-2">
             {% import "macro/post_list.html" as macro_posts %}
             {{ macro_posts.render_post_list(posts,pagination) }}
             <div class="loader" id="loading">
@@ -49,7 +49,7 @@
                 </div>        
             </div>
         </main>
-        <div class="col-md-4">
+        <div class="col-xl-2">
                     {% include "widget/wechat.html" %}
                     {% include "widget/tags.html"%}
                     {% include "widget/download.html"%}

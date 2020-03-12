@@ -1,8 +1,8 @@
-<div class="widget">
-    <h4 class="title">标签云</h4>
-    <div class="tag-item">
-            {% for tag in peach_blog_menu%}
-            <a href="/tag/{{tag.tag}}">{{tag.tag}}</a>
-            {% endfor %}
+<div class="card shadow border-0 mt-2">
+    <h4 class="card-header bg-light border-0">标签云</h4>
+    <div class="card-body border-0">
+        {% for tag in peach_blog_menu%}
+        <a href="/tag/{{tag.tag}}" class="btn btn-outline-warning m-1">{{tag.tag}}</a>
+        {% endfor %}
     </div>
 </div>

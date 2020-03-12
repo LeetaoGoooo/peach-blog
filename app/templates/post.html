@@ -12,9 +12,19 @@
 {% endblock%}
 {% block content %}
 {{ super() }}
-<div class="container">
+<div class="container-fluid" style="margin-top:2rem;">
     <div class="row">
-        <main class="col-md-8">
+        <div class="col-xl-2 offset-xl-1">
+            <div class="card border-0 shadow mb-5 bg-white rounded">
+                <div class="card-header border-0">
+                    <h4>文章目录</h1>
+                  </div>
+                  <div class="card-body">
+                    <p class="card-text toc"></p>
+                  </div>
+            </div>
+        </div>
+        <main class="col-xl-5">
             {% import "macro/post.html" as macro_posts %}
             {{ macro_posts.render_post(post,comments,pagination) }}
             <div class="panel panel-default">
@@ -24,7 +34,7 @@
                 </div>
             </div>
         </main>
-        <div class="col-md-4">
+        <div class="col-xl-2">
                 {% include "widget/wechat.html" %}
                 {% include "widget/tags.html"%}
                 {% include "widget/download.html"%}
@@ -51,15 +61,12 @@
                 level: level,
                 text: text
             });
-            return '<h'
-                + level
+            return '<h2'
                 + ' id="'
                 + anchor
-                + '">'
+                + '"><b>'
                 + text
-                + '</h'
-                + level
-                + '>\n'
+                + '</b></h2>\n'
         };
         return renderer;
     })();
@@ -77,12 +84,13 @@
     });
 
     var html = marked($('.post-content')[0].innerText.trim());
-    var tocHTML = '<h1 id="table-of-contents">目录</h1>\n<ul>';
+    var tocHTML = "<ul>"
     toc.forEach(function (entry) {
         tocHTML += '<li><a href="#' + entry.anchor + '">' + entry.text + '</a></li>\n';
     });
     tocHTML += '</ul>\n';
-    $('.post-content')[0].innerHTML = tocHTML + html;
+    $('.toc')[0].innerHTML = tocHTML;
+    $('.post-content')[0].innerHTML = html;
     $('.post-content').css("display","");
 
     $('.reply-button').bind('click',function( ){

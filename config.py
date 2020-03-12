@@ -27,8 +27,8 @@ class Config:
     FLASKY_MAIL_SENDER = "Leetao's Blog <501257367@qq.com>"
     FLASKY_ADMIN = "Leetao's Blog"
 
-    FLASK_PER_PAGE = 20
-    FLASKY_POSTS_PER_PAGE = 10
+    FLASK_PER_PAGE = 8
+    FLASKY_POSTS_PER_PAGE = 8
     FLASKY_COMMENTS_PER_PAGE = 30
     EXPORT_POST_DIRECTORY = os.path.join(basedir, 'posts')
     GITHUB_REPO = os.environ.get("GITHUB_REPO")
