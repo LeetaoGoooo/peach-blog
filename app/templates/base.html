@@ -1,92 +1,104 @@
-{% extends "bootstrap/base.html" %}
-{% block title %}Peach Blog{% endblock %}
-{% block head %}
-<link rel="shortcut icon" href="{{ url_for('static', filename='imgs/favicon.ico') }}" type="image/x-icon">
-<link href="{{url_for('static',filename='bootstrap4/css/bootstrap.min.css')}}" rel="stylesheet" />
-<link rel="stylesheet" href="{{url_for('static',filename='font-awesome/css/font-awesome.min.css')}}">
-<script src="{{url_for('static',filename='bootstrap4/js/jquery.slim.min.js')}}"></script>
-<script src="{{url_for('static',filename='bootstrap4/js/bootstrap.bundle.min.js')}}"></script>
-<script src="{{url_for('static',filename='bootstrap4/js/bootstrap.min.js')}}"></script>
-<!-- <link href="{{url_for('static',filename='common.css')}}" rel="stylesheet"/> -->
-{% endblock %}
-{% block navbar %}
-<div class="collapse" id="collapseExample">
-    <div class="container">
-        <div class="row">
-            <form class="form-inline" method="POST" action="/search">
-                <div class="input-group">
-                    <input type="search" class="form-control mr-sm-12" name="keyword" required placeholder=""
-                        aria-label="Search">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-outline-success my-2 my-sm-0">
-                            搜索
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Peach Blog</a>
-        </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    {% block head %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='imgs/favicon.ico') }}" type="image/x-icon">
+    <link href="{{url_for('static',filename='bootstrap4/css/bootstrap.min.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{url_for('static',filename='font-awesome/css/font-awesome.min.css')}}">
+    <script src="{{url_for('static',filename='bootstrap4/js/jquery.slim.min.js')}}"></script>
+    <script src="{{url_for('static',filename='bootstrap4/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url_for('static',filename='bootstrap4/js/bootstrap.min.js')}}"></script>
+    <title>{% block title %}Peach Blog{% endblock %}</title>
+    {% endblock %}
+</head>
 
-        <div class="collapse navbar-collapse" id="navbar">
-            {% set navs={"/":"主页","/timeline":"时间轴","/about":"关于","/friends":"友链"} %}
-            <ul class="navbar-nav mr-auto">
-                {% for key in navs%}
-                <li class="nav-item">
-                    {% if loop.index0 == 0%}
-                    <a class="nav-link active" href="{{key}}">{{navs[key]}}</a>
-                    {%else%}
-                    <a class="nav-link" href="{{key}}">{{navs[key]}}</a>
-                    {%endif%}
-
-                </li>
-                {%endfor%}
-                {% if current_user.is_authenticated %}
-                <li class="nav-item"> <a class="nav-link"
-                        href="/profile/{{current_user.user_name}}">{{ current_user.user_name }}</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/admin">管理</a></li>
-                <li class="nav-item"><a class="nav-link" href="/auth/logout">退出</a></li>
-                {% else %}
-                <li class="nav-item"><a class="btn btn-outline-success" href="/auth/login" role="button">登录</a></li>
-                {% endif %}
-            </ul>
-            <button class="btn btn-outline-info" type="button" data-toggle="collapse" data-target="#collapseExample"
-                aria-expanded="false" aria-controls="collapseExample">
-                搜一下
+<body>
+    {% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Peach Blog</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+                aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
 
 
+            <div class="collapse navbar-collapse" id="navbar">
+                {% set navs=(("/","主页"),("/archives","归档"),("说明",(("/about","关于"),("https://github.com/lt94/peach-blog.git","下载"))),("/friends","友链")) %}
+                <ul class="navbar-nav mr-auto">
+                    {% for href,name in navs%}
+                        {%if name is sequence and name is not string%}
+                            <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="{{href}}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{href}}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="{{href}}">
+                                {%for href_item,name_item in name%}
+                                <a class="dropdown-item" href="{{href_item}}">{{name_item}}</a>
+                                {%endfor%}
+                            </div>
+                            </li>
+                        {%else%}
+                            <li class="nav-item">
+                                {% if loop.index0 == 0%}
+                                    <a class="nav-link active" href="{{href}}">{{name}}</a>
+                                {%else%}
+                                    <a class="nav-link" href="{{href}}">{{name}}</a>
+                                {%endif%}
+                            </li>
+                        {%endif%}
+                    {%endfor%}
+                </ul>
+                {% if current_user.is_authenticated %}
+                <ul class="navbar-nav my-2 my-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="{{current_user.user_name}}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i>{{ current_user.user_name }}  
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="{{current_user.user_name}}">
+                        <a class="dropdown-item" href="/admin"><i class="fa fa-pencil" aria-hidden="true"></i>管理</a>
+                        <a class="dropdown-item" href="/auth/logout"><i class="fa fa-power-off" aria-hidden="true"></i>登出</a>
+                    </div>
+                </li> 
+            </ul>   
+                {% else %}
+                <a class="btn btn-outline-success my-2 my-lg-0" href="/auth/login" role="button">登录</a>
+                {% endif %}
+            </div>
+            <a href="https://github.com/lt94"><img style="position: absolute; top: 0; left: 0; border: 0;"
+                    src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"
+                    alt="Fork me on GitHub"></a>
         </div>
-        <a href="https://github.com/lt94"><img style="position: absolute; top: 0; left: 0; border: 0;"
-                src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
-    </div>
-</nav>
-{% endblock %}
+    </nav>
+    {% endblock %}
 
-{% block content %}
-<div class="container">
-    <div class="col-md-8">
-        {% for message in get_flashed_messages() %}
-        <div class="alert alert-warning">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ message }}
+    {% block message %}
+    <div class="container">
+        <div class="col-md-8">
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-</div>
+    {%endblock%}
 
-{% endblock %}
+    {%block content%}
 
-{%block foot%}
-{% include "footer.html" %}
-{%endblock%}
+    {%endblock%}
+
+    {% block foot %}
+    {% include "footer.html" %}
+    {% endblock %}
+    {%block scripts%}
+    <script>
+    </script>
+    {%endblock%}
+</body>
+
+</html>

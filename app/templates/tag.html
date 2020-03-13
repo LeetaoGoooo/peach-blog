@@ -1,23 +1,20 @@
 {% extends "base.html" %}
-{% block title %}Peach Blog{% endblock %}
-{% block head%}
-{{super()}}
-<link href="{{url_for('static',filename='main/index.css')}}" rel="stylesheet">
-{% endblock%}
+{% block title %}Peach Blog-{{tag}}{% endblock %}
 {% block content %}
-{{ super() }}
-<div class="container">
+<div class="container-fluid">
+    <div class="jumbotron" style="text-align: center;">
+        <h5 class="display-4">标签:{{tag}}</h5>
+    </div>
     <div class="row">
-        <main class="col-md-8">
+        <div class="col-xl-6 offset-xl-2">
             {% import "macro/post_list.html" as macro_posts %}
             {{ macro_posts.render_tag_post_list(posts,pagination,tag) }}
-        </main>
-        <div class="col-md-4">
-                {% include "widget/wechat.html" %}
-                {% include "widget/tags.html"%}
-                {% include "widget/download.html"%}
+            
+        </div>
+        <div class="col-xl-3">
+            {% include "widget/wechat.html" %}
+            {% include "widget/tags.html"%}
         </div>
     </div>
-</div>
 </div>
 {% endblock %}

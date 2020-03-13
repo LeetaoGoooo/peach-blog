@@ -28,29 +28,23 @@
 
 
 
-{% macro timeline_pagination_widget(pagination, endpoint,direction) %}
-{% if direction == 'next' and pagination.has_next %}
-<div class="timeline-item">
-    <div class="timeline-point timeline-point-danger">
-        {% if pagination.has_next %}
-        <a href="{% if pagination.has_next %}{{ url_for(endpoint,page = pagination.page + 1, **kwargs) }}{% else %}#{% endif %}"
-            title="更多...">
-            <span class="glyphicon glyphicon-menu-right"></span>
+{% macro timeline_pagination_widget(pagination, endpoint) %}
+<nav class="nav justify-content-center">
+    <ul class="pagination">
+    {% if pagination.has_prev %}
+    <li class="page-item">
+        <a href="{% if pagination.has_prev %}{{ url_for(endpoint,page = pagination.page - 1, **kwargs) }}{% else %}#{% endif %}">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
         </a>
-        {%endif%}
-    </div>
-</div>
-{% elif direction == 'pre' and pagination.has_prev %}
-<div class="timeline-item">
-    <div class="timeline-point timeline-point-danger">
-        {% if pagination.has_prev %}
-        <a href="{% if pagination.has_prev %}{{ url_for(endpoint,page = pagination.page - 1, **kwargs) }}{% else %}#{% endif %}"
-            title="回退...">
-            <span class="glyphicon glyphicon-menu-left"></span>
-        </a>
-        {%endif%}
-    </div>
-</div>
-<div style="margin-top:50px"></div>
-{%endif%}
+    </li>
+    {% endif %}
+    {% if pagination.has_next %}
+    <li class="page-item ml-2">
+    <a href="{% if pagination.has_next %}{{ url_for(endpoint,page = pagination.page + 1, **kwargs) }}{% else %}#{% endif %}">
+        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+    </a>
+    </li>
+    {%endif%}
+    </ul>
+</nav>
 {% endmacro %}

@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %}Peach Blog - About{% endblock %}
-{% block head%}
-{{super()}}
-<link href="{{url_for('static',filename='about/index.css')}}" rel="stylesheet">
-{% endblock%}
 {% block content %}
 {{super()}}
 <div class="container">

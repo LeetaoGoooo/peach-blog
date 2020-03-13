@@ -6,38 +6,83 @@
 <meta name="description" content="{{post.title}}">
 <meta property="og:description" content="{{ post.content |  truncate(200) | safe }}">
 <meta name="keywords" content="{{ post.tags | join(',') | safe}}">
-<link href="{{url_for('static',filename='main/index.css')}}" rel="stylesheet">
 <link href="{{url_for('static', filename='plugins/highlight/styles/atom-one-dark.css')}}" rel="stylesheet">
-<link href="{{url_for('static', filename='post.css')}}" rel="stylesheet">
+<style type="text/css">
+.post-content img {
+    width: 100%;
+}
+</style>
 {% endblock%}
 {% block content %}
 {{ super() }}
 <div class="container-fluid" style="margin-top:2rem;">
     <div class="row">
-        <div class="col-xl-2 offset-xl-1">
+        <div class="col-xl-2">
             <div class="card border-0 shadow mb-5 bg-white rounded">
                 <div class="card-header border-0">
-                    <h4>文章目录</h1>
-                  </div>
-                  <div class="card-body">
+                    <h5 class="text-info">文章目录</h5>
+                </div>
+                <div class="card-body">
                     <p class="card-text toc"></p>
-                  </div>
+                </div>
             </div>
         </div>
-        <main class="col-xl-5">
+        <main class="col-xl-6">
             {% import "macro/post.html" as macro_posts %}
             {{ macro_posts.render_post(post,comments,pagination) }}
-            <div class="panel panel-default">
-                <div class="panel-heading">说点什么</div>
-                <div class="panel-body ">
-                    {{ wtf.quick_form(form) }}
+            <div class="card border-top-2">
+                <div class="card-header bg-light">
+                    <b>我来说点什么～</b>
+                </div>
+                <div class="card-body ">
+                    <form method="POST" action="/post/{{post.title}}">
+                        {{form.csrf_token}}
+                        {{form.parent_id}}
+                        <div class="form-row align-items-center">
+                            <div class="col-lg-4">
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-user-circle-o"
+                                                aria-hidden="true"></i></div>
+                                    </div>
+                                    {{form.user_name}}
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    {{form.email}}
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    {{form.website}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-lg-12">
+                                {{form.comment}}
+                            </div>
+                        </div>
+                        <div class="form-row mt-2">
+                            <button type="submit" class="btn btn-primary float-right">评论</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </main>
-        <div class="col-xl-2">
-                {% include "widget/wechat.html" %}
-                {% include "widget/tags.html"%}
-                {% include "widget/download.html"%}
+        <div class="col-xl-3">
+            {% include "widget/wechat.html" %}
+            {% include "widget/tags.html"%}
         </div>
     </div>
 </div>
@@ -64,7 +109,7 @@
             return '<h2'
                 + ' id="'
                 + anchor
-                + '"><b>'
+                + '" class="border-left p-2 border-success bg-light"><b>'
                 + text
                 + '</b></h2>\n'
         };
@@ -86,18 +131,18 @@
     var html = marked($('.post-content')[0].innerText.trim());
     var tocHTML = "<ul>"
     toc.forEach(function (entry) {
-        tocHTML += '<li><a href="#' + entry.anchor + '">' + entry.text + '</a></li>\n';
+        tocHTML += '<li><a href="#' + entry.anchor + '" class="text-decoration-none text-info">' + entry.text + '</a></li>\n';
     });
     tocHTML += '</ul>\n';
     $('.toc')[0].innerHTML = tocHTML;
     $('.post-content')[0].innerHTML = html;
-    $('.post-content').css("display","");
+    $('.post-content').css("display", "");
 
-    $('.reply-button').bind('click',function( ){
+    $('.reply-button').bind('click', function () {
         var parent_id = this.attributes['data-parent'].value;
         var parent_username = this.attributes['data-parent-name'].value;
-        $('.form')[0].parent_id.value = parent_id;
-        $('.form')[0].comment.value = "@"+parent_username + " " + $('.form')[0].comment.value;
+        $('#parent_id')[0].value = parent_id;
+        $('#comment')[0].value = "@" + parent_username + " " + $('#comment')[0].value;
     });
 </script>
 {% endblock%}

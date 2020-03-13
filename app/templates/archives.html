@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Peach Blog - 归档{% endblock %}
+{% block content %}
+{{ super() }}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-6 offset-xl-3">
+            {% import "macro/archives.html" as macro_archives %}
+            {{ macro_archives.render_archives(post_dict,total_count,pagination) }}
+        </div>
+    </div>
+</div>
+{% endblock%}
+
+{%block foot%}
+<footer class="navbar fixed-bottom navbar-light bg-light">
+    <div class="copyright">
+        <div class="container">
+            <p>Power by <a href="https://github.com/lt94/peach-blog.git">Peach blog</a></p>
+        </div>
+    </div>
+</footer>
+
+{%endblock%}

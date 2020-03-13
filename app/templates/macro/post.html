@@ -1,25 +1,26 @@
 {% macro render_post(post, comments, pagination,reply_form) -%}
-{% import "bootstrap/wtf.html" as wtf %}
-<div class="card border-0 shadow mb-5 bg-white rounded">
-        <nav aria-label="breadcrumb" style="width: 100%;">
-            <ol class="breadcrumb bg-light">
-                <li class="breadcrumb-item"><a href="/">首页</a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="/tag/{{post.tags[0].tag}}">{{post.tags[0].tag}}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">正文</li>
-              </ol>
-          </nav>
+<div class="card border-0 shadow mb-3 bg-white rounded">
+    <nav aria-label="breadcrumb" style="width: 100%;">
+        <ol class="breadcrumb bg-light">
+            <li class="breadcrumb-item"><a href="/">首页</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a
+                    href="/tag/{{post.tags[0].tag}}">{{post.tags[0].tag}}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">正文</li>
+        </ol>
+    </nav>
     <div class="card-body mt-0">
         <h1 class="card-title">{{post.title}}</h1>
         <p class="card-subtitle">
-            <small class="badge badge-light rounded-pill text-black-50"  style="font-size: 100%;font-weight: normal;"><i class="fa fa-calendar mx-1"
-            aria-hidden="true"></i>{{post.create_at}}</small>
-            
-          <small class="badge badge-light rounded-pill text-black-50"  style="font-size: 100%;font-weight: normal;">
-            <i class="fa fa-eye  mx-1" aria-hidden="true"></i>
-            {{total_views(post.postviews)}}次阅读
-          </small>
-          <small class="badge badge-light rounded-pill bg-light text-black-50"  style="font-size: 100%;font-weight: normal;"><i class="fa fa-comments-o mx-1"
-            aria-hidden="true"></i>{{post.comments | length}} 条评论</small>
+            <small class="badge badge-light rounded-pill text-black-50" style="font-size: 100%;font-weight: normal;"><i
+                    class="fa fa-calendar mx-1" aria-hidden="true"></i>{{post.create_at}}</small>
+
+            <small class="badge badge-light rounded-pill text-black-50" style="font-size: 100%;font-weight: normal;">
+                <i class="fa fa-eye  mx-1" aria-hidden="true"></i>
+                {{total_views(post.postviews)}}次阅读
+            </small>
+            <small class="badge badge-light rounded-pill bg-light text-black-50"
+                style="font-size: 100%;font-weight: normal;"><i class="fa fa-comments-o mx-1"
+                    aria-hidden="true"></i>{{post.comments | length}} 条评论</small>
         </p>
         <div class="card-text mt-5">
             <div class="post-content" style="display:none">
@@ -35,44 +36,54 @@
     </div>
 
     <div class="card-footer bg-white border-top-1 mt-2">
-       标签: {% for tag in post.tags%}
-        <a href="/tag/{{tag.tag}}"><span class="text-white badge badge-pill badge-primary {{ loop.cycle('badge-success', 'badge-danger','badge-warning','badge-info') }} ">{{tag.tag}}</span></a>
+        标签: {% for tag in post.tags%}
+        <a href="/tag/{{tag.tag}}"><span
+                class="text-white badge badge-pill badge-primary {{ loop.cycle('badge-success', 'badge-danger','badge-warning','badge-info') }} ">{{tag.tag}}</span></a>
         {% endfor %}
-      </div>
+    </div>
 
 </div>
+<div class="card">
 
-{%if comments%}
-<ul class="media-list panel-body"  style="background-color:#fff">
-    {% for comment in comments%}
-        {% if comment.parent_id%}
-        {% set media_class = "well media"%}
-        {% else %}
-        {% set media_class = "media" %}
+    {%if comments%}
+    <div class="card-header bg-light">
+        <b>文章评论({{comments|length}})</b>
+    </div>
+    <div class="card-body">
+        <ul class="list-unstyled">
+            {% for comment in comments%}
+            {% if comment.parent_id%}
+            {% set media_class = "shadow-none p-3 mb-5 bg-light rounded media"%}
+            {% else %}
+            {% set media_class = "media" %}
+            {%endif%}
+            <li class="{{media_class}}">
+                <img class="mr-3" src="http://www.gravatar.com/avatar/{{ md5(comment.email)}}?s=64"
+                    alt="{{comment.user_name}}">
+                <div class="media-body">
+                    <p class="mt-0 badge badge-pill badge-light"><i class="fa fa-user-o" aria-hidden="true"></i><a
+                            href="{{comment.website}}" class="text-reset text-decoration-none">{{comment.user_name}}</a>
+                    </p>
+                    <small class="text-muted badge badge-pill badge-light">{{comment.comment_time}}</small>
+                    <p>{{comment.comment | markdown }}</p>
+                    <p>
+                        <span class="badge badge-pill badge-light"><i class="fa fa-chrome"
+                                aria-hidden="true"></i>&nbsp;{{comment.browser}}</span><span
+                            class="badge badge-pill badge-light">&nbsp;<i class="fa fa-desktop"
+                                aria-hidden="true"></i>&nbsp;{{comment.platform}}</span>
+                        <a href='javascript:void(0)' class="reply-button" data-parent="{{comment.id}}"
+                            data-parent-name="{{comment.user_name}}"><span style="float:right"><i class="fa fa-share"
+                                    aria-hidden="true"></i></span></a>
+                    </p>
+                </div>
+            </li>
+            {%endfor%}
+        </ul>
+        {%if comments%}
+        {% import "macro/pagination.html" as macro_pagination %}
+        {{macro_pagination.pagination_widget(pagination,'main.post',title=post.title)}}
         {%endif%}
-    <li class="{{media_class}}">
-        <div class="media-left">
-            <a href="#">
-                <img class="media-object" src="http://www.gravatar.com/avatar/{{ md5(comment.email)}}?s=64" alt="{{comment.user_name}}">
-            </a>
-        </div>
-        <div class="media-body">
-            <small class="media-heading">
-                <span class="glyphicon glyphicon-user"></span>&nbsp;<a href="{{comment.website}}"><span class="label label-primary">{{comment.user_name}}</span></a>
-                <p style="color:#9d9494"><span class="glyphicon glyphicon-time"></span>&nbsp;{{comment.comment_time}}</p>
-            </small>
-            <p>{{comment.comment | markdown }}</p>
-            <p>
-                <span style="color:#9d9494"><span class="glyphicon glyphicon-globe"></span>&nbsp;{{comment.browser}}&nbsp;<span class="glyphicon glyphicon-blackboard"></span>&nbsp;{{comment.platform}}</span>
-                <a href='javascript:void(0)' class="reply-button" data-parent="{{comment.id}}" data-parent-name="{{comment.user_name}}"><span style="float:right">回复</span></a>
-            </p>
-        </div>
-    </li>
-    {%endfor%}
-</ul>
-{%endif%}
-{%if comments%}
-{% import "macro/pagination.html" as macro_pagination %}
-{{macro_pagination.pagination_widget(pagination,'main.post',title=post.title)}}
-{%endif%}
+    </div>
+    {% endif %}
+</div>
 {%- endmacro %}

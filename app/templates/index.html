@@ -10,62 +10,59 @@
 {{super()}}
 <div class="container-fluid" style="margin-top:2rem;">
     <div class="row">
-        <main class="col-xl-5 offset-xl-2">
+        <main class="col-xl-6 offset-xl-2">
             {% import "macro/post_list.html" as macro_posts %}
             {{ macro_posts.render_post_list(posts,pagination) }}
             <div class="loader" id="loading">
                 <div class="text">Loading...</div>
                 <div class="horizontal">
-                  <div class="circlesup">
+                    <div class="circlesup">
                         <div class="circle"></div>
                         <div class="circle"></div>
                         <div class="circle"></div>
                         <div class="circle"></div>
                         <div class="circle"></div>
-                  </div>
-                  <div class="circlesdwn">
+                    </div>
+                    <div class="circlesdwn">
                         <div class="circle"></div>
                         <div class="circle"></div>
                         <div class="circle"></div>
                         <div class="circle"></div>
                         <div class="circle"></div>
-                  </div>
+                    </div>
                 </div>
                 <div class="vertical">
-                  <div class="circlesup">
+                    <div class="circlesup">
                         <div class="circle"></div>
                         <div class="circle"></div>
                         <div class="circle"></div>
                         <div class="circle"></div>
                         <div class="circle"></div>
-                  </div>
-                  <div class="circlesdwn">
+                    </div>
+                    <div class="circlesdwn">
                         <div class="circle"></div>
                         <div class="circle"></div>
                         <div class="circle"></div>
                         <div class="circle"></div>
                         <div class="circle"></div>
-                  </div>
-                </div>        
+                    </div>
+                </div>
             </div>
         </main>
-        <div class="col-xl-2">
-                    {% include "widget/wechat.html" %}
-                    {% include "widget/tags.html"%}
-                    {% include "widget/download.html"%}
+        <div class="col-xl-3">
+            {% include "widget/wechat.html" %}
+            {% include "widget/tags.html"%}
         </div>
     </div>
-
-</div>
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script type="text/javascript">
-        function preloader(){
-            document.getElementById("loading").style.display = "none";
-            document.getElementById("content").style.display = "block";
-        }//preloader
-        window.onload = preloader;
+    function preloader() {
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("content").style.display = "block";
+    }//preloader
+    window.onload = preloader;
 </script>
 {% endblock%}

@@ -61,12 +61,11 @@ def post(title):
                 if regx_user is not None:
                     comment = Comment(post_id=id, user_name=form.user_name.data, email=form.email.data, website=form.website.data,
                             comment=form.comment.data, platform=platform, browser=browser, comment_time=datetime.now(),parent=comment_parent)
-                    msg = "回复成功!"
                     send_email(comment_parent.email,'评论回复','mail/comment',comment=comment,post=post)
-
+        msg = "回复成功!"
         db.session.add(comment)
         db.session.commit()
-        flash(msg)
+        flash(msg,category='success')
         return redirect(url_for('main.post', title=title))
     
     post = Post.query.filter_by(id=id).first()
@@ -85,20 +84,21 @@ def post(title):
     return render_template('post.html', current_user=current_user, post=post, comments=comments, form=form, pagination=pagination, title=title)
 
 
-@main.route("/timeline")
+@main.route("/archives")
 def timeline():
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.create_at.desc()).paginate(
         page, per_page=current_app.config['FLASK_PER_PAGE'], error_out=True)
     posts = pagination.items
     post_dict = group_posts_by_date(posts)
-    return render_template("timeline.html", current_user=current_user, post_dict=post_dict, pagination=pagination)
+    posts_all = Post.query.all()
+    return render_template("archives.html", current_user=current_user, total_count=len(posts_all),post_dict=post_dict, pagination=pagination)
 
 
 def group_posts_by_date(posts):
     post_dict = OrderedDict()
     for post in posts:
-        year_month = post.create_at.strftime("%Y-%m")
+        year_month = post.create_at.strftime("%Y")
         if post_dict.get(year_month, None) is None:
             post_dict[year_month] = [post]
         else:

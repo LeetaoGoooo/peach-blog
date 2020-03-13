@@ -18,10 +18,10 @@
       </div>
       <div class="card-footer col-md-12 px-2 bg-light border-0">
         <p class="card-text">
-          <small class="badge badge-light rounded-pill"  style="color: #7f8f9f;font-size: 100%;font-weight: normal;"><i class="fa fa-calendar mx-1"
-              aria-hidden="true"></i>{{post.create_at}}</small>
+          <small class="badge badge-light rounded-pill" style="color: #7f8f9f;font-size: 100%;font-weight: normal;"><i
+              class="fa fa-calendar mx-1" aria-hidden="true"></i>{{post.create_at}}</small>
 
-          <small class="badge badge-light rounded-pill"  style="color: #7f8f9f;font-size: 100%;font-weight: normal;">
+          <small class="badge badge-light rounded-pill" style="color: #7f8f9f;font-size: 100%;font-weight: normal;">
             <i class="fa fa-eye  mx-1" aria-hidden="true"></i>
             {%if post.postviews | length  == 0 -%}
             0 views
@@ -29,9 +29,11 @@
             {{total_views(post.postviews)}} views
             {%- endif%}
           </small>
-          <small class="badge badge-light rounded-pill"  style="color: #7f8f9f;font-size: 100%;font-weight: normal;"><i class="fa fa-comments-o mx-1"
-              aria-hidden="true"></i>{{post.comments | length}} 条评论</small>
-          <a class="badge badge-light rounded-pill float-right" href="/post/{{post.title}}"  style="color: #7f8f9f;font-size: 100%;font-weight: normal;">阅读全文<i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+          <small class="badge badge-light rounded-pill" style="color: #7f8f9f;font-size: 100%;font-weight: normal;"><i
+              class="fa fa-comments-o mx-1" aria-hidden="true"></i>{{post.comments | length}} 条评论</small>
+          <a class="badge badge-light rounded-pill float-right" href="/post/{{post.title}}"
+            style="color: #7f8f9f;font-size: 100%;font-weight: normal;">阅读全文<i class="fa fa-long-arrow-right"
+              aria-hidden="true"></i></a>
 
         </p>
       </div>
@@ -40,43 +42,42 @@
   {% endfor %}
   {%if posts%}
   {% import "macro/pagination.html" as macro_pagination %}
-    {{macro_pagination.pagination_widget(pagination,'main.index')}}
+  {{macro_pagination.pagination_widget(pagination,'main.index')}}
   {%endif%}
 </div>
 {%- endmacro %}
 
 {% macro render_tag_post_list(posts,pagination,tag) -%}
 {%for post in posts %}
-<article class="post">
-  <div class="post-head">
-    <h1 class="post-title"><a href="/post/{{post.title}}">{{post.title}}</a></h1>
-    {% for tag in post.tags%}
-    <a href="/tag/{{tag.tag}}"><span class="label label-info">{{tag.tag}}</span></a>
-    {% endfor %}
-    <div class="post-meta">
-      <span class="author"><span class="glyphicon glyphicon-user"></span> <a href="#"
-          target="_blank">Leetao</a></span></span>
-      <time class="post-date"><span class="glyphicon glyphicon-calendar"></span>{{post.create_at}}</time>
-      <span class='post-views'><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;
-        {%if post.postviews | length  == 0%}
-        0
-        {%else%}
-        {{post.postviews[0].views}}
-        {%endif%}
-      </span>
-      <span class='comments'><span class="glyphicon glyphicon-comment"
-          aria-hidden="true"></span>&nbsp;{{post.comments | length}}</span>
-    </div>
+<div class="card shadow  mb-5 bg-white rounded max-vh-2 border-0">
+  <div class="card-body">
+    <a href="/post/{{post.title}}" class="text-decoration-none text-reset">
+      <h5 class="card-title font-weight-bolder">{{post.title}}</h5>
+    </a>
   </div>
-  <div class="post-content">
-    {{ post.content |  truncate(200) | markdown | safe }}
-  </div>
-  <div>
-    <p><a class="btn btn-default" href="/post/{{post.title}}" role="button">阅读全文</a></p>
-  </div>
-</article>
-{% endfor %}
+  <div class="card-footer col-md-12 px-2 bg-light border-0">
+    <p class="card-text">
+      <small class="badge badge-light rounded-pill" style="color: #7f8f9f;font-size: 100%;font-weight: normal;"><i
+          class="fa fa-calendar mx-1" aria-hidden="true"></i>{{post.create_at}}</small>
 
+      <small class="badge badge-light rounded-pill" style="color: #7f8f9f;font-size: 100%;font-weight: normal;">
+        <i class="fa fa-eye  mx-1" aria-hidden="true"></i>
+        {%if post.postviews | length  == 0 -%}
+        0 views
+        {%else%}
+        {{total_views(post.postviews)}} views
+        {%- endif%}
+      </small>
+      <small class="badge badge-light rounded-pill" style="color: #7f8f9f;font-size: 100%;font-weight: normal;"><i
+          class="fa fa-comments-o mx-1" aria-hidden="true"></i>{{post.comments | length}} 条评论</small>
+      <a class="badge badge-light rounded-pill float-right" href="/post/{{post.title}}"
+        style="color: #7f8f9f;font-size: 100%;font-weight: normal;">阅读全文<i class="fa fa-long-arrow-right"
+          aria-hidden="true"></i></a>
+
+    </p>
+  </div>
+</div>
+{% endfor %}
 {%if posts%}
 {% import "macro/pagination.html" as macro_pagination %}
 {{macro_pagination.pagination_widget(pagination,'main.tag',tag=tag)}}
