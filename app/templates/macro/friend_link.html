@@ -1,12 +1,11 @@
 {% macro render_friend_links(friend_links, comments, pagination) -%}
-<div class="row">
+<div class="card-group">
     {%for friend_link in friend_links %}
-    <div class="col-sm-6 col-md-3">
-        <div class="thumbnail">
-            <img src="{{friend_link.avatar}}" alt="{{friend_link.friend_name}}">
-            <div class="caption">
-                <a href="{{friend_link.website}}"><h3>{{friend_link.friend_name}}</h3></a>
-                <p>
+    <div class="card col-lg-3">
+        <img class="card-img-top" src="{{friend_link.avatar}}" alt="{{friend_link.friend_name}}">
+        <div class="card-body">
+                <a  class="card-title" href="{{friend_link.website}}"><h3>{{friend_link.friend_name}}</h3></a>
+                <p class="card-text">
                     {% if friend_link.introduction %}
                         {{friend_link.introduction | safe}}
                     {%else%}
