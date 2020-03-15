@@ -67,10 +67,25 @@
                     <small class="text-muted badge badge-pill badge-light">{{comment.comment_time}}</small>
                     <p>{{comment.comment | markdown }}</p>
                     <p>
-                        <span class="badge badge-pill badge-light"><i class="fa fa-chrome"
-                                aria-hidden="true"></i>&nbsp;{{comment.browser}}</span><span
-                            class="badge badge-pill badge-light">&nbsp;<i class="fa fa-desktop"
-                                aria-hidden="true"></i>&nbsp;{{comment.platform}}</span>
+                        {% if comment.browser in ("chrome","firefox","edge","safari")%}
+                        <a class="badge badge-light"><i class="fa fa-{{comment.browser}}"
+                                aria-hidden="true"></i></a>
+                        {%else%}
+                        <a class="badge badge-light">
+                            <i class="fa fa-internet-explorer" aria-hidden="true"></i>
+                        </a>
+                        {%endif%}
+                        {%if comment.platform in ("windows","linux","android")%}
+                        <a class="badge badge-light">
+                            <i class="fa fa-{{comment.platform}}" aria-hidden="true"></i>
+                        </a>
+                        {%elif comment.platform in("iphone","macos")%}
+                        <a class="badge badge-light"><i class="fa fa-apple" aria-hidden="true"></i></a>
+                        {%else%}
+                        <a class="badge badge-light">
+                            <i class="fa fa-question" aria-hidden="true"></i>
+                        </a>
+                        {%endif%}
                         <a href='javascript:void(0)' class="reply-button" data-parent="{{comment.id}}"
                             data-parent-name="{{comment.user_name}}"><span style="float:right"><i class="fa fa-share"
                                     aria-hidden="true"></i></span></a>

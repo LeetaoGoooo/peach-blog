@@ -1,55 +1,82 @@
 {% macro render_about(comments, pagination) -%}
-<article class="card">
-    <div class="card-header">
-        <h1 class="card-title"><a href="#">关于</a></h1>
+<div class="card border-0">
+    <div class="card-header bg-white border-0">
+        <h1>关于&nbsp;|&nbsp;about</h1>
     </div>
-    <section class="card-content">
-        <h2>关于 Peach Blog</h2>
-        <blockquote>
-            <p>
-                Peach Blog 是基于 Flask 的博客平台，由 <a href="https://www.github.com/lt94">Leetao</a> 开发, 目的是为了提供一种更加纯粹的内容写作与发布平台,通过几个简单命令,可以帮助用户无痛的从 Hexo 切换到 Peach Blog
-            </p>
-          </blockquote>
-        <h2>关于我</h2>
-        <blockquote>
+    <div class="card-body">
+        <h2 class="card-title">关于我</h2>
+        <div class="card-text">
             <p> 一个爱折腾的90后，喜欢写有趣的代码，做有趣的事</p>
-            <p>喜欢的语言: Python, Nodejs, Go, PHP, Java</p>
-            <p>可以叫我:桃子，这就是这个博客名字的由来</p>
-        </blockquote>
-        <h2>你可以通过下面找到我</h2>
-            <p>
-                <a class="navbar-brand" href="https://www.github.com/lt94"><img alt="github" width="32" src="{{url_for('static', filename='imgs/github.png')}}"></a>
-                <a class="navbar-brand" href="https://www.zhihu.com/people/tao-lee-68-32"><img alt="github" width="32" src="{{url_for('static', filename='imgs/zhihu.png')}}"></a>
-                <a class="navbar-brand" href="https://weibo.com/5984163100/profile?rightmod=1&wvr=6&mod=personinfo&is_hot=1"><img alt="github" width="32" src="{{url_for('static', filename='imgs/weibo.png')}}"></a>
-                <a class="navbar-brand" href="/feeds"><img alt="rss" width="32" src="{{url_for('static', filename='imgs/rss.png')}}"></a>                
-            </p>
-    </section>
-</article>
+            <p>喜欢的语言: Python，Rust，Go，Nodejs，，PHP，Java</p>
+            <p>昵称：Leetao，也可以叫我:桃子🍑</p>
+        </div>
+        <h2 class="card-title">关于博客</h2>
+        <div class="card-text">
+            <p>桃子的博客，又称 Peach Blog，是基于 Flask 的博客平台，由本人在业余时间独立开发完成。</p>
+            <p>最初一直用Hexo基于Github Pages搭建的静态博客，苦于国内速度，最后为了从Hexo迁移到其它博客，然后 Peach Blog 就诞生了</p>
+        </div>
+        <h2 class="card-title">找到我</h2>
+        <div class="card-text">
+            <a class="navbar-brand" href="https://www.github.com/lt94"><img alt="github" width="32"
+                    src="{{url_for('static', filename='imgs/github.png')}}"></a>
+            <a class="navbar-brand" href="https://www.zhihu.com/people/tao-lee-68-32"><img alt="github" width="32"
+                    src="{{url_for('static', filename='imgs/zhihu.png')}}"></a>
+            <a class="navbar-brand"
+                href="https://weibo.com/5984163100/profile?rightmod=1&wvr=6&mod=personinfo&is_hot=1"><img alt="github"
+                    width="32" src="{{url_for('static', filename='imgs/weibo.png')}}"></a>
+            <a class="navbar-brand" href="/feeds"><img alt="rss" width="32"
+                    src="{{url_for('static', filename='imgs/rss.png')}}"></a>
+        </div>
+    </div>
+</div>
 
-{%if comments%}
-<ul class="media-list panel-body"  style="background-color:#fff">
-    {% for comment in comments%}
-    <li class="media">
-        <div class="media-left">
-            <a href="#">
-                <img class="media-object" src="http://www.gravatar.com/avatar/{{ md5(comment.email)}}?s=64" alt="...">
-            </a>
-        </div>
-        <div class="media-body">
-            <small class="media-heading">
-                <span class="glyphicon glyphicon-user"></span>&nbsp;<a href="{{comment.website}}"><span class="label label-primary">{{comment.user_name}}</span></a>
-                <span class="glyphicon glyphicon-time"></span>&nbsp;{{comment.message_time}}
-                <span class="label label-danger">{{comment.browser}}</span>
-                <span class="label label-warning">{{comment.platform}}</span>
-            </small>
-            <p>{{comment.message | markdown }}</p>
-        </div>
-    </li>
-    {%endfor%}
-</ul>
-{%endif%}
-{%if comments%}
-{% import "macro/pagination.html" as macro_pagination %}
-{{macro_pagination.pagination_widget(pagination,'main.about')}}
-{%endif%}
+<div class="card border-0">
+    <div class="card-header bg-white">
+        <b>总共{{comments|length}}条评论</b>
+    </div>
+    <div class="card-body mt-0">
+        {%if comments%}
+        <ul class="list-group list-group-flush" style="background-color:#fff">
+            {% for comment in comments%}
+            <li class="media list-group-item d-flex justify-content-between align-items-center">
+                <img class="mr-3" src="http://www.gravatar.com/avatar/{{ md5(comment.email)}}?s=64"
+                    alt="{{comment.user_name}}">
+
+                <div class="media-body">
+                    <h5 class="mt-0 mb-1">
+                        <a href="{{comment.website}}" class="badge-light">{{comment.user_name}}</a>
+                        {% if comment.browser in ("chrome","firefox","edge","safari")%}
+                        <a class="badge badge-light"><i class="fa fa-{{comment.browser}}" aria-hidden="true"></i></a>
+                        {%else%}
+                        <a class="badge badge-light">
+                            <i class="fa fa-internet-explorer" aria-hidden="true"></i>
+                        </a>
+                        {%endif%}
+                        {%if comment.platform in ("windows","linux","android")%}
+                        <a class="badge badge-light">
+                            <i class="fa fa-{{comment.platform}}" aria-hidden="true"></i>
+                        </a>
+                        {%elif comment.platform in("iphone","macos")%}
+                        <a class="badge badge-light"><i class="fa fa-apple" aria-hidden="true"></i></a>
+                        {%else%}
+                        <a class="badge badge-light">
+                            <i class="fa fa-question" aria-hidden="true"></i>
+                        </a>
+                        {%endif%}
+
+                    </h5>
+                        {{comment.message | markdown }}
+                </div>
+                <i class="fa fa-commenting-o" aria-hidden="true"></i><small class="text-muted">{{comment.message_time}}</small>
+
+            </li>
+            {%endfor%}
+        </ul>
+        {%endif%}
+        {%if comments%}
+        {% import "macro/pagination.html" as macro_pagination %}
+        {{macro_pagination.pagination_widget(pagination,'main.about')}}
+        {%endif%}
+    </div>
+</div>
 {%- endmacro %}
