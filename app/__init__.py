@@ -24,7 +24,7 @@ from .commands.hexo import Hexo
 hexo = Hexo()
 
 from admin import PeachAdmin
-admin = PeachAdmin(name="PeachBlog", template_mode="bootstrap3")
+admin = PeachAdmin(name="Management", template_mode="bootstrap3")
 
 
 def create_app(config_name):

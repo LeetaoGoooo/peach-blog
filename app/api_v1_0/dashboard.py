@@ -98,8 +98,12 @@ def get_sum_device_visit_chart():
         sum_device_visit_data_list.append(temp_dict)
     return sum_device_visit_data_list
 
+def get_unread_comments():
+    rows = Comment.query.filter_by(is_read=0).all()
+    return len(rows)
+
 
 @api.route("/dashboard", methods=["GET"])
 def dashboard():
     # https://github.com/pallets/flask/issues/835
-    return jsonify({"comment_count": get_comment_count(), "message_board_count": get_message_board_count(), "today_visit_count": get_today_visit_count(), "sum_visit_count": get_sum_visit_count(), "today_visit_chart": get_today_visit_chart(), "top_ten_posts": get_top_ten_posts(), "sum_seven_day_visit_chart": get_sum_seven_day_visit_chart(), "sum_device_visit": get_sum_device_visit_chart()})
+    return jsonify({"comment_count": get_comment_count(), "message_board_count": get_message_board_count(), "today_visit_count": get_today_visit_count(), "sum_visit_count": get_sum_visit_count(), "today_visit_chart": get_today_visit_chart(), "top_ten_posts": get_top_ten_posts(), "sum_seven_day_visit_chart": get_sum_seven_day_visit_chart(), "sum_device_visit": get_sum_device_visit_chart(),"unread_comments":get_unread_comments()})

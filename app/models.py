@@ -55,6 +55,7 @@ class Post(db.Model):
     content = db.Column(db.Text)
     create_at = db.Column(db.Date(), default=datetime.datetime.today)
     last_update = db.Column(db.DateTime(), default=datetime.datetime.now)
+    cover = db.Column(db.String(200))
     postviews = db.relationship('PostView', backref='postviews', lazy='joined')
     comments = db.relationship('Comment', backref='comments', lazy='joined')
 
@@ -82,6 +83,7 @@ class Comment(db.Model):
     comment_time = db.Column(db.DateTime(), default=datetime.datetime.now())
     platform = db.Column(db.String(50))
     browser = db.Column(db.String(100))
+    is_read = db.Column(db.Boolean,default=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
     replies = db.relationship('Comment', backref=db.backref("parent", remote_side=[id]), lazy='dynamic')
     
