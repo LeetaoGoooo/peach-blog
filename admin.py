@@ -50,6 +50,7 @@ class PeachPostView(ModelView):
     column_labels = dict(cover='Cover')
 
     def picture_validation(form, field):
+        print(form.data,field.data)
         if field.data:
             filename = field.data.filename
             if not imghdr.what(field.data):
@@ -59,12 +60,12 @@ class PeachPostView(ModelView):
             os.makedirs(path,exist_ok=True)
             field.data.save(f'{path}/{filename}')
             field.data = f'covers/{filename}'
-            form.cover = field.data
+            form.data.cover = field.data
             return True
         return False
 
     form_overrides = dict(cover=FileUploadField)
-    form_args = dict(cover=dict(validators=[picture_validation]))
+    form_args = dict(cover=dict(label="封面",validators=[picture_validation]))
 
     def __init__(self, model, session, **kwargs):
         self.model = model
@@ -108,8 +109,11 @@ class PeachPostView(ModelView):
         return True
 
     def on_model_change(self, form, model, is_created):
-        if not is_created:
-            model.cover = form.cover
+        pass
+        # data = form.data
+        # print(form.data,data['cover'].filename)
+        # if not is_created:
+        #     model.cover = form.cover.filename
         
 
     def after_model_delete(self, model):
