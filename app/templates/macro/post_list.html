@@ -4,8 +4,12 @@
   <div class="card shadow  mb-5 bg-white rounded max-vh-2 border-0">
     <div class="row no-gutters">
       <div class="col-md-4">
-        {% set cover = post.cover if post.cover else "https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture" %}
-        <img src="{{cover}}" class="card-img" alt="..." style="max-height: 16rem;height: 16rem;">
+        {%if post.cover%}
+        {% set cover = post.cover %}
+        <img src="{{cover}}" class="card-img" alt="..." style="height: 12rem;min-height: 12rem;">
+        {%else%}
+        <svg class="bd-placeholder-img rounded" height="12rem" focusable="false" role="img"></svg>
+        {%endif%}
       </div>
       <div class="col-md-8">
         <div class="card-body">

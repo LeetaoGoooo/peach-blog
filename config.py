@@ -3,6 +3,15 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+def logs_path():
+    path = os.path.join(basedir, 'logs')
+    os.makedirs(path,exist_ok=True)
+    return path
+
+def export_post_dir():
+    path = os.path.join(basedir, 'posts')
+    os.makedirs(path,exist_ok=True)
+    return path
 
 class InfoFilter(logging.Filter):
     def filter(self, record):
@@ -30,9 +39,9 @@ class Config:
     FLASK_PER_PAGE = 8
     FLASKY_POSTS_PER_PAGE = 8
     FLASKY_COMMENTS_PER_PAGE = 30
-    EXPORT_POST_DIRECTORY = os.path.join(basedir, 'posts')
+    EXPORT_POST_DIRECTORY = export_post_dir()
     GITHUB_REPO = os.environ.get("GITHUB_REPO")
-    LOG_PATH = os.path.join(basedir, 'logs')
+    LOG_PATH = logs_path()
     LOG_PATH_ERROR = os.path.join(LOG_PATH, 'error.log')
     LOG_PATH_INFO = os.path.join(LOG_PATH, 'info.log')
     LOG_FILE_MAX_BYTES = 100 * 1024 * 1024

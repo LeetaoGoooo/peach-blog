@@ -58,6 +58,7 @@ class Post(db.Model):
     cover = db.Column(db.String(200))
     postviews = db.relationship('PostView', backref='postviews', lazy='joined')
     comments = db.relationship('Comment', backref='comments', lazy='joined')
+    historys = db.relationship('History', backref='post', lazy='dynamic', cascade='all, delete-orphan', passive_deletes = True)
 
     def __repr__(self):
         return self.title
@@ -105,7 +106,7 @@ class History(db.Model):
     __tablename__ = 'history'
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(128))
-    post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
+    post_id = db.Column(db.Integer,db.ForeignKey('posts.id',ondelete='CASCADE'))
     platform = db.Column(db.String(50))
     browser = db.Column(db.String(100))
     visit_time = db.Column(db.DateTime(), default=datetime.datetime.now())
