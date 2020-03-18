@@ -1,64 +1,104 @@
-{% extends "bootstrap/base.html" %}
-{% block title %}Peach Blog{% endblock %}
-{% block head %}
-{{ super() }}
-<link rel="shortcut icon" href="{{ url_for('static', filename='imgs/favicon.ico') }}" type="image/x-icon">
-<link href="{{url_for('static',filename='common.css')}}" rel="stylesheet">
-{% endblock %}
-{% block navbar %}
-<nav class="navbar navbar-inverse">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu"
-                aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block head %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='imgs/favicon.ico') }}" type="image/x-icon">
+    <link href="{{url_for('static',filename='bootstrap4/css/bootstrap.min.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{url_for('static',filename='font-awesome/css/font-awesome.min.css')}}">
+    <script src="{{url_for('static',filename='bootstrap4/js/jquery.slim.min.js')}}"></script>
+    <script src="{{url_for('static',filename='bootstrap4/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url_for('static',filename='bootstrap4/js/bootstrap.min.js')}}"></script>
+    <title>{% block title %}Peach Blog{% endblock %}</title>
+    {% endblock %}
+</head>
+
+<body>
+    {% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Peach Blog</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+                aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="/"><b>Peach Blog</b></a>
-        </div>
 
-        <div class="collapse navbar-collapse" id="menu">
-            <ul class="nav navbar-nav">
-                <li><a href="/timeline">时间轴</a></li>
-                <li><a href="/about">关于</a></li>
-                <li><a href="/friends">友链</a></li>
-            </ul>
-            <form class="navbar-form navbar-left" method="POST" action="/search">
-                <div class="form-group">
-                    <input type="text" class="form-control" name="keyword" required placeholder="">
-                </div>
-                <button type="submit" class="btn btn-success">搜索一下</button>
-            </form>
-            {% if current_user.is_authenticated %}
-            <ul class="nav navbar-nav navbar-right">
-                <li> <a href="/profile/{{current_user.user_name}}">{{ current_user.user_name }}</a></li>
-                <li> <a href="/admin">管理</a></li>
-                <li><a href="/auth/logout">退出</a></li>
-            </ul>
-            {% else %}
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href='/auth/login'>登陆</a></li>
-            </ul>
-            {% endif %}
-        </div><!-- /.navbar-collapse -->
-    </div>
-    <a href="https://github.com/lt94"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
-</nav>
-{% endblock %} 
 
-{% block content %}
-<div class="container">
-    <div class="col-md-8">
-        {% for message in get_flashed_messages() %}
-        <div class="alert alert-warning">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ message }}
+            <div class="collapse navbar-collapse" id="navbar">
+                {% set navs=(("/","主页"),("/archives","归档"),("说明",(("/about","关于"),("https://github.com/lt94/peach-blog.git","下载"))),("/friends","友链")) %}
+                <ul class="navbar-nav mr-auto">
+                    {% for href,name in navs%}
+                        {%if name is sequence and name is not string%}
+                            <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="{{href}}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{href}}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="{{href}}">
+                                {%for href_item,name_item in name%}
+                                <a class="dropdown-item" href="{{href_item}}">{{name_item}}</a>
+                                {%endfor%}
+                            </div>
+                            </li>
+                        {%else%}
+                            <li class="nav-item">
+                                {% if loop.index0 == 0%}
+                                    <a class="nav-link active" href="{{href}}">{{name}}</a>
+                                {%else%}
+                                    <a class="nav-link" href="{{href}}">{{name}}</a>
+                                {%endif%}
+                            </li>
+                        {%endif%}
+                    {%endfor%}
+                </ul>
+                {% if current_user.is_authenticated %}
+                <ul class="navbar-nav my-2 my-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="{{current_user.user_name}}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i>{{ current_user.user_name }}  
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="{{current_user.user_name}}">
+                        <a class="dropdown-item" href="/admin"><i class="fa fa-pencil" aria-hidden="true"></i>管理</a>
+                        <a class="dropdown-item" href="/auth/logout"><i class="fa fa-power-off" aria-hidden="true"></i>登出</a>
+                    </div>
+                </li> 
+            </ul>   
+                {% else %}
+                <a class="btn btn-outline-success my-2 my-lg-0" href="/auth/login" role="button">登录</a>
+                {% endif %}
+            </div>
+            <a href="https://github.com/lt94"><img style="position: absolute; top: 0; left: 0; border: 0;"
+                    src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"
+                    alt="Fork me on GitHub"></a>
         </div>
-        {% endfor %}
+    </nav>
+    {% endblock %}
+
+    {% block message %}
+    <div class="container-fluid">
+        <div class="col-xl-12">
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
     </div>
-</div>
-{% include "footer.html" %}
-{% endblock %}
+    {%endblock%}
+
+    {%block content%}
+
+    {%endblock%}
+
+    {% block foot %}
+    {% include "footer.html" %}
+    {% endblock %}
+    {%block scripts%}
+    <script>
+    </script>
+    {%endblock%}
+</body>
+
+</html>

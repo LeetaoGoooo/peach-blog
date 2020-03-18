@@ -1,19 +1,57 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %}Peach Blog - About{% endblock %}
-{% block head%}
-{{super()}}
-<link href="{{url_for('static',filename='about/index.css')}}" rel="stylesheet">
-{% endblock%}
 {% block content %}
 {{super()}}
 <div class="container">
     {% import "macro/message_board.html" as macro_message_board %}
     {{ macro_message_board.render_about(comments,pagination) }}
-    <div class="panel panel-default">
-            <div class="panel-heading">留言</div>
-            <div class="panel-body ">
-                {{ wtf.quick_form(form) }}
+    <div class="card">
+        <div class="card-header">雁过留痕，人过留名</div>
+            <!-- <div class="card-title">留言</div> -->
+            <div class="card-body ">
+                <form method="POST" action="/about">
+                    {{form.csrf_token}}
+                    {{form.parent_id}}
+                    <div class="form-row align-items-center">
+                        <div class="col-lg-4">
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="fa fa-user-circle-o"
+                                            aria-hidden="true"></i></div>
+                                </div>
+                                {{form.user_name}}
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                {{form.email}}
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                {{form.website}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-lg-12">
+                            {{form.comment}}
+                        </div>
+                    </div>
+                    <div class="form-row mt-2">
+                        <button type="submit" class="btn btn-primary float-right">评论</button>
+                    </div>
+                </form>
             </div>
     </div>
 </div>

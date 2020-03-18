@@ -55,8 +55,10 @@ class Post(db.Model):
     content = db.Column(db.Text)
     create_at = db.Column(db.Date(), default=datetime.datetime.today)
     last_update = db.Column(db.DateTime(), default=datetime.datetime.now)
+    cover = db.Column(db.String(200))
     postviews = db.relationship('PostView', backref='postviews', lazy='joined')
     comments = db.relationship('Comment', backref='comments', lazy='joined')
+    historys = db.relationship('History', backref='post', lazy='dynamic', cascade='all, delete-orphan', passive_deletes = True)
 
     def __repr__(self):
         return self.title
@@ -82,6 +84,7 @@ class Comment(db.Model):
     comment_time = db.Column(db.DateTime(), default=datetime.datetime.now())
     platform = db.Column(db.String(50))
     browser = db.Column(db.String(100))
+    is_read = db.Column(db.Boolean,default=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
     replies = db.relationship('Comment', backref=db.backref("parent", remote_side=[id]), lazy='dynamic')
     
@@ -103,7 +106,7 @@ class History(db.Model):
     __tablename__ = 'history'
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(128))
-    post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
+    post_id = db.Column(db.Integer,db.ForeignKey('posts.id',ondelete='CASCADE'))
     platform = db.Column(db.String(50))
     browser = db.Column(db.String(100))
     visit_time = db.Column(db.DateTime(), default=datetime.datetime.now())

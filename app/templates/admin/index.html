@@ -133,6 +133,9 @@
       $('#message_board_count')[0].innerText = dataObj.message_board_count;
       $('#today_visit_count')[0].innerText = dataObj.today_visit_count;
       $('#sum_visit_count')[0].innerText = dataObj.sum_visit_count;
+      if (dataObj.unread_comments !== 0 ) {
+                 $('#unread_news')[0].innerText = dataObj.unread_comments;
+      }
       today_visits_chart(dataObj.today_visit_chart);
       week_visits_chart(dataObj.sum_seven_day_visit_chart);
       week_device_chart(dataObj.sum_device_visit)
