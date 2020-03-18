@@ -7,6 +7,8 @@
 <meta property="og:description" content="{{ post.content |  truncate(200) | safe }}">
 <meta name="keywords" content="{{ post.tags | join(',') | safe}}">
 <link href="{{url_for('static', filename='plugins/highlight/styles/atom-one-dark.css')}}" rel="stylesheet">
+<link href="{{url_for('static', filename='plugins/share/share.min.css')}}" rel="stylesheet">
+
 <style type="text/css">
 .post-content img {
     width: 100%;
@@ -92,7 +94,10 @@
 {% block scripts %}
 {{super()}}
 <script src="{{url_for('static', filename='plugins/highlight/highlight.pack.js')}}"></script>
+<script src="{{url_for('static', filename='plugins/share/jquery.share.min.js')}}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <script type="text/javascript">
 
 
@@ -144,5 +149,7 @@
         $('#parent_id')[0].value = parent_id;
         $('#comment')[0].value = "@" + parent_username + " " + $('#comment')[0].value;
     });
+
+    $('.social-share').share();
 </script>
 {% endblock%}

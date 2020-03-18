@@ -48,19 +48,18 @@ class PeachPostView(ModelView):
     column_searchable_list = ['title']
     column_exclude_list = ['content']
     column_labels = dict(cover='Cover')
+    column_default_sort = ('create_at', True)
 
     def picture_validation(form, field):
-        print(form.data,field.data)
         if field.data:
             filename = field.data.filename
             if not imghdr.what(field.data):
                 flash('上传的不是图片!')
                 return False
-            path = f'{os.getcwd()}/static/covers'    
+            path = f'{os.getcwd()}/app/static/covers'    
             os.makedirs(path,exist_ok=True)
             field.data.save(f'{path}/{filename}')
             field.data = f'covers/{filename}'
-            form.data.cover = field.data
             return True
         return False
 
@@ -109,11 +108,7 @@ class PeachPostView(ModelView):
         return True
 
     def on_model_change(self, form, model, is_created):
-        pass
-        # data = form.data
-        # print(form.data,data['cover'].filename)
-        # if not is_created:
-        #     model.cover = form.cover.filename
+        model.cover = form.cover.data
         
 
     def after_model_delete(self, model):
@@ -134,6 +129,8 @@ class PeachPostView(ModelView):
 
 class PeachCommentView(PeachView):
     column_filters = ['is_read']
+    column_default_sort = ('comment_time', True)
+
 
     def __init__(self, model, session, **kwargs):
         self.session = session

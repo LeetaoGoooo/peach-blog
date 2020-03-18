@@ -4,8 +4,8 @@
 {{super()}}
 <!-- <link href="{{url_for('static',filename='main/index.css')}}" rel="stylesheet"> -->
 <link href="{{url_for('static',filename='main/loading.css')}}" rel="stylesheet">
-
 {% endblock%}
+{% set position = "position-relative" %}
 {% block content %}
 {{super()}}
 <div class="container-fluid" style="margin-top:2rem;">
