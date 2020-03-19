@@ -47,6 +47,7 @@ class PeachPostView(ModelView):
     edit_template = 'admin/model/peach-post-edit.html'
     column_searchable_list = ['title']
     column_exclude_list = ['content']
+    form_excluded_columns = ['postviews','historys']
     column_labels = dict(cover='Cover')
     column_default_sort = ('create_at', True)
 
