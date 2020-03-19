@@ -4,15 +4,16 @@
     <div class="card col-lg-3">
         <img class="card-img-top" src="{{friend_link.avatar}}" alt="{{friend_link.friend_name}}">
         <div class="card-body">
-                <a  class="card-title" href="{{friend_link.website}}"><h3>{{friend_link.friend_name}}</h3></a>
-                <p class="card-text">
-                    {% if friend_link.introduction %}
-                        {{friend_link.introduction | safe}}
-                    {%else%}
-                        他很懒,什么话也没有说...
-                    {%endif%}
-                </p>
-            </div>
+            <a class="card-title" href="{{friend_link.website}}">
+                <h3>{{friend_link.friend_name}}</h3>
+            </a>
+            <p class="card-text">
+                {% if friend_link.introduction %}
+                {{friend_link.introduction | safe}}
+                {%else%}
+                他很懒,什么话也没有说...
+                {%endif%}
+            </p>
         </div>
     </div>
     {%endfor%}
@@ -28,7 +29,8 @@
         </div>
         <div class="media-body">
             <small class="media-heading">
-                <span class="glyphicon glyphicon-user"></span>&nbsp;<a href="{{comment.website}}"><span class="label label-primary">{{comment.user_name}}</span></a>
+                <span class="glyphicon glyphicon-user"></span>&nbsp;<a href="{{comment.website}}"><span
+                        class="label label-primary">{{comment.user_name}}</span></a>
                 <span class="glyphicon glyphicon-time"></span>&nbsp;{{comment.message_time}}
                 <span class="label label-danger">{{comment.browser}}</span>
                 <span class="label label-warning">{{comment.platform}}</span>
