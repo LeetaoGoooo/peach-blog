@@ -13,13 +13,19 @@
 .post-content img {
     width: 100%;
 }
+.border-left {
+    border-left: 6px solid #28a745!important;
+}
+.h2,h2 {
+    font-size:1rem
+}
 </style>
 {% endblock%}
 {% block content %}
 {{ super() }}
 <div class="container-fluid" style="margin-top:2rem;">
     <div class="row">
-        <div class="col-xl-2">
+        <div class="col-xl-2 offset-xl-1">
             <div class="card border-0 shadow mb-5 bg-white rounded">
                 <div class="card-header border-0">
                     <h5 class="text-info">文章目录</h5>
@@ -29,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <main class="col-xl-6">
+        <main class="col-xl-5">
             {% import "macro/post.html" as macro_posts %}
             {{ macro_posts.render_post(post,comments,pagination) }}
             <div class="card border-top-2">
@@ -82,9 +88,9 @@
                 </div>
             </div>
         </main>
-        <div class="col-xl-3">
+        <div class="col-xl-2">
             {% include "widget/wechat.html" %}
-            {% include "widget/tags.html"%}
+            {# include "widget/tags.html"#}
         </div>
     </div>
 </div>
