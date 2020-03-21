@@ -52,6 +52,8 @@ class PeachPostView(ModelView):
     column_default_sort = ('create_at', True)
 
     def picture_validation(form, field):
+        if isinstance(field.data,str):
+            return True
         if field.data:
             filename = field.data.filename
             if not imghdr.what(field.data):
