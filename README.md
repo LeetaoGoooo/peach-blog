@@ -1,6 +1,6 @@
 # Peach-Blog
 
-![](https://img.shields.io/badge/python-3.5%20%2F%203.6-green.svg) ![](https://img.shields.io/badge/flask-1.0.2-yellow.svg) [![Build Status](https://travis-ci.org/lt94/peach-blog.svg?branch=master)](https://travis-ci.org/lt94/peach-blog)
+![](https://img.shields.io/badge/python-3.6+-green.svg) ![](https://img.shields.io/badge/flask-1.0.2-yellow.svg) [![Build Status](https://travis-ci.org/lt94/peach-blog.svg?branch=master)](https://travis-ci.org/lt94/peach-blog)
  [![codecov](https://codecov.io/gh/lt94/peach-blog/branch/master/graph/badge.svg)](https://codecov.io/gh/lt94/peach-blog)
 
 > Peach Blog 是基于 Flask 的博客平台，目的是为了提供一种更加纯粹的内容写作与发布平台,通过几个简单命令,可以帮助用户无痛的从 Hexo 切换到 Peach Blog
@@ -14,7 +14,7 @@
 
 # Screenshots
 
-![](http://ww1.sinaimg.cn/large/006wYWbGly1fxmgbfy4ynj311o0pamzu.jpg)
+![](http://ww1.sinaimg.cn/large/006wYWbGly1gd1axs62j9j32a20zkqv2.jpg)
 
 ![](http://ww1.sinaimg.cn/large/006wYWbGly1fxmgahexh9j31jy1h7grc.jpg)
 
