@@ -1,21 +1,25 @@
 {% macro render_friend_links(friend_links, comments, pagination) -%}
-<div class="card-group">
+<div class="media-list list-group">
     {%for friend_link in friend_links %}
-    <div class="card col-lg-3">
-        <img class="card-img-top" src="{{friend_link.avatar}}" alt="{{friend_link.friend_name}}">
-        <div class="card-body">
-            <a class="card-title" href="{{friend_link.website}}">
-                <h3>{{friend_link.friend_name}}</h3>
-            </a>
-            <p class="card-text">
+    <li class="list-group-item">
+        <div class="media">
+            <div class="media-left">
+                <a href="{{friend_link.website}}">
+                    <img class="media-object" style="width: 64px; height: 64px;" src="{{friend_link.avatar}}"
+                         alt="{{friend_link.friend_name}}">
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading"><a href="{{friend_link.website}}">{{friend_link.friend_name}}</a></h4>
                 {% if friend_link.introduction %}
                 {{friend_link.introduction | safe}}
                 {%else%}
                 他很懒,什么话也没有说...
                 {%endif%}
-            </p>
+            </div>
         </div>
-    </div>
+    </li>
+
     {%endfor%}
 </div>
 {%if comments%}
@@ -30,7 +34,7 @@
         <div class="media-body">
             <small class="media-heading">
                 <span class="glyphicon glyphicon-user"></span>&nbsp;<a href="{{comment.website}}"><span
-                        class="label label-primary">{{comment.user_name}}</span></a>
+                    class="label label-primary">{{comment.user_name}}</span></a>
                 <span class="glyphicon glyphicon-time"></span>&nbsp;{{comment.message_time}}
                 <span class="label label-danger">{{comment.browser}}</span>
                 <span class="label label-warning">{{comment.platform}}</span>
