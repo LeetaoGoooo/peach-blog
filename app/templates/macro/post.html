@@ -27,19 +27,16 @@
                 {{ post.content}}
             </div>
         </div>
-        <div class="mt-4" style="text-align:center">
-            <span class="shadow-none p-3 mb-5 bg-light rounded rounded-pill text-success">
-                作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可
-            </span>
+        <div class="alert alert-success">
+            <i class="fa fa-lightbulb-o" aria-hidden="true"></i>作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可
         </div>
-
     </div>
 
     <div class="card-footer bg-white border-top-1 mt-2">
-            标签: {% for tag in post.tags%}
-            <a href="/tag/{{tag.tag}}"><span
-                    class="text-white badge badge-pill badge-primary {{ loop.cycle('badge-success', 'badge-danger','badge-warning','badge-info') }} ">{{tag.tag}}</span></a>
-            {% endfor %}
+        标签: {% for tag in post.tags%}
+        <a href="/tag/{{tag.tag}}"><span
+                class="text-white badge badge-pill badge-primary {{ loop.cycle('badge-success', 'badge-danger','badge-warning','badge-info') }} ">{{tag.tag}}</span></a>
+        {% endfor %}
         <div class="social-share float-right" data-sites="weibo,qq,qzone,douban,wechat"></div>
     </div>
 
