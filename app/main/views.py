@@ -102,8 +102,8 @@ def timeline():
         page, per_page=current_app.config['FLASK_PER_PAGE'], error_out=True)
     posts = pagination.items
     post_dict = group_posts_by_date(posts)
-    posts_all = Post.query.all()
-    return render_template("archives.html", current_user=current_user, total_count=len(posts_all), post_dict=post_dict,
+    total_count = Post.query.count()
+    return render_template("archives.html", current_user=current_user, total_count=total_count, post_dict=post_dict,
                            pagination=pagination)
 
 
