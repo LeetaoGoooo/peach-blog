@@ -1,58 +1,62 @@
 {% macro pagination_widget(pagination, endpoint) %}
-    <nav class="nav justify-content-center">
-        <ul class="pagination">
-            {% if pagination.has_prev %}
-                <li class="page-item">
-                    <a href="
-                            {% if pagination.has_prev %}{{ url_for(endpoint,page = pagination.prev_num, **kwargs) }}{% else %}#{% endif %}"
-                       class="page-link">
-                        &laquo;
-                    </a>
-                </li>
-            {% endif %}
-            {% for p in pagination.iter_pages() %}
-                {% if p %}
-                    <li class="page-item">
-                        <a href="{{ url_for(endpoint, page = p, **kwargs) }}" class="page-link">{{ p }}</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a href="#" class="page-link">&hellip;</a>
-                    </li>
-                {% endif %}
-            {% endfor %}
-            {% if pagination.has_next %}
-                <a href="
+<nav class="nav justify-content-center">
+    <ul class="pagination">
+        {% if pagination.has_prev %}
+        <li class="page-item">
+            <a href="{% if pagination.has_prev %}{{ url_for(endpoint,page = pagination.prev_num, **kwargs) }}{% else %}#{% endif %}"
+               class="page-link">
+                &laquo;
+            </a>
+        </li>
+        {% endif %}
+        {% for p in pagination.iter_pages() %}
+        {% if p %}
+        {% if p == pagination.page %}
+        <li class="page-item active">
+            <span class="page-link">{{ p }}<span class="sr-only">(current)</span></span>
+        </li>
+        {%else%}
+        <li class="page-item">
+            <a href="{{ url_for(endpoint, page = p, **kwargs) }}" class="page-link">{{ p }}</a>
+        </li>
+        {% endif %}
+        {% else %}
+        <li class="page-item disabled">
+            <a href="#" class="page-link">&hellip;</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+        {% if pagination.has_next %}
+        <a href="
                         {% if pagination.has_next %}{{ url_for(endpoint,page = pagination.next_num, **kwargs) }}{% else %}#{% endif %}"
-                   class="page-link">
-                    &raquo;
-                </a>
-            {% endif %}
-        </ul>
-    </nav>
+           class="page-link">
+            &raquo;
+        </a>
+        {% endif %}
+    </ul>
+</nav>
 {% endmacro %}
 
 
-
 {% macro timeline_pagination_widget(pagination, endpoint) %}
-    <nav class="nav justify-content-center">
-        <ul class="pagination">
-            {% if pagination.has_prev %}
-                <li class="page-item">
-                    <a href="
+<nav class="nav justify-content-center">
+    <ul class="pagination">
+        {% if pagination.has_prev %}
+        <li class="page-item">
+            <a href="
                             {% if pagination.has_prev %}{{ url_for(endpoint,page = pagination.prev_num, **kwargs) }}{% else %}#{% endif %}">
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    </a>
-                </li>
-            {% endif %}
-            {% if pagination.has_next %}
-                <li class="page-item ml-2">
-                    <a href="
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+        </li>
+        {% endif %}
+        {% if pagination.has_next %}
+        <li class="page-item ml-2">
+            <a href="
                             {% if pagination.has_next %}{{ url_for(endpoint,page = pagination.next_num , **kwargs) }}{% else %}#{% endif %}">
-                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                    </a>
-                </li>
-            {% endif %}
-        </ul>
-    </nav>
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
 {% endmacro %}
