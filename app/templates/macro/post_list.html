@@ -13,7 +13,7 @@
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <a href="/post/{{post.title}}" class="text-decoration-none text-reset">
+          <a href="/post/{{post.id}}/{{escape_html(post.title)}}" class="text-decoration-none text-reset">
             <h5 class="card-title font-weight-bolder">{{post.title}}</h5>
           </a>
           <p class="card-text">
@@ -36,7 +36,7 @@
           </small>
           <small class="badge badge-light rounded-pill" style="color: #7f8f9f;font-size: 100%;font-weight: normal;"><i
               class="fa fa-comments-o mx-1" aria-hidden="true"></i>{{post.comments | length}} 条评论</small>
-          <a class="badge badge-light rounded-pill float-right" href="/post/{{post.title}}"
+          <a class="badge badge-light rounded-pill float-right" href="/post/{{post.id}}/{{escape_html(post.title)}}"
             style="color: #7f8f9f;font-size: 100%;font-weight: normal;">阅读全文<i class="fa fa-long-arrow-right"
               aria-hidden="true"></i></a>
 

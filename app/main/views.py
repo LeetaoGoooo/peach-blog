@@ -14,6 +14,7 @@ from urllib.parse import urljoin
 import re
 from ..email import send_email
 
+
 @main.app_context_processor
 def peach_blog_menu():
     tags = Tag.query.all()
@@ -38,12 +39,12 @@ def tag(tag):
     return render_template('tag.html', current_user=current_user, posts=posts, pagination=pagination, tag=tag)
 
 
-@main.route("/post/<string:title>", methods=['GET', "POST"])
-def post(title):
+@main.route("/post/<int:id>/<string:title>", methods=['GET', "POST"])
+def post(id, title):
     page = request.args.get('page', 1, type=int)
-    post = Post.query.filter_by(title=title).first()
-    id = post.id
-    pagination = Comment.query.filter_by(post_id=id).order_by(Comment.comment_time).paginate(page, per_page=current_app.config['FLASK_PER_PAGE'], error_out=True)
+    post = Post.query.filter_by(id=id).first()
+    pagination = Comment.query.filter_by(post_id=id).order_by(Comment.comment_time).paginate(
+        page, per_page=current_app.config['FLASK_PER_PAGE'], error_out=True)
     comments = pagination.items
 
     # 评论 and 回复
@@ -53,21 +54,24 @@ def post(title):
         browser = request.user_agent.browser
         if len(form.parent_id.data) == 0:
             comment = Comment(post_id=id, user_name=form.user_name.data, email=form.email.data, website=form.website.data,
-                            comment=form.comment.data, platform=platform, browser=browser, comment_time=datetime.now())
+                              comment=form.comment.data, platform=platform, browser=browser, comment_time=datetime.now())
         else:
-            comment_parent = Comment.query.filter_by(id=int(form.parent_id.data)).first()
+            comment_parent = Comment.query.filter_by(
+                id=int(form.parent_id.data)).first()
             if comment_parent is not None:
-                regx_user = regx_user_name(comment_parent.user_name,form.comment.data)
+                regx_user = regx_user_name(
+                    comment_parent.user_name, form.comment.data)
                 if regx_user is not None:
                     comment = Comment(post_id=id, user_name=form.user_name.data, email=form.email.data, website=form.website.data,
-                            comment=form.comment.data, platform=platform, browser=browser, comment_time=datetime.now(),parent=comment_parent)
-                    send_email(comment_parent.email,'评论回复','mail/comment',comment=comment,post=post)
+                                      comment=form.comment.data, platform=platform, browser=browser, comment_time=datetime.now(), parent=comment_parent)
+                    send_email(comment_parent.email, '评论回复',
+                               'mail/comment', comment=comment, post=post)
         msg = "回复成功!"
         db.session.add(comment)
         db.session.commit()
         flash(msg)
-        return redirect(url_for('main.post', title=title))
-    
+        return redirect(url_for('main.post', id=id, title=title))
+
     post = Post.query.filter_by(id=id).first()
     postview = PostView.query.filter_by(post_id=id, visit_date=time.strftime(
         '%Y-%m-%d', time.localtime(time.time()))).first()
@@ -96,7 +100,7 @@ def timeline():
     posts = pagination.items
     post_dict = group_posts_by_date(posts)
     posts_all = Post.query.all()
-    return render_template("archives.html", current_user=current_user, total_count=len(posts_all),post_dict=post_dict, pagination=pagination)
+    return render_template("archives.html", current_user=current_user, total_count=len(posts_all), post_dict=post_dict, pagination=pagination)
 
 
 def group_posts_by_date(posts):
@@ -137,7 +141,7 @@ def about():
             db.session.rollback()
             print(e)
             flash("数据库提交失败!")
-        
+
         return redirect(url_for("main.about"))
     page = request.args.get('page', 1, type=int)
     pagination = MessageBoard.query.filter_by(message_type=0).order_by(MessageBoard.message_time.desc(
@@ -186,5 +190,6 @@ def feeds():
                   url=get_abs_url(post.title), updated=post.last_update, published=post.last_update)
     return feeds.get_response()
 
+
 def regx_user_name(user_name, comment):
-    return re.match("^@{}".format(user_name),comment)
+    return re.match("^@{}".format(user_name), comment)

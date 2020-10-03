@@ -36,10 +36,10 @@
     </div>
 
     <div class="card-footer bg-white border-top-1 mt-2">
-            标签: {% for tag in post.tags%}
-            <a href="/tag/{{tag.tag}}"><span
-                    class="text-white badge badge-pill badge-primary {{ loop.cycle('badge-success', 'badge-danger','badge-warning','badge-info') }} ">{{tag.tag}}</span></a>
-            {% endfor %}
+        标签: {% for tag in post.tags%}
+        <a href="/tag/{{tag.tag}}"><span
+                class="text-white badge badge-pill badge-primary {{ loop.cycle('badge-success', 'badge-danger','badge-warning','badge-info') }} ">{{tag.tag}}</span></a>
+        {% endfor %}
         <div class="social-share float-right" data-sites="weibo,qq,qzone,douban,wechat"></div>
     </div>
 
@@ -96,7 +96,7 @@
         </ul>
         {%if comments%}
         {% import "macro/pagination.html" as macro_pagination %}
-        {{macro_pagination.pagination_widget(pagination,'main.post',title=post.title)}}
+        {{macro_pagination.pagination_widget(pagination,'main.post',id=post.id,title=post.title)}}
         {%endif%}
     </div>
     {% endif %}
