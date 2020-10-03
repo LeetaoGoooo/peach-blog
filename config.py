@@ -3,15 +3,18 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
 def logs_path():
     path = os.path.join(basedir, 'logs')
-    os.makedirs(path,exist_ok=True)
+    os.makedirs(path, exist_ok=True)
     return path
+
 
 def export_post_dir():
     path = os.path.join(basedir, 'posts')
-    os.makedirs(path,exist_ok=True)
+    os.makedirs(path, exist_ok=True)
     return path
+
 
 class InfoFilter(logging.Filter):
     def filter(self, record):
@@ -115,7 +118,6 @@ class ProductionConfig(Config):
         file_handler_error.setFormatter(formatter)
         file_handler_error.setLevel(logging.ERROR)
         app.logger.addHandler(file_handler_error)
-
 
 
 config = {
