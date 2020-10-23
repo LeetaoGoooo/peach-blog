@@ -4,12 +4,16 @@ from app.models import Comment, MessageBoard, PostView, History, Post
 import datetime
 from sqlalchemy import func
 from collections import OrderedDict
+from pathlib import Path
+import time
 
 
 def get_certain_day_sum_visit_count(visit_date):
     certain_day_visit_res = PostView.query.filter_by(
-        visit_date=visit_date.strftime("%Y-%m-%d")).with_entities(func.sum(PostView.views).label("certain_day_visit_count")).all()
-    return certain_day_visit_res[0].certain_day_visit_count if certain_day_visit_res[0].certain_day_visit_count is not None else 0
+        visit_date=visit_date.strftime("%Y-%m-%d")).with_entities(
+        func.sum(PostView.views).label("certain_day_visit_count")).all()
+    return certain_day_visit_res[0].certain_day_visit_count if certain_day_visit_res[
+                                                                   0].certain_day_visit_count is not None else 0
 
 
 def get_comment_count():
@@ -49,7 +53,8 @@ def get_today_visit_chart():
     visit_time_like = "{}%".format(
         datetime.datetime.today().strftime("%Y-%m-%d"))
     rows = History.query.filter(History.visit_time.like(visit_time_like)).with_entities(func.count(History.id).label(
-        "count"), func.date_format(History.visit_time, "%Y-%m-%d %H").label("today_time")).group_by(func.date_format(History.visit_time, "%Y-%m-%d %H"))
+        "count"), func.date_format(History.visit_time, "%Y-%m-%d %H").label("today_time")).group_by(
+        func.date_format(History.visit_time, "%Y-%m-%d %H"))
     today_visit_data_dict = get_init_today_visit_data_dict()
     for row in rows:
         key = "{}:00".format(row.today_time)
@@ -63,7 +68,8 @@ def get_today_visit_chart():
 
 def get_top_ten_posts():
     rows = Post.query.join(PostView, Post.id == PostView.post_id).with_entities(func.sum(PostView.views).label(
-        "sum_views"), Post.id, Post.title).group_by(PostView.post_id).order_by(func.sum(PostView.views).desc()).limit(10)
+        "sum_views"), Post.id, Post.title).group_by(PostView.post_id).order_by(func.sum(PostView.views).desc()).limit(
+        10)
     top_ten_post_list = []
     for row in rows:
         top_ten_post_list.append([row.id, row.title])
@@ -98,6 +104,7 @@ def get_sum_device_visit_chart():
         sum_device_visit_data_list.append(temp_dict)
     return sum_device_visit_data_list
 
+
 def get_unread_comments():
     rows = Comment.query.filter_by(is_read=0).all()
     return len(rows)
@@ -106,4 +113,22 @@ def get_unread_comments():
 @api.route("/dashboard", methods=["GET"])
 def dashboard():
     # https://github.com/pallets/flask/issues/835
-    return jsonify({"comment_count": get_comment_count(), "message_board_count": get_message_board_count(), "today_visit_count": get_today_visit_count(), "sum_visit_count": get_sum_visit_count(), "today_visit_chart": get_today_visit_chart(), "top_ten_posts": get_top_ten_posts(), "sum_seven_day_visit_chart": get_sum_seven_day_visit_chart(), "sum_device_visit": get_sum_device_visit_chart(),"unread_comments":get_unread_comments()})
+    return jsonify({"comment_count": get_comment_count(), "message_board_count": get_message_board_count(),
+                    "today_visit_count": get_today_visit_count(), "sum_visit_count": get_sum_visit_count(),
+                    "today_visit_chart": get_today_visit_chart(), "top_ten_posts": get_top_ten_posts(),
+                    "sum_seven_day_visit_chart": get_sum_seven_day_visit_chart(),
+                    "sum_device_visit": get_sum_device_visit_chart(), "unread_comments": get_unread_comments()})
+
+
+@api.route("/image", methods=["POST"])
+def upload_image():
+    image = request.files.get('editormd-image-file')
+    ext = image.filename.split(".")[-1]
+    root_path = Path.joinpath(Path.cwd(), 'app', 'static')
+    relative_path = Path.joinpath('posts', f'{str(int(time.time()))}.{ext}')
+    file_path = Path.joinpath(root_path, relative_path)
+    try:
+        image.save(str(file_path))
+    except Exception as e:
+        return jsonify({"success": 0, "message": str(e), "url": ""})
+    return jsonify({"success": 1, "message": "", "url": str(relative_path)})

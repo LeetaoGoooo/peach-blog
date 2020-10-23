@@ -44,7 +44,10 @@
     $(function() {
         var editor = editormd("editormd", {
             path : "/plugins/editor.md/lib/",
-            height  : 640
+            height  : 640,
+            imageUpload : true,
+            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL : "/api/v1/image",
         });
     });
   </script>
