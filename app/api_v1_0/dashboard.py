@@ -125,7 +125,7 @@ def upload_image():
     image = request.files.get('editormd-image-file')
     ext = image.filename.split(".")[-1]
     root_path = Path.joinpath(Path.cwd(), 'app', 'static', 'posts')
-    if Path.exists(root_path):
+    if not Path.exists(root_path):
         Path.mkdir(root_path)
     file_name = f'{str(int(time.time()))}.{ext}'
     file_path = Path.joinpath(root_path, file_name)
