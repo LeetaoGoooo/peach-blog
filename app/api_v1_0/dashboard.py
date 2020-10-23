@@ -124,11 +124,13 @@ def dashboard():
 def upload_image():
     image = request.files.get('editormd-image-file')
     ext = image.filename.split(".")[-1]
-    root_path = Path.joinpath(Path.cwd(), 'app', 'static')
-    relative_path = Path.joinpath('posts', f'{str(int(time.time()))}.{ext}')
-    file_path = Path.joinpath(root_path, relative_path)
+    root_path = Path.joinpath(Path.cwd(), 'app', 'static', 'posts')
+    if Path.exists(root_path):
+        Path.mkdir(root_path)
+    file_name = f'{str(int(time.time()))}.{ext}'
+    file_path = Path.joinpath(root_path, file_name)
     try:
         image.save(str(file_path))
     except Exception as e:
         return jsonify({"success": 0, "message": str(e), "url": ""})
-    return jsonify({"success": 1, "message": "", "url": str(relative_path)})
+    return jsonify({"success": 1, "message": "", "url": f'/posts/{file_name}'})
