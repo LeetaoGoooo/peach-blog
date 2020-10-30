@@ -43,7 +43,7 @@
                     <b>我来说点什么～</b>
                 </div>
                 <div class="card-body ">
-                    <form method="POST" action="/post/{{post.title}}">
+                    <form method="POST" action="/post/{{post.id}}/{{post.title}}">
                         {{form.csrf_token}}
                         {{form.parent_id}}
                         <div class="form-row align-items-center">
