@@ -6,7 +6,7 @@
     {{comment.comment}}
 还可以通过网页直接浏览,点击下面链接
 
-https://www.leetao94.cn/post/{{post.title}}
+https://www.leetao94.cn/post/{{post.id}}/{{post.title}}
 
 来自:
 
