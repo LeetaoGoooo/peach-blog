@@ -28,7 +28,7 @@
 
 
             <div class="collapse navbar-collapse" id="navbar">
-                {% set navs=(("/","主页"),("/archives","归档"),("说明",(("/about","关于"),("https://github.com/lt94/peach-blog.git","下载"))),("/friends","友链")) %}
+                {% set navs=(("/","主页"),("/archives","归档"),("/course","专栏"),("说明",(("/about","关于"),("https://github.com/lt94/peach-blog.git","下载"))),("/friends","友链")) %}
                 <ul class="navbar-nav mr-auto">
                     {% for href,name in navs%}
                         {%if name is sequence and name is not string%}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Peach Blog - 专栏{% endblock %}
+{% block head%}
+{{super()}}
+{% endblock%}
+{% block content %}
+{{super()}}
+<div class="container" style="margin-top:2rem;">
+    <div class="row row-cols-1 row-cols-md-3">
+        {% for course in courses%}
+          <div class="col mb-4">
+                <div class="card">
+                  <img src="{{course.cover}}" class="card-img-top" alt="{{course.cover}}" width="164" height="164">
+                  <div class="card-body">
+                    <h5 class="card-title">{{course.topic}}</h5>
+                    <p class="card-text">{{course.description}}</p>
+                      <a href="/course/{{course.id}}/{{course.topic}}" class="btn btn-primary">Go to Learn</a>
+                  </div>
+                </div>
+              </div>
+        {%endfor%}
+    </div>
+</div>
+{%endblock%}

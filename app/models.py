@@ -4,10 +4,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 Post2Tag = db.Table("post2tag",
-        db.Column('id', db.Integer, primary_key=True),
-        db.Column('post_id', db.Integer, db.ForeignKey('posts.id', ondelete="cascade")),
-        db.Column('tag_id', db.Integer, db.ForeignKey('tags.id', ondelete="cascade"))
-    )
+                    db.Column('id', db.Integer, primary_key=True),
+                    db.Column('post_id', db.Integer, db.ForeignKey('posts.id', ondelete="cascade")),
+                    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id', ondelete="cascade"))
+                    )
+
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -56,13 +57,22 @@ class Post(db.Model):
     create_at = db.Column(db.Date(), default=datetime.datetime.today)
     last_update = db.Column(db.DateTime(), default=datetime.datetime.now)
     cover = db.Column(db.String(200))
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id', ondelete='cascade'), nullable=True)
+    order = db.Column(db.Integer)
+    fees = db.Column(db.Integer, default=0)
     postviews = db.relationship('PostView', backref='postviews', lazy='joined')
     comments = db.relationship('Comment', backref='comments', lazy='joined')
-    historys = db.relationship('History', backref='post', lazy='dynamic', cascade='all, delete-orphan', passive_deletes = True)
+    historys = db.relationship('History', backref='post', lazy='dynamic', cascade='all, delete-orphan',
+                               passive_deletes=True)
+
+    @property
+    def is_free(self):
+        return True if self.fees == 0 else False
 
     def __repr__(self):
         return self.title
-        
+
+
 class Tag(db.Model):
     __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
@@ -76,7 +86,7 @@ class Tag(db.Model):
 class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
     user_name = db.Column(db.String(20))
     email = db.Column(db.String(320))
     website = db.Column(db.String(100))
@@ -84,37 +94,39 @@ class Comment(db.Model):
     comment_time = db.Column(db.DateTime(), default=datetime.datetime.now())
     platform = db.Column(db.String(50))
     browser = db.Column(db.String(100))
-    is_read = db.Column(db.Boolean,default=False)
+    is_read = db.Column(db.Boolean, default=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
     replies = db.relationship('Comment', backref=db.backref("parent", remote_side=[id]), lazy='dynamic')
-    
+
     def __repr__(self):
-        return "{} commentted {} on {}".format(self.user_name,self.comment,self.comment_time)
+        return "{} commentted {} on {}".format(self.user_name, self.comment, self.comment_time)
+
 
 class PostView(db.Model):
     __tablename__ = 'postviews'
     id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
     views = db.Column(db.Integer, default=0)
     visit_date = db.Column(db.Date(), default=datetime.date.today())
 
     def __repr__(self):
-        return "on {} this post was total viewed {}".format(self.visit_date,self.views)
+        return "on {} this post was total viewed {}".format(self.visit_date, self.views)
 
 
 class History(db.Model):
     __tablename__ = 'history'
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(128))
-    post_id = db.Column(db.Integer,db.ForeignKey('posts.id',ondelete='CASCADE'))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'))
     platform = db.Column(db.String(50))
     browser = db.Column(db.String(100))
     visit_time = db.Column(db.DateTime(), default=datetime.datetime.now())
 
+
 class MessageBoard(db.Model):
     __tablename__ = 'messageboards'
     id = db.Column(db.Integer, primary_key=True)
-    message_type = db.Column(db.SmallInteger, default=0) # 0 标识 about 页面 , 1 为 友链页面
+    message_type = db.Column(db.SmallInteger, default=0)  # 0 标识 about 页面 , 1 为 友链页面
     user_name = db.Column(db.String(20))
     email = db.Column(db.String(320))
     website = db.Column(db.String(100))
@@ -123,6 +135,7 @@ class MessageBoard(db.Model):
     platform = db.Column(db.String(50))
     browser = db.Column(db.String(100))
 
+
 class FriendLink(db.Model):
     __tablename__ = 'friendlinks'
     id = db.Column(db.Integer, primary_key=True)
@@ -130,3 +143,23 @@ class FriendLink(db.Model):
     friend_name = db.Column(db.String(20))
     website = db.Column(db.String(100))
     introduction = db.Column(db.String(100))
+
+
+class Courses(db.Model):
+    __tablename__ = 'courses'
+    id = db.Column(db.Integer, primary_key=True)
+    cover = db.Column(db.String(200), nullable=False)  # 封面
+    topic = db.Column(db.String(200), nullable=False)  # 专题内容
+    description = db.Column(db.Text())  # 描述
+    posts = db.relationship('Post', backref='course', lazy='joined')
+
+    @property
+    def is_free(self):
+        return True if sum(post.fees for post in self.posts) == 0 else False
+
+    @property
+    def fees(self):
+        return sum(post.fees for post in self.posts if post.fees is not None)
+
+    def __repr__(self):
+        return "the courses {}-{} fees:{}".format(self.id, self.topic, self.fees)

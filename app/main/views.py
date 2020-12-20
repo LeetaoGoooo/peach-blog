@@ -1,10 +1,9 @@
 from flask import render_template, redirect, url_for, flash, request, current_app, abort
 from flask_login import current_user
-from app.models import Tag, Post, Comment, PostView, MessageBoard, FriendLink, History
+from app.models import Tag, Post, Comment, PostView, MessageBoard, FriendLink, History, Courses
 from app import db
 from . import main
 from .forms import CommentForm
-from sqlalchemy import func
 import time
 from datetime import datetime
 from collections import OrderedDict
@@ -24,7 +23,7 @@ def peach_blog_menu():
 @main.route("/", methods=['GET'])
 def index():
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.order_by(Post.create_at.desc()).paginate(
+    pagination = Post.query.filter(Post.course_id.is_(None)).order_by(Post.create_at.desc()).paginate(
         page, per_page=current_app.config['FLASK_PER_PAGE'], error_out=True)
     posts = pagination.items
     return render_template('index.html', current_user=current_user, posts=posts, pagination=pagination)
@@ -198,6 +197,22 @@ def feeds():
         feeds.add(post.title, markdown.html(post.content), content_type='html', author='Leetao',
                   url=get_abs_url(post.title), updated=post.last_update, published=post.last_update)
     return feeds.get_response()
+
+
+@main.route("/course")
+def course():
+    page = request.args.get('page', 1, type=int)
+    pagination = Courses.query.paginate(
+        page, per_page=current_app.config['FLASK_PER_PAGE'], error_out=True)
+    course_list = pagination.items
+    return render_template('courses.html', current_user=current_user, courses=course_list, pagination=pagination)
+
+
+@main.route("/course/<int:id>/<string:topic>")
+def course_detail(id, topic):
+    course = Courses.query.filter_by(id=id).first()
+    return render_template("course.html", course=course)
+
 
 
 def regx_user_name(user_name, comment):

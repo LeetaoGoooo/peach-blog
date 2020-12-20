@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}专栏-{{course.topic}}{% endblock %}
+{% block head%}
+{{super()}}
+{% endblock%}
+{% block content %}
+{{super()}}
+<div class="container" style="margin-top:2rem;">
+    <div class="card">
+        <div class="card-body">
+            <img src="{{course.cover}}" class="card-img-top" alt="{{course.topic}}">
+            <h5 class="card-title">{{course.topic}}</h5>
+            <p class="card-text">{{course.description}}</p>
+            <p class="card-text"><small class="text-muted">总计:{{course.posts|length}}篇文章</small></p>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% set posts = course.posts %}
+            {%for post in posts %}
+            <li class="list-group-item">
+                <i class="fa fa-list" aria-hidden="true"></i>
+                <a href="/post/{{post.id}}/{{escape_html(post.title)}}">
+                    {{post.title}}
+                </a>
+                {% if post.fees == None or post.fees == 0%}
+                <span class="badge badge-success">免费 </span>
+                {%else%}
+                <span class="badge badge-pill badge-danger">{{post.fees}}</span>
+                {%endif%}
+
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{%endblock%}
