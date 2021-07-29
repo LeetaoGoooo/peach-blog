@@ -57,8 +57,6 @@ class Hexo:
     def get_generate_file_list(self):
         generate_file_list = []
 
-        new_version_dict = {}
-
         post_file_modify_dict = self.get_post_file_modify_dict()
         post_file_version_dict = self.get_post_file_version_dict()
 
@@ -165,7 +163,7 @@ class Hexo:
         date = post.create_at
         content = post.content
         export_directory = current_app.extensions['hexo'].directory
-        export_post_data = "---\ntitle: {}\ntag: [{}]\ncomments: true\ndate: {}\n---\n\n{}".format(title,tags_str,date,content)
+        export_post_data = "---\ntitle: {}\ntags: [{}]\ncomments: true\ndate: {}\n---\n\n{}".format(title,tags_str,date,content)
         if not os.path.exists(export_directory):
             return False
         export_post = os.path.join(export_directory,"{}.md".format(title))

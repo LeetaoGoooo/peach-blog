@@ -7,7 +7,7 @@ from .forms import CommentForm
 import time
 from datetime import datetime
 from collections import OrderedDict
-from werkzeug.contrib.atom import AtomFeed
+from feedwerk.atom import AtomFeed
 import misaka as markdown
 from urllib.parse import urljoin
 import re

@@ -57,7 +57,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'DEV_DATABASE_URL') or 'mysql+pymysql://root:123456@localhost:3306/peach_blog_dev?charset=utf8'
+        'DEV_DATABASE_URL') or 'mysql+pymysql://root:root@192.18.2.2:3306/peach_blog_dev?charset=utf8'
 
     @classmethod
     def init_app(self, app):
@@ -87,12 +87,12 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'DEV_DATABASE_URL') or 'mysql+pymysql://root:@localhost:3306/peach_blog_test?charset=utf8'
+        'DEV_DATABASE_URL') or 'mysql+pymysql://root:root@192.18.2.2:3306/peach_blog_test?charset=utf8'
 
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'DEV_DATABASE_URL') or 'mysql+pymysql://root:@localhost:3306/peach_blog?charset=utf8'
+        'DEV_DATABASE_URL') or 'mysql+pymysql://root:root@192.18.2.2:3306/peach_blog?charset=utf8'
 
     @classmethod
     def init_app(self, app):
